@@ -3,6 +3,7 @@
   "name": "blake-pm",
   "main": "dist/_worker.js/index.js",
   "compatibility_date": "2026-01-19",
+  "compatibility_flags": ["nodejs_compat"],   // 👈 add this line
   "preview_urls": true,
   "assets": {
     "directory": "./dist",
