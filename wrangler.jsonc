@@ -2,7 +2,7 @@
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "blake-pm",
   "main": "dist/_worker.js/index.js",
-  "compatibility_date": "2026-01-20",
+  "compatibility_date": "2026-01-19",
   "compatibility_flags": ["nodejs_compat"],
   "routes": [
     { "pattern": "blake.pm", "custom_domain": true },
