@@ -13,4 +13,18 @@
 	"observability": {
     "enabled": true
   }
+  {
+  "name": "blake-pm",
+  "main": "dist/_worker.js/index.js",
+  "compatibility_date": "2026-01-19",
+  "assets": {
+    "directory": "./dist",
+    "binding": "ASSETS"
+  },
+  "routes": [
+    { "pattern": "blake.pm", "custom_domain": true },
+    { "pattern": "www.blake.pm", "custom_domain": true }
+  ],
+  "observability": { "enabled": true }
+}
 }
