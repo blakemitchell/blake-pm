@@ -3,6 +3,7 @@
   "name": "blake-pm",
   "main": "dist/_worker.js/index.js",
   "compatibility_date": "2026-01-19",
+  "preview_urls": true,
   "assets": {
     "directory": "./dist",
     "binding": "ASSETS"
@@ -10,11 +11,13 @@
   "routes": [
     {
       "pattern": "blake.pm",
-      "custom_domain": true
+      "custom_domain": true,
+      "override_existing_dns_record": true 
     },
     {
       "pattern": "www.blake.pm",
-      "custom_domain": true
+      "custom_domain": true,
+      "override_existing_dns_record": true 
     }
   ],
   "observability": {
