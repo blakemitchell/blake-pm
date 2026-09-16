@@ -1,0 +1,31 @@
+<div id="atmosphere-panel" hidden aria-label="Atmosphere preferences">
+  <div class="atmosphere-tabs" role="tablist" aria-label="Atmosphere">
+    <button id="themes-tab" role="tab" aria-selected="true" aria-controls="themes-panel" tabindex="0">Themes</button>
+    <button id="options-tab" role="tab" aria-selected="false" aria-controls="options-panel" tabindex="-1">Options</button>
+  </div>
+  <div id="themes-panel" role="tabpanel" aria-labelledby="themes-tab">
+    <div class="theme-options" role="group" aria-label="Color theme">
+      {[
+        ["space", "Midnight"], ["mono", "Deep Space"], ["eclipse", "Eclipse"],
+        ["aurora", "Aurora"], ["lunar", "Lunar Day"],
+      ].map(([id, name]) => <button type="button" data-theme-choice={id} aria-pressed="false"><span class={`swatch swatch-${id}`} aria-hidden="true"></span>{name}<span class="theme-check" aria-hidden="true">✓</span></button>)}
+    </div>
+  </div>
+  <div id="options-panel" role="tabpanel" aria-labelledby="options-tab" hidden>
+    <label class="preference"><span>Follow system appearance<small>Midnight in dark mode · Lunar Day in light mode</small></span><input id="follow-system" type="checkbox" role="switch" /><span class="switch-track" aria-hidden="true"></span></label>
+    <label class="preference"><span>Background motion<small id="motion-help">Stars, passing objects, and saucer flight</small></span><input id="ambient-motion" type="checkbox" role="switch" /><span class="switch-track" aria-hidden="true"></span></label>
+    <label id="surprise-setting" class="preference" hidden><span>Allow surprises<small>Occasional visitors may change your theme</small></span><input id="allow-surprises" type="checkbox" role="switch" /><span class="switch-track" aria-hidden="true"></span></label>
+    <button id="reset-atmosphere" type="button">Reset to defaults</button>
+    <p id="preference-status" role="status" class="preference-status"></p>
+  </div>
+  <button type="button" id="summon-saucer">✧ Take me to your leader</button>
+</div>
+<div id="saucer" hidden aria-hidden="true">
+  <svg viewBox="0 0 120 64" width="120" height="64"><path d="M37 32C37 1 83 1 83 32" fill="#a3e7dc" stroke="#d9fff6" stroke-width="2"/><ellipse cx="60" cy="36" rx="54" ry="14" fill="#8292aa" stroke="#e1ebf7" stroke-width="2"/><ellipse cx="60" cy="40" rx="34" ry="6" fill="#27354c"/><g fill="#b5ffe4"><circle cx="28" cy="36" r="3"/><circle cx="48" cy="42" r="3"/><circle cx="72" cy="42" r="3"/><circle cx="93" cy="36" r="3"/></g></svg>
+  <div class="saucer-beam"></div>
+</div>
+<aside id="surprise-notice" hidden aria-label="Theme changed">
+  <p id="surprise-message" role="status" aria-live="polite"></p>
+  <div class="notice-actions"><button id="undo-theme" type="button">Undo</button><button id="surprise-options" type="button" aria-controls="atmosphere-panel">Options</button><button id="dismiss-surprise" type="button" aria-label="Dismiss theme notification">×</button></div>
+</aside>
+<script is:inline src="/js/atmosphere.js"></script>

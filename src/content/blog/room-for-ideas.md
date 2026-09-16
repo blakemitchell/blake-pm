@@ -1,0 +1,15 @@
+---
+title: "Room for ideas"
+summary: "A placeholder for the thoughts and questions worth returning to."
+date: "2026-09-14"
+tags: ["Placeholder"]
+draft: false
+---
+
+*Sample post — filler content while this site takes shape.*
+
+## Keeping a little room open
+
+Some ideas need time before they become anything more. This is a sample of the kind of space a short note might occupy.
+
+The real stories will come later. For now, a few paragraphs are enough to test the rhythm of a page.

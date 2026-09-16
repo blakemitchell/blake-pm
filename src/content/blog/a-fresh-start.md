@@ -1,0 +1,15 @@
+---
+title: "A fresh start"
+summary: "A little space on the web, ready for a new beginning."
+date: "2026-09-15"
+tags: ["Placeholder"]
+draft: false
+---
+
+*Sample post — filler content while this site takes shape.*
+
+## Starting with a blank page
+
+This site is taking shape. For now, this sample post is here to help me see how the blog looks and feels.
+
+There is no grand plan yet—just room to try things, make changes, and find a direction.

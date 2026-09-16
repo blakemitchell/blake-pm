@@ -10,7 +10,7 @@ export async function GET(context: Context) {
 	const posts = await getCollection("blog")
   const projects = await getCollection("projects")
 
-  const items = [...posts, ...projects]
+  const items = [...posts, ...projects].filter(item => !item.data.draft)
 
   items.sort((a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime())
 
@@ -22,7 +22,7 @@ export async function GET(context: Context) {
       title: item.data.title,
       description: item.data.summary,
       pubDate: item.data.date,
-      link: item.slug.startsWith("blog")
+      link: item.collection === "blog"
         ? `/blog/${item.slug}/`
         : `/projects/${item.slug}/`,
     })),

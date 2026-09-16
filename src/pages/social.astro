@@ -1,0 +1,19 @@
+---
+import PageLayout from "@layouts/PageLayout.astro"
+import { SOCIALS } from "@consts"
+const profiles = SOCIALS.filter(social => social.NAME !== "Contact")
+---
+<PageLayout title="Social" description="Find Blake Mitchell on LinkedIn, Bluesky, Mastodon, and Instagram.">
+  <section class="social-page">
+    <div class="social-intro"><h1>In my orbit</h1><p>A few other places you can find me.</p></div>
+    <div class="social-system" aria-label="Social profiles orbiting Blake Mitchell">
+      <div class="orbit-ring" aria-hidden="true"></div>
+      <div class="social-sun" aria-hidden="true"><svg viewBox="0 0 40 40"><use href="/brand.svg#brand" /></svg></div>
+      {profiles.map((profile, index) => <div class="social-orbit" style={`--phase:${index * 90}deg`}><div class="orbit-position"><a class="social-planet" href={profile.HREF} target="_blank" rel="noopener noreferrer" aria-label={`Blake Mitchell on ${profile.NAME}`}><svg viewBox="0 0 24 24" aria-hidden="true"><use href={`/social.svg#${profile.ICON}`} /></svg><span>{profile.NAME}</span></a></div></div>)}
+    </div>
+    <p class="orbit-note">Choose a planet to visit. Motion pauses while you explore.</p>
+    <div class="social-directory">
+      {profiles.map(profile => <a href={profile.HREF} target="_blank" rel="noopener noreferrer"><svg width="26" height="26" fill="currentColor" aria-hidden="true"><use href={`/social.svg#${profile.ICON}`} /></svg><span><strong>{profile.NAME}</strong><small>{profile.TEXT}</small></span><span aria-hidden="true">↗</span></a>)}
+    </div>
+  </section>
+</PageLayout>

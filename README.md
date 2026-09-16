@@ -1,89 +1,35 @@
-![Astro Sphere Lighthouse Score](_astrosphere.jpg)
+# Blake Mitchell's website
 
-Astro Sphere is a static, minimalist, lightweight, lightning fast portfolio and blog theme based on my personal website.
+Personal website built with Astro. Run `npm install`, then `npm run dev` to preview it locally. Run `npm run build` to check and build the site.
 
-It is primarily Astro, Tailwind and Typescript, with a very small amount of SolidJS for stateful components.
+## Content
 
-## 🚀 Deploy your own
+- Site name and links: `src/consts.ts`
+- Homepage: `src/pages/index.astro`
+- Blog posts: `src/content/blog/`
+- Contact form: `src/pages/contact.astro`
+- Projects are still theme placeholders, pending a content decision.
 
-[![Deploy with Vercel](_deploy_vercel.svg)](https://vercel.com/new/clone?repository-url=https://github.com/markhorn-dev/astro-sphere)  [![Deploy with Netlify](_deploy_netlify.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/markhorn-dev/astro-sphere)
+## Before publishing
 
-## 📋 Features
+The production canonical address defaults to https://blake.pm; SITE_URL can override it.
 
-- ✅ 100/100 Lighthouse performance
-- ✅ Responsive
-- ✅ Accessible
-- ✅ SEO-friendly
-- ✅ Typesafe
-- ✅ Minimal style
-- ✅ Light/Dark Theme
-- ✅ Animated UI
-- ✅ Tailwind styling
-- ✅ Auto generated sitemap
-- ✅ Auto generated RSS Feed
-- ✅ Markdown support
-- ✅ MDX Support (components in your markdown)
-- ✅ Searchable content (posts and projects)
-- ✅ Code Blocks - copy to clipboard
+The contact form is intentionally disabled until a message-delivery service is configured. Set `PUBLIC_CONTACT_FORM_URL` to its public HTTPS form submission URL and rebuild. Configure the recipient privately in that service; do not put recipient addresses or API secrets in this repository or public environment variables. Verify delivery and the service's success/error behavior before publishing. The visitor's name, email, and message will be sent to that service.
 
-## 💯 Lighthouse score
-![Astro Sphere Lighthouse Score](_lighthouse.png)
+A factual Privacy page describes local preferences and the currently disabled contact form. Update it when enabling message delivery or analytics.
 
-## 🕊️ Lightweight
-All pages under 100kb (including fonts)
+Original theme attribution is retained in `LICENSE`.
 
-## ⚡︎ Fast
-Rendered in ~40ms on localhost
+## Atmospheres and surprises
 
-## 📄 Configuration
+The planet icon opens Themes and Options tabs. Midnight is the default; Deep Space is monochrome, with Eclipse, Aurora, and softened Lunar Day as alternatives. Follow system appearance is optional and maps dark to Midnight and light to Lunar Day. "Take me to your leader" triggers an immediate saucer visit. A visible page can also trigger one at 11:11:11 AM in the visitor's local time, once per local day. Sleeping devices/background tabs do not replay missed encounters.
 
-The blog posts on the demo serve as the documentation and configuration.
+After the first successful encounter, Allow surprises appears in the menu. The Undo notification restores the prior palette or system setting; Options opens the Options tab, where Allow surprises can be disabled. Notifications dismiss after 12 seconds and pause while hovered or focused. Turning surprises off does not disable a deliberate manual summon. Reset to defaults restores Midnight, motion enabled, and surprises allowed while retaining the record of a previous encounter. Preferences are stored locally in the visitor's browser. Reduced-motion preferences suppress automatic encounters and ambient motion; a manual summon changes the palette without the flight.
 
-## 💻 Commands
+Shooting stars occur every 17–32 seconds, twinkles every 6–12 seconds, and slow satellites/rocks on varied paths every 45–85 seconds while visible and motion is enabled.
 
-All commands are run from the root of the project, from a terminal:
+Run `node tests/atmosphere.cjs` for the preference and scheduling checks. These use a simulated clock and DOM; check the visual flight in the browser as well.
 
-Replace npm with your package manager of choice. `npm`, `pnpm`, `yarn`, `bun`, etc
+## Deployment
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run dev:network`     | Starts dev server on local network               |
-| `npm run sync`            | Generates TypeScript types for all Astro modules.|
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run preview:network` | Starts preview server on local network           |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
-| `npm run lint`            | Run ESLint                                       |
-| `npm run lint:fix`        | Auto-fix ESLint issues                           |
-
-## 🗺️ Roadmap
-
-A few features I plan to implement
-- ⬜ Article Pages - Table of Contents
-- ⬜ Article Pages - Share on social media
-
-## ✨ Acknowledgement
-
-Theme inspired by [Paco Coursey](https://paco.me/), [Lee Robinson](https://leerob.io/) and [Hayden Bleasel](https://www.haydenbleasel.com/)
-
-
-## 🏛️ License
-
-MIT
-
-
-# 1.0.1 Update
-
-Added ability to run dev and preview on local network.
-added npm run dev:network
-added npm run preview:network
-
-Added slightly more particle density in both light and dark mode.
-
-Added subtle dark mode star and meteor animations.
-
-Removed eslint config
-
+Cloudflare Workers Builds is connected to `blakemitchell/blake-pm`, production branch `main`. Build: `npm run build`; deploy: `npx wrangler deploy`. `wrangler.jsonc` serves `dist/` as static assets on blake.pm and www.blake.pm. No server-rendering adapter is required.

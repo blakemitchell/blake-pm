@@ -7,7 +7,7 @@ import Container from "@components/Container.astro"
 ---
 
 <header id="header" class="fixed top-0 w-full h-16 z-50 ">
-  <Container size="md">
+  <Container size="xl">
     <div class="relative h-full w-full">
       <div class="absolute left-0 top-1/2 -translate-y-1/2 flex gap-1 font-semibold">
         <a href="/" class="flex gap-1 text-current hover:text-black dark:hover:text-white transition-colors duration-300 ease-in-out">
@@ -21,10 +21,10 @@ import Container from "@components/Container.astro"
       </div>
 
     <div class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
-      <nav class="hidden md:flex items-center justify-center text-sm gap-1">
+      <nav class="primary-nav hidden md:flex items-center justify-center gap-1">
         {
           LINKS.map((LINK) => (
-            <a href={LINK.HREF} class={cn("h-8 rounded-full px-3 text-current", "flex items-center justify-center", "transition-colors duration-300 ease-in-out", pathname === LINK.HREF || "/" + subpath?.[0] === LINK.HREF ? "bg-black dark:bg-white text-white dark:text-black" : "hover:bg-black/5 dark:hover:bg-white/20 hover:text-black dark:hover:text-white")}>
+            <a href={LINK.HREF} class="nav-link" aria-current={pathname === LINK.HREF || "/" + subpath?.[0] === LINK.HREF ? "page" : undefined}>
               {LINK.TEXT}
             </a>
           ))
@@ -45,12 +45,13 @@ import Container from "@components/Container.astro"
         </svg>
       </a>
 
-      <button id="header-theme-button" aria-label={`Toggle light and dark theme`} class={cn("hidden md:flex", "size-9 rounded-full p-2 items-center justify-center", "bg-transparent hover:bg-black/5 dark:hover:bg-white/20", "stroke-current hover:stroke-black hover:dark:stroke-white", "border border-black/10 dark:border-white/25", "transition-colors duration-300 ease-in-out")}>
-        <svg class="size-full block dark:hidden">
-          <use href="/ui.svg#sun"></use>
-        </svg>
-        <svg class="size-full hidden dark:block">
-          <use href="/ui.svg#moon"></use>
+      <button id="header-theme-button" type="button" aria-label="Choose atmosphere" aria-expanded="false" aria-controls="atmosphere-panel" class="atmosphere-trigger size-9 rounded-full border border-black/10 dark:border-white/25 flex items-center justify-center hover:bg-black/5 dark:hover:bg-white/20 blend">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <g transform="rotate(-25 12 12)">
+            <path d="M2 12c0-1.8 4.5-3.3 10-3.3S22 10.2 22 12"/>
+            <circle cx="12" cy="12" r="5.8" fill="var(--surface)"/>
+            <path d="M2 12c0 1.8 4.5 3.3 10 3.3S22 13.8 22 12"/>
+          </g>
         </svg>
       </button>
 
