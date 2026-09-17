@@ -5,35 +5,66 @@
   const ship = document.getElementById("saucer");
   const ray = document.getElementById("saucer-ray");
   const notice = document.getElementById("surprise-notice");
-  const names = { space: "Midnight", mono: "Deep Space", eclipse: "Eclipse", aurora: "Aurora", lunar: "Lunar Day" };
+  // Previous themes: Midnight (space), Deep Space (mono), Eclipse, Aurora, and Lunar Day.
+  const names = { sol: "Sol", mercury: "Mercury", venus: "Venus", earth: "Earth", mars: "Mars", jupiter: "Jupiter", saturn: "Saturn", uranus: "Uranus", neptune: "Neptune", space: "Sagittarius A*", pluto: "Pluto" };
+  const visibleThemes = ["sol", "mercury", "venus", "earth", "mars", "jupiter", "saturn", "uranus", "neptune", "space"];
+  const legacyThemes = { mono: "space", eclipse: "mars", aurora: "earth", lunar: "venus", system: "earth" };
   const read = (key, fallback) => { try { return localStorage.getItem(key) ?? fallback; } catch { return fallback; } };
   const save = (key, value) => { try { localStorage.setItem(key, String(value)); } catch {} };
   const reduced = matchMedia("(prefers-reduced-motion: reduce)");
   const system = matchMedia("(prefers-color-scheme: dark)");
-  let choice = read("blake-atmosphere", "space");
-  if (!(choice in names) && choice !== "system") choice = "space";
+  let choice = read("blake-atmosphere", "earth");
+  if (choice in legacyThemes) choice = legacyThemes[choice];
+  if (!(choice in names)) choice = "earth";
   let seen = read("blake-surprise-seen", "false") === "true";
   let allowed = read("blake-surprises", "true") !== "false";
   let motion = read("blake-motion", "true") !== "false";
+  const clampFrequency = value => Math.min(5, Math.max(1, Number.parseInt(value, 10) || 3));
+  let debrisFrequency = clampFrequency(read("blake-debris-frequency", "3"));
+  let starFrequency = clampFrequency(read("blake-star-frequency", "3"));
+  let auroraFrequency = clampFrequency(read("blake-aurora-frequency", "3"));
   let previous = null;
   let busy = false;
   let flight = null;
   let generation = 0;
-  const current = () => choice === "system" ? (system.matches ? "space" : "lunar") : choice;
+  const current = () => choice;
+  const frequencyLabels = ["", "Very low", "Low", "Balanced", "High", "Very high"];
+  const auroraSpeeds = {
+    1: ["20s", "17s", "22s"], 2: ["15s", "12s", "17s"], 3: ["11s", "9s", "12s"],
+    4: ["8s", "6.5s", "9s"], 5: ["5.5s", "4.5s", "6.5s"],
+  };
+  function updateMotionSettings() {
+    const settings = { debris: debrisFrequency, stars: starFrequency, aurora: auroraFrequency };
+    root.dataset.debrisFrequency = String(debrisFrequency);
+    root.dataset.starFrequency = String(starFrequency);
+    root.dataset.auroraFrequency = String(auroraFrequency);
+    const speeds = auroraSpeeds[auroraFrequency];
+    root.style.setProperty?.("--aurora-curtain-speed", speeds[0]);
+    root.style.setProperty?.("--aurora-primary-speed", speeds[1]);
+    root.style.setProperty?.("--aurora-secondary-speed", speeds[2]);
+    for (const [id, value] of [["debris", debrisFrequency], ["star", starFrequency], ["aurora", auroraFrequency]]) {
+      document.getElementById(`${id}-frequency`).value = String(value);
+      document.getElementById(`${id}-frequency-value`).textContent = frequencyLabels[value];
+    }
+    if (typeof CustomEvent === "function") document.dispatchEvent(new CustomEvent("blake:motion-settings", { detail: settings }));
+  }
   const update = () => {
     document.getElementById("preference-status").textContent = "";
     const palette = current();
     root.dataset.atmosphere = palette;
-    root.classList.toggle("dark", palette !== "lunar");
+    root.classList.toggle("dark", true);
     root.dataset.motion = motion && !reduced.matches ? "on" : "off";
     trigger.setAttribute("aria-label", `Choose atmosphere: ${names[palette]}`);
     panel.querySelectorAll("[data-theme-choice]").forEach(button => button.setAttribute("aria-pressed", String(button.dataset.themeChoice === palette)));
-    document.getElementById("follow-system").checked = choice === "system";
+    document.getElementById("follow-system").checked = false;
     document.getElementById("ambient-motion").checked = motion && !reduced.matches;
     document.getElementById("ambient-motion").disabled = reduced.matches;
+    document.getElementById("motion-frequencies").hidden = !motion || reduced.matches;
     document.getElementById("surprise-setting").hidden = !seen;
+    document.getElementById("pluto-theme-choice").hidden = !seen;
     document.getElementById("allow-surprises").checked = allowed;
-    document.getElementById("motion-help").textContent = reduced.matches ? "Off to respect your device’s reduced-motion setting" : "Stars, passing objects, and saucer flight";
+    document.getElementById("motion-help").textContent = reduced.matches ? "Off to respect your device’s reduced-motion setting" : "Stars, debris, aurora, and saucer flight";
+    updateMotionSettings();
   };
   function apply(value) { choice = value; save("blake-atmosphere", value); update(); }
   function closePanel(focus = false) { panel.hidden = true; trigger.setAttribute("aria-expanded", "false"); if (focus) trigger.focus(); }
@@ -81,14 +112,25 @@
   panel.querySelectorAll("[data-theme-choice]").forEach(button => button.addEventListener("click", () => {
     cancelFlight(); notice.hidden = true; previous = null; apply(button.dataset.themeChoice); closePanel(true);
   }));
-  document.getElementById("follow-system").addEventListener("change", event => { cancelFlight(); notice.hidden = true; previous = null; apply(event.target.checked ? "system" : current()); });
+  document.getElementById("follow-system").addEventListener("change", () => apply("earth"));
   document.getElementById("ambient-motion").addEventListener("change", event => { motion = event.target.checked; save("blake-motion", motion); cancelFlight(); update(); });
+  for (const id of ["debris", "star", "aurora"]) {
+    document.getElementById(`${id}-frequency`).addEventListener("input", event => {
+      const value = clampFrequency(event.target.value);
+      if (id === "debris") debrisFrequency = value;
+      if (id === "star") starFrequency = value;
+      if (id === "aurora") auroraFrequency = value;
+      save(`blake-${id}-frequency`, value);
+      updateMotionSettings();
+    });
+  }
   function setAllowed(value) { allowed = value; save("blake-surprises", allowed); update(); }
   document.getElementById("allow-surprises").addEventListener("change", event => setAllowed(event.target.checked));
   document.getElementById("reset-atmosphere").addEventListener("click", () => {
     cancelFlight(); dismissNotice(); previous = null;
-    motion = true; allowed = true; save("blake-motion", true); save("blake-surprises", true); apply("space");
-    document.getElementById("preference-status").textContent = "Defaults restored: Midnight, motion on, surprises allowed.";
+    motion = true; allowed = true; debrisFrequency = starFrequency = auroraFrequency = 3;
+    save("blake-motion", true); save("blake-surprises", true); save("blake-debris-frequency", 3); save("blake-star-frequency", 3); save("blake-aurora-frequency", 3); apply("earth");
+    document.getElementById("preference-status").textContent = "Defaults restored: Earth, motion on, balanced frequencies, surprises allowed.";
   });
   let noticeTimer;
   function pauseNotice() { clearTimeout(noticeTimer); }
@@ -151,7 +193,7 @@
       }
       if (ticket !== generation || document.hidden) return;
       previous = choice;
-      const alternatives = Object.keys(names).filter(value => value !== current());
+      const alternatives = visibleThemes.filter(value => value !== current());
       apply(alternatives[Math.floor(Math.random() * alternatives.length)]);
       seen = true; save("blake-surprise-seen", true); update();
       document.getElementById("surprise-message").textContent = `A visitor selected ${names[current()]} for you.`;

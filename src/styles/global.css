@@ -184,11 +184,24 @@ article img {
   opacity: 0;
   transform: translateY(10px);
 } */
-/* Atmospheres share layout and typography, with distinct surface and light colors. */
+/* Previous atmosphere definitions retained for reference.
 :root, :root[data-atmosphere="lunar"] { --surface:#f4f1e9; --ink:#283444; --muted:#52606e; --accent:#56798b; --glow:#bdcbd1; --panel:#fffdf7; color-scheme:light; }
 :root[data-atmosphere="space"] { --surface:#090e18; --ink:#e4eaf6; --muted:#abb7cb; --accent:#a4bcf2; --glow:#617dae; --panel:#131c2c; color-scheme:dark; }
 :root[data-atmosphere="eclipse"] { --surface:#1c1313; --ink:#f6e4d5; --muted:#c7ada1; --accent:#eda877; --glow:#b76c43; --panel:#2c2020; color-scheme:dark; }
 :root[data-atmosphere="aurora"] { --surface:#0b1923; --ink:#e1f5f1; --muted:#acc8cc; --accent:#8cddd0; --glow:#6f7bbc; --panel:#152c36; color-scheme:dark; }
+*/
+/* Earth is the fallback when no valid stored atmosphere exists. */
+:root, :root[data-atmosphere="earth"] { --surface:#071A1C; --ink:#E1F0E9; --muted:#9BBDB4; --accent:#55B6A4; --glow:#347C78; --panel:#10292B; --ribbon:#79C98D; color-scheme:dark; }
+:root[data-atmosphere="sol"] { --surface:#130D05; --ink:#FFF3D6; --muted:#C9A86A; --accent:#FFB229; --glow:#E06B16; --panel:#241708; --ribbon:#FFD15C; color-scheme:dark; }
+:root[data-atmosphere="mercury"] { --surface:#171819; --ink:#E8E6E1; --muted:#AAA7A0; --accent:#B9B5AC; --glow:#77746E; --panel:#242526; --ribbon:#D0CCC3; color-scheme:dark; }
+:root[data-atmosphere="venus"] { --surface:#19180C; --ink:#F2EFCF; --muted:#B7B47A; --accent:#D5CE58; --glow:#8E8A32; --panel:#292816; --ribbon:#E6DF78; color-scheme:dark; }
+:root[data-atmosphere="mars"] { --surface:#1C1110; --ink:#F3E2D7; --muted:#C3A195; --accent:#D77A55; --glow:#9E4935; --panel:#2C1B19; --ribbon:#E99A6E; color-scheme:dark; }
+:root[data-atmosphere="jupiter"] { --surface:#1B1310; --ink:#F3E6DC; --muted:#BFA494; --accent:#C87F57; --glow:#854936; --panel:#2C201B; --ribbon:#DEA17C; color-scheme:dark; }
+:root[data-atmosphere="saturn"] { --surface:#1B1914; --ink:#F4F0E2; --muted:#BBB5A0; --accent:#D8C99A; --glow:#8E8466; --panel:#29261F; --ribbon:#E9DDB7; color-scheme:dark; }
+:root[data-atmosphere="uranus"] { --surface:#0B1B1D; --ink:#E2F2F1; --muted:#9ABFC0; --accent:#79D0D0; --glow:#448E94; --panel:#142A2D; --ribbon:#A1E1DC; color-scheme:dark; }
+:root[data-atmosphere="neptune"] { --surface:#080F20; --ink:#E4EAF7; --muted:#9DAED0; --accent:#7197ED; --glow:#405FA9; --panel:#111C34; --ribbon:#8DAAF4; color-scheme:dark; }
+:root[data-atmosphere="space"] { --surface:#000000; --ink:#F4F4F4; --muted:#B8B8B8; --accent:#FFFFFF; --glow:#777777; --panel:#101010; --ribbon:#D8D8D8; color-scheme:dark; }
+:root[data-atmosphere="pluto"] { --surface:#121116; --ink:#EAE5ED; --muted:#AAA1B0; --accent:#B49BBE; --glow:#735E80; --panel:#201D25; --ribbon:#C9B5D0; color-scheme:dark; }
 html, body, main, footer, .bg-white, .dark .dark\:bg-black { background-color:var(--surface); }
 html, body { color:var(--muted); }
 .text-black, .dark .dark\:text-white, .page-heading { color:var(--ink); }
@@ -219,10 +232,12 @@ header.scrolled, #drawer { background:var(--panel); }
 .theme-check { margin-left:auto; visibility:hidden; }
 [aria-pressed="true"] .theme-check { visibility:visible; }
 .swatch { display:inline-block; width:22px; height:22px; border-radius:50%; border:1px solid #8993a0; }
+/* Previous orb styling retained for reference.
 .swatch-space { background:linear-gradient(135deg,#090e18 50%,#a4bcf2); }
 .swatch-eclipse { background:linear-gradient(135deg,#1c1313 50%,#eda877); }
 .swatch-aurora { background:linear-gradient(135deg,#0b1923 30%,#8cddd0,#8476c6); }
 .swatch-lunar { background:linear-gradient(135deg,#f4f1e9 50%,#56798b); }
+*/
 .preference { display:flex; gap:10px; align-items:center; font-size:14px; padding:10px 0; cursor:pointer; }
 .preference input { width:16px; height:16px; accent-color:var(--accent); }
 #summon-saucer { width:100%; margin-top:8px; padding:12px 6px 2px; border-top:1px solid var(--muted); text-align:left; color:var(--accent); }
@@ -244,7 +259,7 @@ button:focus-visible, a:focus-visible, input:focus-visible { outline:2px solid v
 .dark .dark\:text-black { color:var(--surface); }
 html[data-atmosphere], html[data-atmosphere] body, html[data-atmosphere] main, html[data-atmosphere] footer, html[data-atmosphere] main > .bg-white { background-color:var(--surface); color:var(--muted); }
 
-/* Quieter surfaces and a separate monochrome sky. */
+/* Previous refined theme and orb definitions retained for reference.
 :root[data-atmosphere="mono"] { --surface:#000; --ink:#eee; --muted:#b3b3b3; --accent:#d0d0d0; --glow:#a1a1a1; --panel:#111; color-scheme:dark; }
 :root[data-atmosphere="lunar"] { --surface:#cdcac1; --ink:#29333e; --muted:#46515b; --accent:#4b6978; --glow:#a7b4bc; --panel:#dedbd2; }
 .swatch-mono { background:radial-gradient(circle at 28% 25%,#e5e5e5,#777 25%,#161616 62%,#000); }
@@ -252,6 +267,23 @@ html[data-atmosphere], html[data-atmosphere] body, html[data-atmosphere] main, h
 .swatch-eclipse { background:radial-gradient(circle at 28% 25%,#ffd1a0,#aa633f 28%,#291719 68%); }
 .swatch-aurora { background:radial-gradient(circle at 28% 25%,#b5efdc,#6b9b99 25%,#615780 48%,#10232b 75%); }
 .swatch-lunar { background:radial-gradient(circle at 28% 25%,#e7e3d8,#b3b5af 35%,#77858a 75%); }
+*/
+.swatch { position:relative; flex:0 0 auto; overflow:hidden; background-color:#111; }
+.swatch::before,.swatch::after { content:""; position:absolute; pointer-events:none; }
+.swatch-sol { background:radial-gradient(circle at 31% 28%,#fff6b5 0 9%,#ffd75b 22%,#f19a25 62%,#87330f 100%); box-shadow:0 0 8px #f2b84b80,inset -4px -5px 7px #7d2a0a75; }
+.swatch-mercury { background:radial-gradient(circle at 30% 25%,#ddd9d0 0 8%,#98958e 35%,#565552 70%,#292a2b); }
+.swatch-mercury::after { inset:5px 4px; border-radius:50%; background:radial-gradient(circle at 25% 30%,#4c4b48 0 7%,transparent 8%),radial-gradient(circle at 70% 63%,#c2bfb6 0 6%,transparent 7%); opacity:.65; }
+.swatch-venus { background:repeating-linear-gradient(168deg,#f0d08a 0 3px,#d89c50 4px 7px,#b87336 8px 10px); box-shadow:inset -5px -4px 7px #6f371f70; }
+.swatch-earth { background:radial-gradient(circle at 30% 25%,#d9f4ef 0 5%,transparent 6%),radial-gradient(ellipse at 37% 43%,#6fbd73 0 16%,transparent 17%),radial-gradient(ellipse at 72% 68%,#4c9d66 0 11%,transparent 12%),radial-gradient(circle at 32% 28%,#58c6d0,#176a89 55%,#073e5a 100%); }
+.swatch-mars { background:radial-gradient(circle at 30% 25%,#f1b07e,#c45d3b 48%,#743021 100%); box-shadow:inset -5px -4px 7px #481a1570; }
+.swatch-jupiter { background:repeating-linear-gradient(180deg,#ead8b7 0 4px,#bd8055 5px 8px,#f0c995 9px 12px,#9b5942 13px 15px); }
+.swatch-jupiter::after { width:7px;height:4px;border-radius:50%;right:4px;top:13px;background:#8f4438; }
+.swatch-saturn { overflow:visible; background:radial-gradient(circle at 30% 25%,#fff1bd,#d9bd72 58%,#907448 100%); }
+.swatch-saturn::after { inset:8px -5px; border:1.5px solid #d6c38c; border-radius:50%; transform:rotate(-18deg); box-shadow:0 0 0 1px #79663e60; }
+.swatch-uranus { background:radial-gradient(circle at 30% 25%,#e0ffff,#83d8d8 52%,#4a999e 100%); }
+.swatch-neptune { background:radial-gradient(circle at 30% 25%,#a9c8ff,#3d72d8 45%,#172f83 100%); }
+.swatch-space { background:radial-gradient(circle at 28% 24%,#839dcc 0 4%,transparent 5%),radial-gradient(circle at 67% 64%,#adc2ee 0 2%,transparent 3%),linear-gradient(135deg,#101a31,#050812 68%,#23375d); }
+.swatch-pluto { width:21px;height:21px;margin:2px;background:radial-gradient(circle at 30% 25%,#ded5df,#9a859f 48%,#4a414e 100%); }
 #atmosphere-panel, #surprise-notice { border:1px solid color-mix(in srgb,var(--ink) 12%,transparent); background:color-mix(in srgb,var(--panel) 89%,transparent); backdrop-filter:blur(22px); -webkit-backdrop-filter:blur(22px); box-shadow:0 12px 45px #0002; border-radius:16px; }
 #atmosphere-panel { padding:10px; width:min(300px,calc(100vw - 32px)); }
 .atmosphere-tabs { display:flex; gap:4px; padding:2px 4px 10px; margin-bottom:4px; border-bottom:1px solid color-mix(in srgb,var(--ink) 10%,transparent); }
@@ -270,6 +302,11 @@ html[data-atmosphere], html[data-atmosphere] body, html[data-atmosphere] main, h
 .preference input:checked + .switch-track::after { transform:translateX(14px); background:var(--ink); }
 .preference input:focus-visible + .switch-track { outline:2px solid var(--accent); outline-offset:4px; }
 .preference input:disabled + .switch-track { opacity:.4; }
+.motion-frequencies { margin:4px 0 8px; padding:10px 0 4px; border-top:1px solid color-mix(in srgb,var(--ink) 10%,transparent); border-bottom:1px solid color-mix(in srgb,var(--ink) 10%,transparent); }
+.motion-frequencies legend { padding:0; margin-bottom:5px; color:var(--muted); font-size:11px; text-transform:uppercase; letter-spacing:.08em; }
+.range-preference { display:grid; grid-template-columns:1fr auto; align-items:center; gap:2px 12px; padding:7px 0; color:var(--ink); font-size:13px; }
+.range-preference output { color:var(--muted); font-size:11px; }
+.range-preference input { grid-column:1/-1; width:100%; height:18px; accent-color:var(--accent); cursor:pointer; }
 #reset-atmosphere { font-size:12px; color:var(--muted); padding:10px 0; text-decoration:underline; text-underline-offset:3px; }
 .preference-status { font-size:11px; color:var(--muted); }
 #summon-saucer { font-size:13px; text-align:center; padding:14px 4px 5px; border-color:color-mix(in srgb,var(--ink) 12%,transparent); }
@@ -286,7 +323,9 @@ html[data-atmosphere], html[data-atmosphere] body, html[data-atmosphere] main, h
 .footer-social:hover { color:var(--ink); background:color-mix(in srgb,var(--ink) 7%,transparent); }
 
 /* A thin, moving horizon instead of a broad wash of light. */
+/* Previous Aurora palette retained for reference.
 :root[data-atmosphere="aurora"] { --surface:#071c17; --ink:#ddefe4; --muted:#a4c5b5; --accent:#8fe5b7; --glow:#54b685; --panel:#102a22; --ribbon:#a7e8a1; }
+*/
 #planetcont { position:absolute; inset:0; overflow:hidden; pointer-events:none; }
 #planetcont::after { content:""; position:absolute; left:0; right:0; top:700px; bottom:0; background:var(--surface); }
 #crescent { position:absolute; top:0; left:50%; width:250vw; height:250vw; transform:translateX(-50%); border-radius:50%; padding:0; background:color-mix(in srgb,var(--glow) 35%,var(--surface)); overflow:hidden; }
@@ -388,9 +427,9 @@ body:has(#header.scrolled) #atmosphere-panel { top:72px; }
 .aurora-horizon {position:absolute;top:-6px;left:50%;width:1750px;height:766px;max-width:none;transform:translateX(-50%);overflow:visible;display:block}
 .horizon-ground {fill:var(--surface)}
 .ribbon-halo {stroke-width:26;opacity:.2;filter:blur(12px)}
-.ribbon-curtain {stroke-width:15;opacity:.2;filter:blur(8px);animation:aurora-drift 11s ease-in-out infinite alternate;transform-origin:center}
-.ribbon-one {stroke-width:4;opacity:.7;animation:aurora-sway-1 9s ease-in-out infinite alternate;transform-origin:center}
-.ribbon-two {stroke-width:3;opacity:.55;animation:aurora-sway-2 12s ease-in-out infinite alternate-reverse;transform-origin:center}
+.ribbon-curtain {stroke-width:15;opacity:.2;filter:blur(8px);animation:aurora-drift var(--aurora-curtain-speed,11s) ease-in-out infinite alternate;transform-origin:center}
+.ribbon-one {stroke-width:4;opacity:.7;animation:aurora-sway-1 var(--aurora-primary-speed,9s) ease-in-out infinite alternate;transform-origin:center}
+.ribbon-two {stroke-width:3;opacity:.55;animation:aurora-sway-2 var(--aurora-secondary-speed,12s) ease-in-out infinite alternate-reverse;transform-origin:center}
 .horizon-rim {stroke-width:1.6;opacity:.9;filter:drop-shadow(0 0 3px color-mix(in srgb,var(--accent) 45%,transparent))}
 @keyframes aurora-sway-1 {
   0% {transform:translateY(3px) scaleX(0.99)}

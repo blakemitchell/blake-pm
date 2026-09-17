@@ -12,8 +12,15 @@
     stars.append(star);
   }
   const enabled = () => !document.hidden && document.documentElement.dataset.motion === "on";
-  function schedule(kind, min, max) {
-    setTimeout(() => { if (enabled()) create(kind); schedule(kind, min, max); }, min + Math.random() * (max-min));
+  const frequencyFactor = [0, 2.2, 1.5, 1, 0.68, 0.42];
+  const settings = { debris: 3, stars: 3 };
+  const timers = {};
+  const ranges = { meteor: [6000, 12000, "stars"], twinkle: [1500, 3500, "stars"], traveler: [30000, 48000, "debris"] };
+  function schedule(kind) {
+    clearTimeout(timers[kind]);
+    const [min, max, setting] = ranges[kind];
+    const factor = frequencyFactor[settings[setting]];
+    timers[kind] = setTimeout(() => { if (enabled()) create(kind); schedule(kind); }, (min + Math.random() * (max-min)) * factor);
   }
   function create(kind) {
     if (kind === "traveler" && sky.querySelector(".sky-traveler")) return;
@@ -43,9 +50,14 @@
     node.addEventListener("animationend", () => node.remove(), { once: true });
     setTimeout(() => node.remove(), kind === "traveler" ? 34000 : 5000);
   }
-  schedule("meteor", 6000, 12000);
-  schedule("twinkle", 1500, 3500);
-  schedule("traveler", 30000, 48000);
+  schedule("meteor");
+  schedule("twinkle");
+  schedule("traveler");
+  document.addEventListener("blake:motion-settings", event => {
+    settings.debris = Math.min(5, Math.max(1, Number(event.detail?.debris) || 3));
+    settings.stars = Math.min(5, Math.max(1, Number(event.detail?.stars) || 3));
+    schedule("meteor"); schedule("twinkle"); schedule("traveler");
+  });
   const clear = () => sky.querySelectorAll(".sky-object").forEach(node => node.remove());
   document.addEventListener("visibilitychange", () => { if (document.hidden) clear(); });
   new MutationObserver(() => { if (!enabled()) clear(); }).observe(document.documentElement, { attributes:true, attributeFilter:["data-motion"] });

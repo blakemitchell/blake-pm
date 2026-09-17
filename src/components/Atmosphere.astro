@@ -6,14 +6,24 @@
   <div id="themes-panel" role="tabpanel" aria-labelledby="themes-tab">
     <div class="theme-options" role="group" aria-label="Color theme">
       {[
-        ["space", "Midnight"], ["mono", "Deep Space"], ["eclipse", "Eclipse"],
-        ["aurora", "Aurora"], ["lunar", "Lunar Day"],
+        // Previous menu: Midnight, Deep Space, Eclipse, Aurora, Lunar Day.
+        ["sol", "Sol"], ["mercury", "Mercury"], ["venus", "Venus"],
+        ["earth", "Earth"], ["mars", "Mars"], ["jupiter", "Jupiter"],
+        ["saturn", "Saturn"], ["uranus", "Uranus"], ["neptune", "Neptune"],
+        ["space", "Sagittarius A*"],
       ].map(([id, name]) => <button type="button" data-theme-choice={id} aria-pressed="false"><span class={`swatch swatch-${id}`} aria-hidden="true"></span>{name}<span class="theme-check" aria-hidden="true">✓</span></button>)}
+      <button id="pluto-theme-choice" type="button" data-theme-choice="pluto" data-surprise-theme hidden aria-pressed="false"><span class="swatch swatch-pluto" aria-hidden="true"></span>Pluto<span class="theme-check" aria-hidden="true">✓</span></button>
     </div>
   </div>
   <div id="options-panel" role="tabpanel" aria-labelledby="options-tab" hidden>
-    <label class="preference"><span>Follow system appearance<small>Midnight in dark mode · Lunar Day in light mode</small></span><input id="follow-system" type="checkbox" role="switch" /><span class="switch-track" aria-hidden="true"></span></label>
-    <label class="preference"><span>Background motion<small id="motion-help">Stars, passing objects, and saucer flight</small></span><input id="ambient-motion" type="checkbox" role="switch" /><span class="switch-track" aria-hidden="true"></span></label>
+    <label class="preference" hidden><span>Follow system appearance</span><input id="follow-system" type="checkbox" role="switch" /><span class="switch-track" aria-hidden="true"></span></label>
+    <label class="preference"><span>Motion<small id="motion-help">Stars, debris, aurora, and saucer flight</small></span><input id="ambient-motion" type="checkbox" role="switch" /><span class="switch-track" aria-hidden="true"></span></label>
+    <fieldset id="motion-frequencies" class="motion-frequencies">
+      <legend>Motion frequencies</legend>
+      <label class="range-preference" for="debris-frequency"><span>Debris</span><output id="debris-frequency-value" for="debris-frequency">Balanced</output><input id="debris-frequency" type="range" min="1" max="5" value="3" /></label>
+      <label class="range-preference" for="star-frequency"><span>Stars</span><output id="star-frequency-value" for="star-frequency">Balanced</output><input id="star-frequency" type="range" min="1" max="5" value="3" /></label>
+      <label class="range-preference" for="aurora-frequency"><span>Aurora</span><output id="aurora-frequency-value" for="aurora-frequency">Balanced</output><input id="aurora-frequency" type="range" min="1" max="5" value="3" /></label>
+    </fieldset>
     <label id="surprise-setting" class="preference" hidden><span>Allow surprises<small>Occasional visitors may change your theme</small></span><input id="allow-surprises" type="checkbox" role="switch" /><span class="switch-track" aria-hidden="true"></span></label>
     <button id="reset-atmosphere" type="button">Reset to defaults</button>
     <p id="preference-status" role="status" class="preference-status"></p>
