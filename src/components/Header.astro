@@ -10,8 +10,8 @@ import Container from "@components/Container.astro"
   <Container size="xl">
     <div class="relative h-full w-full">
       <div class="absolute left-0 top-1/2 -translate-y-1/2 flex gap-1 font-semibold">
-        <a href="/" class="flex gap-1 text-current hover:text-black dark:hover:text-white transition-colors duration-300 ease-in-out">
-          <svg class="size-6 fill-current">
+        <a href="/" class="site-brand">
+          <svg class="brand-mark fill-current" viewBox="0 0 40 40">
             <use href="/brand.svg#brand"></use>
           </svg>
           <div>
@@ -46,16 +46,16 @@ import Container from "@components/Container.astro"
       </a>
 
       <button id="header-theme-button" type="button" aria-label="Choose atmosphere" aria-expanded="false" aria-controls="atmosphere-panel" class="atmosphere-trigger size-9 rounded-full border border-black/10 dark:border-white/25 flex items-center justify-center hover:bg-black/5 dark:hover:bg-white/20 blend">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <g transform="rotate(-25 12 12)">
+        <svg width="27" height="27" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <g transform="rotate(-32 12 12)">
             <path d="M2 12c0-1.8 4.5-3.3 10-3.3S22 10.2 22 12"/>
-            <circle cx="12" cy="12" r="5.8" fill="var(--surface)"/>
+            <circle cx="12" cy="12" r="6.4" fill="var(--surface)"/>
             <path d="M2 12c0 1.8 4.5 3.3 10 3.3S22 13.8 22 12"/>
           </g>
         </svg>
       </button>
 
-      <button id="header-drawer-button" aria-label={`Toggle drawer open and closed`} class={cn("flex md:hidden", "size-9 rounded-full p-2 items-center justify-center", "bg-transparent hover:bg-black/5 dark:hover:bg-white/20", "stroke-current hover:stroke-black hover:dark:stroke-white", "border border-black/10 dark:border-white/25", "transition-colors duration-300 ease-in-out")}>
+      <button id="header-drawer-button" aria-expanded="false" aria-controls="drawer" aria-label={`Toggle drawer open and closed`} class={cn("flex md:hidden", "size-9 rounded-full p-2 items-center justify-center", "bg-transparent hover:bg-black/5 dark:hover:bg-white/20", "stroke-current hover:stroke-black hover:dark:stroke-white", "border border-black/10 dark:border-white/25", "transition-colors duration-300 ease-in-out")}>
         <svg id="drawer-open" class="size-full">
           <use href="/ui.svg#menu"></use>
         </svg>
@@ -92,6 +92,8 @@ import Container from "@components/Container.astro"
     const drawerButton = document.getElementById("header-drawer-button")
     drawer?.classList.toggle("open")
     drawerButton?.classList.toggle("open")
+    if (drawer) drawer.inert = !drawer.classList.contains("open")
+    drawerButton?.setAttribute("aria-expanded", String(drawer?.classList.contains("open")))
   }
 
   function initializeDrawerButton() {

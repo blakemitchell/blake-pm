@@ -18,7 +18,18 @@ const posts = (await getCollection("blog"))
 
   <!-- HERO -->
   <section class="hero relative w-full">
-    <div id="planetcont" aria-hidden="true"><div id="crescent"><div class="horizon-light"></div><div id="planet"></div></div></div>
+    <div id="planetcont" aria-hidden="true">
+      <svg class="aurora-horizon" viewBox="0 0 1440 440" preserveAspectRatio="none">
+        <defs><linearGradient id="horizon-colors"><stop stop-color="var(--glow)" stop-opacity="0"/><stop offset=".25" stop-color="var(--glow)"/><stop offset=".5" stop-color="var(--ribbon)"/><stop offset=".75" stop-color="var(--accent)"/><stop offset="1" stop-color="var(--glow)" stop-opacity="0"/></linearGradient></defs>
+        <path class="horizon-ground" d="M-80 150 Q720 -100 1520 150 V440 H-80Z" />
+        <g class="aurora-ribbons" fill="none" stroke="url(#horizon-colors)">
+          <path class="ribbon-halo" d="M-80 150 Q720 -100 1520 150" />
+          <path class="ribbon-one" d="M-80 145 C130 54 230 105 390 40 S620 55 760 20 S1100 35 1520 145" />
+          <path class="ribbon-two" d="M-80 148 C210 60 280 47 430 38 S650 -4 820 28 S1080 7 1520 150" />
+          <path class="ribbon-rim" d="M-80 150 Q720 -100 1520 150" />
+        </g>
+      </svg>
+    </div>
     <div class="animate absolute h-full w-full flex items-center justify-center">
       <div class='relative w-full h-full flex items-center justify-center'>
         <div class='p-5 text-center'>
@@ -35,8 +46,8 @@ const posts = (await getCollection("blog"))
             <a href='/blog' class='hero-action'>
               Read my blog
             </a>
-            <a href='/work' class='hero-action'>
-              View my work
+            <a href='/about' class='hero-action'>
+              About me
             </a>
           </div>
         </div>

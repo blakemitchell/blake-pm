@@ -3,7 +3,7 @@ import { getCollection } from "astro:content";
 import PageLayout from "@layouts/PageLayout.astro";
 import TopLayout from "@layouts/TopLayout.astro";
 import BottomLayout from "@layouts/BottomLayout.astro";
-import SearchCollection from "@components/SearchCollection";
+import SearchCollection from "@components/SearchCollection.astro";
 import { BLOG } from "@consts";
 
 const posts = (await getCollection("blog"))
@@ -36,7 +36,6 @@ const estimated_initial_size =
       style={{ minHeight: `${estimated_initial_size}px` }}
     >
       <SearchCollection
-        client:load
         entry_name={"posts"}
         tags={tags}
         data={posts}

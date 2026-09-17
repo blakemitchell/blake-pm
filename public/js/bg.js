@@ -3,7 +3,7 @@
   const stars = document.getElementById("star-field");
   if (!sky || !stars) return;
   // A small, static star field; moving objects are short-lived and never interactive.
-  for (let i = 0; i < 220; i++) {
+  for (let i = 0; i < 330; i++) {
     const star = document.createElement("i");
     star.className = "sky-star";
     star.style.cssText = `left:${Math.random()*100}%;top:${Math.random()*100}%;opacity:${.32+Math.random()*.58};width:${i%5===0?2.2:1.3}px;height:${i%5===0?2.2:1.3}px`;

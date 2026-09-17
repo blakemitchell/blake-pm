@@ -18,3 +18,7 @@ The site does not include advertising trackers or a visitor analytics script. Th
 The contact form is not currently accepting submissions. When message delivery is enabled, this page will be updated to explain how submitted details are handled.
 
 Social links take you to external services. Their own privacy policies apply there; this site uses ordinary links rather than embedded social feeds. You can reach me through the profiles on the [Social page](/social).
+
+## Media in posts
+
+Some posts may include media hosted by other services. Loading or playing embedded media can send ordinary request information to those providers. YouTube embeds use its privacy-enhanced domain. Those services apply their own privacy policies.

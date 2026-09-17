@@ -1,0 +1,24 @@
+---
+import ArrowCard from "@components/ArrowCard"
+import type { CollectionEntry } from "astro:content"
+interface Props {
+  entry_name: string
+  tags: string[]
+  data: (CollectionEntry<'blog'> | CollectionEntry<'projects'>)[]
+}
+const { entry_name, tags, data } = Astro.props
+---
+<div class="collection-browser" data-collection>
+  <div class="collection-controls" hidden>
+    <label>Search {entry_name}<input data-search type="search" placeholder={`Search ${entry_name}`} autocomplete="off" /></label>
+    <p class="collection-label">Tags</p>
+    <div class="collection-tags">{tags.map(tag => <button type="button" data-tag={tag.toLowerCase()} aria-pressed="false">{tag}<span aria-hidden="true">✓</span></button>)}</div>
+    <button type="button" data-clear hidden>Clear filters</button>
+  </div>
+  <div>
+    <div class="collection-summary"><p aria-live="polite">Showing <span data-count>{data.length}</span> of {data.length} {entry_name}</p><button type="button" data-sort hidden>Newest first ↓</button></div>
+    <ul class="space-y-3" data-entries>{data.map(entry => <li data-entry data-search-text={`${entry.data.title} ${entry.data.summary} ${entry.data.tags.join(' ')}`.toLowerCase()} data-tags={JSON.stringify(entry.data.tags.map(tag => tag.toLowerCase()))} data-date={entry.data.date.getTime()}><ArrowCard entry={entry} /></li>)}</ul>
+    <p data-empty hidden class="py-8">No matching {entry_name}. Try a different search or clear the filters.</p>
+  </div>
+</div>
+<script is:inline src="/js/collection.js"></script>

@@ -9,7 +9,7 @@ import ArticleBottomLayout from "@layouts/ArticleBottomLayout.astro"
 // Create the static blog pages
 export async function getStaticPaths() {
 	const posts = await getCollection("blog")
-	return posts.map((post) => ({
+	return posts.filter(post => import.meta.env.DEV || !post.data.draft).map((post) => ({
 		params: { slug: post.slug },
 		props: post,
 	}))

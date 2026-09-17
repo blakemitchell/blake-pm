@@ -1,0 +1,6 @@
+---
+const { url, caption = '' } = Astro.props
+let source = '';
+try { const parsed = new URL(url); if (parsed.protocol === 'https:') source = parsed.href; } catch {}
+---
+<figure>{source && <audio controls preload="none" src={source} style="width:100%">Your browser does not support this audio.</audio>}{caption && <figcaption>{caption}</figcaption>}</figure>

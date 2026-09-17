@@ -1,4 +1,6 @@
 ---
+import Video from "@components/PostVideo.astro"
+import Audio from "@components/PostAudio.astro"
 import { type CollectionEntry, getCollection } from "astro:content"
 
 type Props = {
@@ -21,9 +23,9 @@ const next = items[(index + 1) % items.length]
 
 <div>
   <article>
-    <Content/>
+    <Content components={{ Video, Audio }}/>
   </article>
-  <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+  {items.length > 1 && !entry.data.draft && <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
     <a href={`/${prev.collection}/${prev.slug}`} class="group p-4 gap-3 flex items-center border rounded-lg hover:bg-black/5 hover:dark:bg-white/10 border-black/15 dark:border-white/20 blend">
       <div class="order-2 w-full h-full group-hover:text-black group-hover:dark:text-white blend">
         <div class="flex flex-wrap gap-2">
@@ -54,5 +56,5 @@ const next = items[(index + 1) % items.length]
         <polyline points="12 5 19 12 12 19" class="translate-x-0 group-hover:translate-x-1 transition-all duration-300 ease-in-out" />
       </svg>
     </a>
-  </div>
+  </div>}
 </div>

@@ -3,6 +3,7 @@
   const panel = document.getElementById("atmosphere-panel");
   const trigger = document.getElementById("header-theme-button");
   const ship = document.getElementById("saucer");
+  const ray = document.getElementById("saucer-ray");
   const notice = document.getElementById("surprise-notice");
   const names = { space: "Midnight", mono: "Deep Space", eclipse: "Eclipse", aurora: "Aurora", lunar: "Lunar Day" };
   const read = (key, fallback) => { try { return localStorage.getItem(key) ?? fallback; } catch { return fallback; } };
@@ -38,7 +39,7 @@
   function closePanel(focus = false) { panel.hidden = true; trigger.setAttribute("aria-expanded", "false"); if (focus) trigger.focus(); }
   function cancelFlight() {
     generation++; flight?.cancel(); flight = null; busy = false;
-    ship.hidden = true; ship.classList.remove("beaming"); trigger.classList.remove("alien-target");
+    ship.hidden = true; ray.hidden = true; ship.classList.remove("beaming"); trigger.classList.remove("alien-target");
     document.getElementById("summon-saucer").disabled = false;
   }
   function selectTab(tab, focus = false) {
@@ -51,8 +52,17 @@
       if (active && focus) button.focus();
     }
   }
+  function positionPanel() {
+    if (panel.hidden) return;
+    const box = trigger.getBoundingClientRect();
+    panel.style.top = `${box.bottom + 8}px`;
+    panel.style.right = `${Math.max(12, innerWidth - box.right)}px`;
+    panel.style.maxHeight = `calc(100svh - ${box.bottom + 20}px)`;
+  }
+  window.addEventListener("scroll", () => { positionPanel(); if (busy) cancelFlight(); }, { passive: true });
+  window.addEventListener("resize", () => { positionPanel(); cancelFlight(); });
   function openPanel(tab = "themes") {
-    panel.hidden = false; trigger.setAttribute("aria-expanded", "true"); selectTab(tab, true);
+    panel.hidden = false; trigger.setAttribute("aria-expanded", "true"); selectTab(tab, true); positionPanel();
   }
   for (const name of ["themes", "options"]) {
     const tab = document.getElementById(`${name}-tab`);
@@ -113,14 +123,21 @@
     const x = Math.min(innerWidth - 126, Math.max(6, target.left - 43));
     const y = Math.max(76, target.bottom + 55);
     ship.style.left = `${x}px`; ship.style.top = `${y}px`;
-    trigger.classList.add("alien-target");
     try {
       if (motion && !reduced.matches) {
         ship.hidden = false;
         flight = ship.animate([{ transform: `translate(${-innerWidth}px, 55px) rotate(-10deg)` }, { transform: "translate(0, 0) rotate(0deg)" }], { duration: 4200, easing: "cubic-bezier(.2,.7,.2,1)", fill: "forwards" });
         await flight.finished;
-        ship.classList.add("beaming");
-        await delay(1600);
+        if (ticket !== generation) return;
+        const box = trigger.getBoundingClientRect();
+        const center = (box.left + box.right) / 2;
+        const tip = box.top + box.height / 2;
+        document.getElementById("saucer-ray-path").setAttribute("d", `M ${x + 55} ${y + 20} L ${center - 13} ${tip} L ${center + 13} ${tip} L ${x + 65} ${y + 20} Z`);
+        ray.hidden = false;
+        await delay(450);
+        if (ticket !== generation) return;
+        trigger.classList.add("alien-target");
+        await delay(1150);
       }
       if (ticket !== generation || document.hidden) return;
       previous = choice;
@@ -133,7 +150,7 @@
       if (motion && !reduced.matches) {
         await delay(1200);
         if (ticket !== generation) return;
-        ship.classList.remove("beaming");
+        ray.hidden = true; trigger.classList.remove("alien-target");
         flight = ship.animate([{ transform: "translate(0, 0) rotate(0deg)" }, { transform: `translate(${innerWidth}px, -160px) rotate(12deg)` }], { duration: 3200, easing: "ease-in", fill: "forwards" });
         await flight.finished;
       }

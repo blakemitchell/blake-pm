@@ -1,0 +1,44 @@
+# Writing and publishing on blake.pm
+
+## Open the editor
+
+Double-click `scripts/start-editor.command` in Finder. A Terminal window runs the editor; keep it open while writing. The browser opens http://127.0.0.1:4322/keystatic. If it opens before the server is ready, refresh the page.
+
+Alternatively, open Terminal and run:
+
+```sh
+cd /Users/blake/code/astro/blake-pm
+npm run editor
+```
+
+## Write a post
+
+1. Open **Blog posts**, then **Create entry**.
+2. Enter the title, short description, publication date, and optional tags.
+3. Leave **Draft** checked while writing. Use the writing toolbar for headings, lists, links, and images. Images are copied into the site project.
+4. Use **Video** for a YouTube URL or a direct HTTPS MP4/WebM URL, or **Audio** for a direct audio-file URL. Large media should live on a media service; images can stay in this project.
+5. Save. The title's slug is its address: preview `http://127.0.0.1:4322/blog/your-post-slug`. Drafts can be previewed locally but are excluded from the production build, blog listing, search, and RSS.
+6. When ready, clear **Draft** and save again.
+
+Saving changes files on this Mac. It does not publish immediately. Publication dates label/order posts; they are not a scheduling system.
+
+## Publish
+
+In GitHub Desktop, add this existing repository once: `/Users/blake/code/astro/blake-pm`. Review the changed post and images, enter a short summary such as “Publish my first post,” choose **Commit to main**, then **Push origin**. Cloudflare automatically builds and deploys the pushed version to https://blake.pm.
+
+Or use Terminal in the project folder:
+
+```sh
+npm run build
+git add src/content/blog public/images/blog
+git commit -m "Publish a new post"
+git push origin main
+```
+
+Create `public/images/blog` first if you have not added images. Only commit the changes you intend to publish. Wait for Cloudflare's deployment to succeed, then check the live post.
+
+You do not need an LLM to write or publish. Keystatic runs locally; no paid CMS account is required. The public build does not include its editor or API routes.
+
+## Contact form
+
+Create a free Formspree form at https://formspree.io and choose your Gmail address as the recipient. Verify your email. Copy the public endpoint (like `https://formspree.io/f/abcdefgh`), not a password or API secret. Set `PUBLIC_CONTACT_FORM_URL` in Cloudflare's build environment and redeploy. Update the Privacy page to describe Formspree processing before enabling submissions. Gmail receives notifications; no Gmail SMTP password is required.
