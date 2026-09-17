@@ -2,12 +2,17 @@
 
 ## Open the editor
 
-Double-click `scripts/start-editor.command` in Finder. A Terminal window runs the editor; keep it open while writing. The browser opens http://127.0.0.1:4322/keystatic. If it opens before the server is ready, refresh the page.
+The local visual editor runs cross-platform on macOS, Windows, and Linux:
 
-Alternatively, open Terminal and run:
+- **macOS**: Double-click `scripts/start-editor.command` in Finder, or run `npm run editor` in Terminal.
+- **Windows**: Double-click `scripts/start-editor.bat` in File Explorer, or run `npm run editor` in Command Prompt / PowerShell.
+- **Linux**: Run `./scripts/start-editor.sh` or `npm run editor` in your terminal.
+
+A terminal window runs the editor process (keep it open while writing), and your default browser automatically opens http://127.0.0.1:4322/keystatic. If it opens before the server finishes initializing, simply refresh the page.
+
+Alternatively, open the project folder in any command-line environment and run:
 
 ```sh
-cd /Users/blake/code/astro/blake-pm
 npm run editor
 ```
 
@@ -20,11 +25,11 @@ npm run editor
 5. Save. The title's slug is its address: preview `http://127.0.0.1:4322/blog/your-post-slug`. Drafts can be previewed locally but are excluded from the production build, blog listing, search, and RSS.
 6. When ready, clear **Draft** and save again.
 
-Saving changes files on this Mac. It does not publish immediately. Publication dates label/order posts; they are not a scheduling system.
+Saving changes files in your local project folder. It does not publish immediately. Publication dates label/order posts; they are not a scheduling system.
 
 ## Publish
 
-In GitHub Desktop, add this existing repository once: `/Users/blake/code/astro/blake-pm`. Review the changed post and images, enter a short summary such as “Publish my first post,” choose **Commit to main**, then **Push origin**. Cloudflare automatically builds and deploys the pushed version to https://blake.pm.
+In GitHub Desktop, add the local `blake-pm` repository folder once. Review the changed post and images, enter a short summary such as “Publish my first post,” choose **Commit to main**, then **Push origin**. Cloudflare automatically builds and deploys the pushed version to https://blake.pm.
 
 Or use Terminal in the project folder:
 

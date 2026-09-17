@@ -11,8 +11,7 @@
     "preview:network": "astro dev --host",
     "astro": "astro",
     "lint": "eslint .",
-    "lint:fix": "eslint . --fix",
-    "editor": "KEYSTATIC_LOCAL=true astro dev --host 127.0.0.1 --port 4322"
+    "editor": "node scripts/start-editor.mjs"
   },
   "dependencies": {
     "@astrojs/check": "^0.5.6",

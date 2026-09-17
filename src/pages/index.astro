@@ -19,19 +19,43 @@ const posts = (await getCollection("blog"))
   <!-- HERO -->
   <section class="hero relative w-full">
     <div id="planetcont" aria-hidden="true">
-      <svg class="aurora-horizon" viewBox="0 0 1440 440" preserveAspectRatio="none">
-        <defs><linearGradient id="horizon-colors"><stop stop-color="var(--glow)" stop-opacity="0"/><stop offset=".25" stop-color="var(--glow)"/><stop offset=".5" stop-color="var(--ribbon)"/><stop offset=".75" stop-color="var(--accent)"/><stop offset="1" stop-color="var(--glow)" stop-opacity="0"/></linearGradient></defs>
-        <path class="horizon-ground" d="M-80 150 Q720 -100 1520 150 V440 H-80Z" />
-        <g class="aurora-ribbons" fill="none" stroke="url(#horizon-colors)">
-          <path class="ribbon-halo" d="M-80 150 Q720 -100 1520 150" />
-          <path class="ribbon-one" d="M-80 145 C130 54 230 105 390 40 S620 55 760 20 S1100 35 1520 145" />
-          <path class="ribbon-two" d="M-80 148 C210 60 280 47 430 38 S650 -4 820 28 S1080 7 1520 150" />
-          <path class="ribbon-rim" d="M-80 150 Q720 -100 1520 150" />
+      <svg class="aurora-horizon" viewBox="0 0 1600 700" preserveAspectRatio="none">
+        <defs>
+          <linearGradient id="horizon-colors" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="var(--glow)" stop-opacity="0" />
+            <stop offset="18%" stop-color="var(--glow)" stop-opacity="0.35" />
+            <stop offset="38%" stop-color="var(--ribbon)" stop-opacity="0.8" />
+            <stop offset="62%" stop-color="var(--accent)" stop-opacity="0.85" />
+            <stop offset="82%" stop-color="var(--glow)" stop-opacity="0.35" />
+            <stop offset="100%" stop-color="var(--glow)" stop-opacity="0" />
+          </linearGradient>
+          <linearGradient id="aurora-celestial" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="var(--accent)" stop-opacity="0" />
+            <stop offset="22%" stop-color="var(--accent)" stop-opacity="0.5" />
+            <stop offset="50%" stop-color="var(--glow)" stop-opacity="0.7" />
+            <stop offset="78%" stop-color="var(--ribbon)" stop-opacity="0.5" />
+            <stop offset="100%" stop-color="var(--accent)" stop-opacity="0" />
+          </linearGradient>
+          <linearGradient id="aurora-rim-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="var(--glow)" stop-opacity="0.2" />
+            <stop offset="20%" stop-color="var(--glow)" stop-opacity="0.75" />
+            <stop offset="50%" stop-color="var(--accent)" stop-opacity="0.95" />
+            <stop offset="80%" stop-color="var(--ribbon)" stop-opacity="0.75" />
+            <stop offset="100%" stop-color="var(--glow)" stop-opacity="0.2" />
+          </linearGradient>
+        </defs>
+        <path class="horizon-ground" d="M-500 485 Q800 60 2100 485 V700 H-500Z" />
+        <g class="aurora-ribbons" fill="none">
+          <path class="ribbon-halo" d="M-500 485 Q800 60 2100 485" stroke="url(#horizon-colors)" />
+          <path class="ribbon-curtain" d="M-500 472 Q800 34 2100 472" stroke="url(#aurora-celestial)" />
+          <path class="ribbon-one" d="M-500 476 Q800 44 2100 476" stroke="url(#horizon-colors)" />
+          <path class="ribbon-two" d="M-500 481 Q800 53 2100 481" stroke="url(#aurora-celestial)" />
+          <path class="horizon-rim" d="M-500 485 Q800 60 2100 485" stroke="url(#aurora-rim-gradient)" />
         </g>
       </svg>
     </div>
     <div class="animate absolute h-full w-full flex items-center justify-center">
-      <div class='relative w-full h-full flex items-center justify-center'>
+      <div class='hero-copy-inner relative w-full h-full flex items-center justify-center'>
         <div class='p-5 text-center'>
           <p class='animated text-lg md:text-xl lg:text-2xl font-semibold opacity-75'>
             Hello, I’m

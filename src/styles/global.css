@@ -197,7 +197,8 @@ header.scrolled, #drawer { background:var(--panel); }
 #planet { background:var(--surface); }
 #crescent { background:linear-gradient(to bottom,var(--glow),transparent 9%); }
 #blur { background:var(--glow); }
-.hero { height:72svh; min-height:470px; max-height:760px; }
+.hero { height:calc(72svh + 80px); min-height:550px; max-height:840px; }
+.hero-copy-inner { transform:translateY(40px); }
 #planetcont { pointer-events:none; }
 #ambient-sky { position:fixed; inset:0; pointer-events:none; overflow:hidden; color:var(--accent); }
 #star-field { position:absolute; inset:0; }
@@ -235,7 +236,7 @@ button:focus-visible, a:focus-visible, input:focus-visible { outline:2px solid v
 .notice-actions button { text-decoration:underline; text-underline-offset:4px; }
 #dismiss-surprise { margin-left:auto; text-decoration:none; font-size:22px; }
 #undo-theme:disabled { opacity:.5; }
-@media(max-width:767px) { .hero{height:65svh;min-height:420px;} #surprise-notice{right:16px;bottom:16px;} }
+@media(max-width:767px) { .hero{height:calc(65svh + 70px);min-height:490px;} .hero-copy-inner{transform:translateY(32px);} #surprise-notice{right:16px;bottom:16px;} }
 @media(prefers-reduced-motion:reduce) { *, *::before, *::after { scroll-behavior:auto !important; animation:none !important; transition:none !important; } .animate{opacity:1;transform:none;} }
 /* Keep Undo stationary when its hover/focus options appear. */
 #surprise-optout { position:absolute; bottom:calc(100% + 8px); left:0; right:0; padding:4px 18px; border:1px solid var(--accent); border-radius:12px; background:var(--panel); box-shadow:0 8px 30px #0003; }
@@ -286,8 +287,8 @@ html[data-atmosphere], html[data-atmosphere] body, html[data-atmosphere] main, h
 
 /* A thin, moving horizon instead of a broad wash of light. */
 :root[data-atmosphere="aurora"] { --surface:#071c17; --ink:#ddefe4; --muted:#a4c5b5; --accent:#8fe5b7; --glow:#54b685; --panel:#102a22; --ribbon:#a7e8a1; }
-:root { --ribbon:var(--accent); }
-#planetcont { position:absolute; inset:24% 0 0; overflow:hidden; pointer-events:none; }
+#planetcont { position:absolute; inset:0; overflow:hidden; pointer-events:none; }
+#planetcont::after { content:""; position:absolute; left:0; right:0; top:700px; bottom:0; background:var(--surface); }
 #crescent { position:absolute; top:0; left:50%; width:250vw; height:250vw; transform:translateX(-50%); border-radius:50%; padding:0; background:color-mix(in srgb,var(--glow) 35%,var(--surface)); overflow:hidden; }
 #planet { position:absolute; inset:2px 0 0; border-radius:50%; background:var(--surface); padding:0; }
 .horizon-light { position:absolute; inset:0; border-radius:50%; background:conic-gradient(from 220deg,transparent 0 30%,var(--glow) 37%,var(--ribbon) 43%,transparent 48% 53%,var(--accent) 58%,transparent 64%); opacity:.65; animation:horizon-drift 36s ease-in-out infinite alternate; }
@@ -301,7 +302,7 @@ html[data-motion="off"] .horizon-light { animation:none; }
 #header.scrolled .primary-nav { font-size:14px; }
 #header .buttons > a, #header .buttons > button { width:43px; height:43px; transition:width .25s,height .25s,background-color .2s; }
 #header.scrolled .buttons > a, #header.scrolled .buttons > button { width:36px; height:36px; }
-#header .buttons svg { max-width:24px; max-height:24px; }
+#header .buttons svg { max-width:26px; max-height:26px; }
 .nav-link { position:relative; padding:8px 11px; color:var(--muted); background:transparent; border-radius:0; }
 .nav-link::after { content:""; position:absolute; bottom:3px; left:11px; right:11px; height:1px; background:var(--accent); opacity:0; transform:scaleX(.55); transition:opacity .2s,transform .2s; }
 .nav-link[aria-current="page"] { color:var(--ink); }
@@ -319,19 +320,33 @@ body:has(#header.scrolled) #atmosphere-panel { top:72px; }
 .social-page { width:min(760px,100%); margin:0 auto; padding:130px 24px 70px; }
 .social-intro { text-align:center; }
 .social-intro h1 { font-size:32px; color:var(--ink); margin-bottom:8px; }
-.social-system { --orbit-radius:160px; position:relative; width:430px; max-width:100%; height:430px; margin:18px auto 0; }
-.social-sun { position:absolute; left:50%; top:50%; transform:translate(-50%,-50%); width:92px; height:92px; padding:14px; border-radius:50%; color:var(--ink); background:radial-gradient(circle at 30% 25%,color-mix(in srgb,var(--accent) 20%,var(--surface)),var(--surface)); box-shadow:0 0 40px color-mix(in srgb,var(--glow) 13%,transparent); }
-.social-sun svg { width:100%; height:100%; }
-.orbit-ring { position:absolute; width:calc(var(--orbit-radius)*2); height:calc(var(--orbit-radius)*2); top:50%; left:50%; transform:translate(-50%,-50%); border:1px solid color-mix(in srgb,var(--ink) 14%,transparent); border-radius:50%; }
-.social-orbit { position:absolute; inset:0; pointer-events:none; animation:social-orbit 110s linear infinite; }
-.orbit-position { position:absolute; top:50%; left:50%; transform:translateX(var(--orbit-radius)); }
-.social-planet { pointer-events:auto; width:68px; height:68px; border:1px solid color-mix(in srgb,var(--ink) 18%,transparent); border-radius:50%; background:var(--panel); color:var(--ink); display:flex; align-items:center; justify-content:center; position:relative; animation:social-counter 110s linear infinite; }
-.social-planet svg { width:25px; height:25px; fill:currentColor; }
-.social-planet span { position:absolute; top:calc(100% + 8px); white-space:nowrap; font-size:12px; }
-@keyframes social-orbit { from{transform:rotate(var(--phase))} to{transform:rotate(calc(var(--phase) + 360deg))} }
-@keyframes social-counter { from{transform:translate(-50%,-50%) rotate(calc(0deg - var(--phase)))} to{transform:translate(-50%,-50%) rotate(calc(-360deg - var(--phase)))} }
-.social-system:hover *, .social-system:focus-within *, html[data-motion="off"] .social-system * { animation-play-state:paused; }
-.orbit-note { text-align:center; font-size:12px; color:var(--muted); margin:4px 0 30px; }
+.social-cosmos { position:relative; width:100vw; height:540px; margin:16px 0 0 50%; translate:-50% 0; overflow:hidden; isolation:isolate; }
+.social-starfield { position:absolute; inset:0; overflow:hidden; pointer-events:none; z-index:0; mask-image:linear-gradient(to bottom,transparent,#000 7%,#000 93%,transparent); }
+.social-star { position:absolute; left:var(--x); top:var(--y); width:var(--size); height:var(--size); border-radius:50%; background:var(--ink); opacity:var(--opacity); }
+.social-twinkle { position:absolute; width:3px; height:3px; border-radius:50%; background:var(--accent); box-shadow:0 0 9px 2px var(--accent); animation:quiet-twinkle 4s ease-in-out forwards; }
+.social-meteor { position:absolute; width:100px; height:1px; background:linear-gradient(to right,transparent,var(--accent)); animation:quiet-meteor 3s ease-out forwards; }
+.social-system-wrap { position:relative; width:min(720px,100%); height:100%; margin:auto; z-index:1; }
+.social-system { position:absolute; inset:0; z-index:1; }
+.social-sun { position:absolute; left:50%; top:50%; transform:translate(-50%,-50%); width:124px; height:124px; display:flex; align-items:center; justify-content:center; color:var(--ink); filter:drop-shadow(0 0 28px color-mix(in srgb,var(--glow) 32%,transparent)); z-index:5; }
+.social-sun svg { width:104px; height:104px; }
+.orbit-arm { position:absolute; inset:0; transform:rotate(var(--tilt)); pointer-events:none; }
+.orbit-track { position:absolute; left:50%; top:50%; translate:-50% -50%; border:1px solid color-mix(in srgb,var(--ink) 13%,transparent); border-radius:50%; }
+.orbit-slot { position:absolute; width:42px; height:42px; offset-rotate:0deg; pointer-events:auto; animation:orbit-travel var(--speed) linear var(--delay) infinite; transform:rotate(var(--counter-tilt)); }
+.orbit-arm-1 .orbit-track { width:510px; height:256px; }
+.orbit-arm-2 .orbit-track { width:428px; height:336px; }
+.orbit-arm-3 .orbit-track { width:564px; height:208px; }
+.orbit-arm-4 .orbit-track { width:470px; height:292px; }
+.orbit-arm-1 .orbit-slot { offset-path:ellipse(255px 128px at 50% 50%); }
+.orbit-arm-2 .orbit-slot { offset-path:ellipse(214px 168px at 50% 50%); animation-direction:reverse; }
+.orbit-arm-3 .orbit-slot { offset-path:ellipse(282px 104px at 50% 50%); }
+.orbit-arm-4 .orbit-slot { offset-path:ellipse(235px 146px at 50% 50%); animation-direction:reverse; }
+.social-planet { display:flex; align-items:center; justify-content:center; width:42px; height:42px; color:var(--ink); transition:color .2s,scale .2s; }
+.social-planet:hover, .social-planet:focus-visible { color:var(--accent); scale:1.16; }
+.social-planet svg { width:32px; height:32px; fill:currentColor; filter:drop-shadow(0 2px 6px color-mix(in srgb,var(--glow) 24%,transparent)); }
+@keyframes orbit-travel { from{offset-distance:0%} to{offset-distance:100%} }
+.social-cosmos:hover .orbit-slot, .social-cosmos:focus-within .orbit-slot, html[data-motion="off"] .social-cosmos * { animation-play-state:paused; }
+.orbit-note { display:flex; align-items:center; justify-content:center; gap:7px; text-align:center; font-size:12px; color:var(--muted); margin:8px 0 30px; }
+.orbit-note svg { width:17px; height:17px; fill:none; stroke:currentColor; stroke-width:1.45; stroke-linecap:round; stroke-linejoin:round; transform:rotate(-7deg); }
 .social-directory { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
 .social-directory a { display:flex; align-items:center; gap:14px; padding:18px; border-radius:12px; border:1px solid color-mix(in srgb,var(--ink) 12%,transparent); }
 .social-directory a:hover { background:color-mix(in srgb,var(--ink) 5%,transparent); }
@@ -340,19 +355,19 @@ body:has(#header.scrolled) #atmosphere-panel { top:72px; }
 .social-directory strong { display:block; color:var(--ink); font-weight:normal; }
 .social-directory small { display:block; overflow-wrap:anywhere; margin-top:3px; font-size:11px; }
 @media(max-width:1023px) { #header .primary-nav{display:none;} #header-drawer-button{display:flex;} #drawer{display:flex;} }
-@media(max-width:600px) { #header{height:72px;} #header .buttons > a{display:none;} #header .buttons > button{width:40px;height:40px;} #atmosphere-panel{top:80px;} .social-system{--orbit-radius:115px;width:320px;height:330px;} .social-planet{width:55px;height:55px;} .social-sun{width:76px;height:76px;} .social-directory{grid-template-columns:1fr;} .footer-inner{justify-content:center;} }
-@media(prefers-reduced-motion:reduce) { .social-orbit {transform:rotate(var(--phase));} .social-planet {transform:translate(-50%,-50%) rotate(calc(0deg - var(--phase)));} }
+@media(max-width:600px) { #header{height:72px;} #header .buttons > a{display:none;} #header .buttons > button{width:40px;height:40px;} #atmosphere-panel{top:80px;} .social-cosmos{height:420px;} .social-system-wrap{width:100%;} .social-sun{width:96px;height:96px;} .social-sun svg{width:80px;height:80px;} .social-planet,.orbit-slot{width:36px;height:36px;} .social-planet svg{width:27px;height:27px;} .orbit-arm-1 .orbit-track{width:min(310px,86vw);height:176px}.orbit-arm-2 .orbit-track{width:min(264px,74vw);height:228px}.orbit-arm-3 .orbit-track{width:min(328px,90vw);height:144px}.orbit-arm-4 .orbit-track{width:min(286px,80vw);height:202px}.orbit-arm-1 .orbit-slot{offset-path:ellipse(min(155px,43vw) 88px at 50% 50%)} .orbit-arm-2 .orbit-slot{offset-path:ellipse(min(132px,37vw) 114px at 50% 50%)} .orbit-arm-3 .orbit-slot{offset-path:ellipse(min(164px,45vw) 72px at 50% 50%)} .orbit-arm-4 .orbit-slot{offset-path:ellipse(min(143px,40vw) 101px at 50% 50%)} .social-directory{grid-template-columns:1fr;} .footer-inner{justify-content:center;} }
+@media(prefers-reduced-motion:reduce) { .orbit-slot{animation:none !important;offset-distance:var(--phase)} .social-twinkle,.social-meteor{display:none} }
 
 /* Shared underline controls and a more legible site signature. */
 .site-brand {display:flex;align-items:center;gap:9px;color:var(--ink);font-size:22px;line-height:1;white-space:nowrap;transition:font-size .25s}
 .brand-mark {width:36px;height:36px;transition:width .25s,height .25s}
 #header.scrolled .site-brand {font-size:19px}
 #header.scrolled .brand-mark {width:31px;height:31px}
-#header .buttons > a, #header .buttons > button {position:relative;border:0;border-radius:0;background:transparent;color:var(--muted)}
+#header .buttons > a, #header .buttons > button {position:relative;border:0;border-radius:0;background:transparent;color:color-mix(in srgb,var(--ink) 82%,var(--muted))}
 #header .buttons > a:hover, #header .buttons > button:hover {color:var(--ink);background:transparent}
 #header .buttons > a::after, #header .buttons > button::after {content:"";position:absolute;bottom:0;left:9px;right:9px;height:1px;background:var(--accent);opacity:0;transform:scaleX(.55);transition:opacity .2s,transform .2s}
 #header .buttons > :hover::after, #header .buttons > [aria-expanded="true"]::after {opacity:.75;transform:scaleX(1)}
-#header #header-theme-button svg {width:29px;height:29px;max-width:29px;max-height:29px}
+#header #header-theme-button svg {width:27px;height:27px;max-width:27px;max-height:27px}
 #header .alien-target {box-shadow:none;color:#b5ffe4}
 #header .alien-target svg {filter:drop-shadow(0 0 5px #b5ffe4) drop-shadow(0 0 12px #b5ffe4)}
 #saucer-ray {position:fixed;inset:0;width:100%;height:100%;z-index:89;pointer-events:none;overflow:visible}
@@ -368,19 +383,27 @@ body:has(#header.scrolled) #atmosphere-panel { top:72px; }
 .collection-tags button[aria-pressed="true"] span {visibility:visible}
 .collection-summary {display:flex;justify-content:space-between;gap:12px;font-size:12px;margin-bottom:16px}
 [data-clear] {font-size:12px;text-decoration:underline;margin-top:14px}
-.social-system {perspective:750px;transform-style:preserve-3d}
-.social-orbit, .orbit-position {transform-style:preserve-3d}
-.orbit-ring {transform:translate(-50%,-50%) rotateX(58deg)}
-@keyframes social-orbit {from{transform:rotateX(58deg) rotateZ(var(--phase))}to{transform:rotateX(58deg) rotateZ(calc(var(--phase) + 360deg))}}
-@keyframes social-counter {from{transform:rotateZ(calc(0deg - var(--phase))) rotateX(-58deg) translate(-50%,-50%)}to{transform:rotateZ(calc(-360deg - var(--phase))) rotateX(-58deg) translate(-50%,-50%)}}
-@media(prefers-reduced-motion:reduce) {.social-orbit{transform:rotateX(58deg) rotateZ(var(--phase))}.social-planet{transform:rotateZ(calc(0deg - var(--phase))) rotateX(-58deg) translate(-50%,-50%)}}
 @media(max-width:600px) {.site-brand{font-size:19px}.brand-mark{width:33px;height:33px}.collection-browser.enhanced{grid-template-columns:1fr;gap:20px}.collection-tags{display:flex}.collection-tags button{width:auto}}
 
-.aurora-horizon {width:100%;height:100%;overflow:visible}
+.aurora-horizon {position:absolute;top:-6px;left:50%;width:1750px;height:766px;max-width:none;transform:translateX(-50%);overflow:visible;display:block}
 .horizon-ground {fill:var(--surface)}
-.ribbon-halo {stroke-width:18;opacity:.2;filter:blur(8px)}
-.ribbon-one {stroke-width:4;opacity:.65;animation:aurora-sway 19s ease-in-out infinite alternate;transform-origin:center}
-.ribbon-two {stroke-width:7;opacity:.3;animation:aurora-sway 27s ease-in-out infinite alternate-reverse;transform-origin:center}
-.ribbon-rim {stroke-width:1;opacity:.7}
-@keyframes aurora-sway {from{transform:translateY(4px) scaleX(1)}to{transform:translateY(-7px) scaleX(1.05)}}
-html[data-motion="off"] .aurora-ribbons path {animation:none}
+.ribbon-halo {stroke-width:26;opacity:.2;filter:blur(12px)}
+.ribbon-curtain {stroke-width:15;opacity:.2;filter:blur(8px);animation:aurora-drift 11s ease-in-out infinite alternate;transform-origin:center}
+.ribbon-one {stroke-width:4;opacity:.7;animation:aurora-sway-1 9s ease-in-out infinite alternate;transform-origin:center}
+.ribbon-two {stroke-width:3;opacity:.55;animation:aurora-sway-2 12s ease-in-out infinite alternate-reverse;transform-origin:center}
+.horizon-rim {stroke-width:1.6;opacity:.9;filter:drop-shadow(0 0 3px color-mix(in srgb,var(--accent) 45%,transparent))}
+@keyframes aurora-sway-1 {
+  0% {transform:translateY(3px) scaleX(0.99)}
+  50% {transform:translateY(-4px) scaleX(1.02) skewX(0.4deg)}
+  100% {transform:translateY(-8px) scaleX(1.03)}
+}
+@keyframes aurora-sway-2 {
+  0% {transform:translateY(4px) scaleX(1.03) skewX(-0.5deg)}
+  50% {transform:translateY(-2px) scaleX(0.98)}
+  100% {transform:translateY(-7px) scaleX(1.01) skewX(0.3deg)}
+}
+@keyframes aurora-drift {
+  0% {transform:translateY(3px);opacity:.18}
+  100% {transform:translateY(-7px) scaleY(1.1);opacity:.26}
+}
+html[data-motion="off"] .aurora-ribbons path {animation:none !important}

@@ -2,16 +2,41 @@
 import PageLayout from "@layouts/PageLayout.astro"
 import { SOCIALS } from "@consts"
 const profiles = SOCIALS.filter(social => social.NAME !== "Contact")
+const orbits = [
+  { index: 1, speed: 58, phase: 5, tilt: 7, counterTilt: -7 },
+  { index: 2, speed: 76, phase: 32, tilt: -13, counterTilt: 13 },
+  { index: 3, speed: 94, phase: 59, tilt: -4, counterTilt: 4 },
+  { index: 4, speed: 116, phase: 82, tilt: 16, counterTilt: -16 },
+]
 ---
 <PageLayout title="Social" description="Find Blake Mitchell on LinkedIn, Bluesky, Mastodon, and Instagram.">
   <section class="social-page">
-    <div class="social-intro"><h1>In my orbit</h1><p>A few other places you can find me.</p></div>
-    <div class="social-system" aria-label="Social profiles orbiting Blake Mitchell">
-      <div class="orbit-ring" aria-hidden="true"></div>
-      <div class="social-sun" aria-hidden="true"><svg viewBox="0 0 40 40"><use href="/brand.svg#brand" /></svg></div>
-      {profiles.map((profile, index) => <div class="social-orbit" style={`--phase:${index * 90}deg`}><div class="orbit-position"><a class="social-planet" href={profile.HREF} target="_blank" rel="noopener noreferrer" aria-label={`Blake Mitchell on ${profile.NAME}`}><svg viewBox="0 0 24 24" aria-hidden="true"><use href={`/social.svg#${profile.ICON}`} /></svg><span>{profile.NAME}</span></a></div></div>)}
+    <div class="social-intro"><h1>In My Orbit</h1><p>A few other places you can find me.</p></div>
+    <div class="social-cosmos">
+      <div id="social-starfield" class="social-starfield" aria-hidden="true"></div>
+      <div class="social-system-wrap">
+       <div class="social-system" aria-label="Social profiles orbiting Blake Mitchell">
+        <div class="social-sun" aria-hidden="true">
+          <svg viewBox="0 0 40 40"><use href="/brand.svg#brand" /></svg>
+        </div>
+        {profiles.map((profile, i) => {
+          const o = orbits[i] || orbits[0];
+          return (
+            <div class={`orbit-arm orbit-arm-${o.index}`} style={`--speed:${o.speed}s;--phase:${o.phase}%;--delay:${-(o.speed * o.phase / 100)}s;--tilt:${o.tilt}deg;--counter-tilt:${o.counterTilt}deg`}>
+              <div class="orbit-track" aria-hidden="true"></div>
+              <div class="orbit-slot">
+                <a class="social-planet" href={profile.HREF} target="_blank" rel="noopener noreferrer" aria-label={`Blake Mitchell on ${profile.NAME}`} title={profile.NAME}>
+                  <svg viewBox="0 0 24 24" aria-hidden="true"><use href={`/social.svg#${profile.ICON}`} /></svg>
+                </a>
+              </div>
+            </div>
+          );
+        })}
+       </div>
+      </div>
     </div>
-    <p class="orbit-note">Choose your destination.</p>
+    <script is:inline src="/js/social-bg.js"></script>
+    <p class="orbit-note"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14.7 4.3c2.8-2.8 5.8-2.3 5.8-2.3s.5 3-2.3 5.8l-3.4 3.4-4.9-4.9 4.8-2Zm-5.9 3.1-3.5.7-2.4 2.4 4.1.8m6.7 1.8-.7 3.5-2.4 2.4-.8-4.1M7.4 16.6c-1.5 1.5-4.4 1.5-4.4 1.5s0-2.9 1.5-4.4c.8-.8 2.1-.8 2.9 0 .8.8.8 2.1 0 2.9Z"/></svg><span>Choose Your Destination</span></p>
     <div class="social-directory">
       {profiles.map(profile => <a href={profile.HREF} target="_blank" rel="noopener noreferrer"><svg width="26" height="26" fill="currentColor" aria-hidden="true"><use href={`/social.svg#${profile.ICON}`} /></svg><span><strong>{profile.NAME}</strong><small>{profile.TEXT}</small></span><span aria-hidden="true">↗</span></a>)}
     </div>

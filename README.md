@@ -26,9 +26,18 @@ The planet icon opens Themes and Options tabs. Midnight is the default; Deep Spa
 
 After the first successful encounter, Allow surprises appears in the menu. The Undo notification restores the prior palette or system setting; Options opens the Options tab, where Allow surprises can be disabled. Notifications dismiss after 12 seconds and pause while hovered or focused. Turning surprises off does not disable a deliberate manual summon. Reset to defaults restores Midnight, motion enabled, and surprises allowed while retaining the record of a previous encounter. Preferences are stored locally in the visitor's browser. Reduced-motion preferences suppress automatic encounters and ambient motion; a manual summon changes the palette without the flight.
 
-Shooting stars occur every 17–32 seconds, twinkles every 6–12 seconds, and slow satellites/rocks on varied paths every 45–85 seconds while visible and motion is enabled.
+Shooting stars occur every 6–12 seconds, twinkles every 1.5–3.5 seconds, and slow satellites/rocks on varied paths every 30–48 seconds while visible and motion is enabled. The starfield contains 520 stars with varied depth tiers.
 
 Run `node tests/atmosphere.cjs` for the preference and scheduling checks. These use a simulated clock and DOM; check the visual flight in the browser as well.
+
+## Visual Editor
+
+For local blog writing and visual content editing:
+- Run `npm run editor` in any terminal (macOS, Windows, Linux).
+- macOS: Double-click `scripts/start-editor.command`.
+- Windows: Double-click `scripts/start-editor.bat`.
+- Linux: Run `./scripts/start-editor.sh`.
+See [PUBLISHING.md](PUBLISHING.md) for full writing and publishing workflow instructions.
 
 ## Deployment
 
