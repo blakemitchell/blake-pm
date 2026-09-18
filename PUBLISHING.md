@@ -46,4 +46,4 @@ You do not need an LLM to write or publish. Keystatic runs locally; no paid CMS 
 
 ## Contact form
 
-Create a free Formspree form at https://formspree.io and choose your Gmail address as the recipient. Verify your email. Copy the public endpoint (like `https://formspree.io/f/abcdefgh`), not a password or API secret. Set `PUBLIC_CONTACT_FORM_URL` in Cloudflare's build environment and redeploy. Update the Privacy page to describe Formspree processing before enabling submissions. Gmail receives notifications; no Gmail SMTP password is required.
+The form uses the site's Cloudflare Worker, Turnstile, D1, and a private Discord webhook. It does not use email or a hosted form service. Complete the one-time Cloudflare and Discord configuration in [CONTACT_FORM.md](CONTACT_FORM.md) before enabling it in production.

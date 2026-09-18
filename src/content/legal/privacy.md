@@ -15,7 +15,7 @@ The site does not include advertising trackers or a visitor analytics script. Th
 
 ## Contact and social links
 
-The contact form is not currently accepting submissions. When message delivery is enabled, this page will be updated to explain how submitted details are handled.
+When you use the contact form, the name, email address, and message you provide are processed by Cloudflare Turnstile for abuse prevention and stored in a Cloudflare D1 database. A notification containing those details is also sent to a private Discord channel so Blake knows that a message arrived. Discord is a notification channel; the D1 record is the durable copy. This information is used only to read and respond to your message. Do not submit sensitive information through the form.
 
 Social links take you to external services. Their own privacy policies apply there; this site uses ordinary links rather than embedded social feeds. You can reach me through the profiles on the [Social page](/social).
 

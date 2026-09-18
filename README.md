@@ -14,9 +14,7 @@ Personal website built with Astro. Run `npm install`, then `npm run dev` to prev
 
 The production canonical address defaults to https://blake.pm; SITE_URL can override it.
 
-The contact form is intentionally disabled until a message-delivery service is configured. Set `PUBLIC_CONTACT_FORM_URL` to its public HTTPS form submission URL and rebuild. Configure the recipient privately in that service; do not put recipient addresses or API secrets in this repository or public environment variables. Verify delivery and the service's success/error behavior before publishing. The visitor's name, email, and message will be sent to that service.
-
-A factual Privacy page describes local preferences and the currently disabled contact form. Update it when enabling message delivery or analytics.
+The contact form uses a Cloudflare Worker endpoint, Turnstile, D1, and a Discord webhook notification. The production Turnstile site key is integrated; `PUBLIC_TURNSTILE_SITE_KEY` can override it for local testing. See [CONTACT_FORM.md](CONTACT_FORM.md) for the required D1 binding, secrets, migration, local testing, and production verification steps.
 
 Original theme attribution is retained in `LICENSE`.
 
@@ -41,4 +39,4 @@ See [PUBLISHING.md](PUBLISHING.md) for full writing and publishing workflow inst
 
 ## Deployment
 
-Cloudflare Workers Builds is connected to `blakemitchell/blake-pm`, production branch `main`. Build: `npm run build`; deploy: `npx wrangler deploy`. `wrangler.jsonc` serves `dist/` as static assets on blake.pm and www.blake.pm. No server-rendering adapter is required.
+Cloudflare Workers Builds is connected to `blakemitchell/blake-pm`, production branch `main`. Build: `npm run build`; deploy: `npx wrangler deploy`. `wrangler.jsonc` runs the small contact endpoint and serves `dist/` as static assets on blake.pm and www.blake.pm. No server-rendering adapter is required.

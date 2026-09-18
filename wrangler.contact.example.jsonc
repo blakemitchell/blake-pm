@@ -1,0 +1,11 @@
+{
+  // Copy the d1_databases block into wrangler.jsonc after creating the database.
+  "d1_databases": [
+    {
+      "binding": "CONTACTS_DB",
+      "database_name": "blake-pm-contacts",
+      "database_id": "REPLACE_WITH_YOUR_D1_DATABASE_ID",
+      "migrations_dir": "migrations"
+    }
+  ]
+}
