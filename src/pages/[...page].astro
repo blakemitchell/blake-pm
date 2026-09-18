@@ -1,0 +1,28 @@
+---
+import { type CollectionEntry, getCollection } from "astro:content"
+import PageLayout from "@layouts/PageLayout.astro"
+import TopLayout from "@layouts/TopLayout.astro"
+import BottomLayout from "@layouts/BottomLayout.astro"
+
+export async function getStaticPaths() {
+  const pages = await getCollection("pages")
+  return pages
+    .filter((page) => import.meta.env.DEV || !page.data.draft)
+    .map((page) => ({ params: { page: page.slug }, props: page }))
+}
+
+type Props = CollectionEntry<"pages">
+const page = Astro.props
+const { Content } = await page.render()
+---
+
+<PageLayout title={page.data.title} description={page.data.description}>
+  <TopLayout>
+    <h1 class="animate page-heading">{page.data.title}</h1>
+  </TopLayout>
+  <BottomLayout>
+    <article class="animate">
+      <Content />
+    </article>
+  </BottomLayout>
+</PageLayout>

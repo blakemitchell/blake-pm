@@ -24,7 +24,7 @@ const common = {
 const url = z.string().url()
 const text = z.string().min(1)
 
-export const postSchema = z.discriminatedUnion("post_type", [
+const normalizedPostSchema = z.discriminatedUnion("post_type", [
   z.object({ ...common, post_type: z.literal("article"), title: text, metadata: z.record(z.unknown()).default({}) }),
   z.object({ ...common, post_type: z.literal("link"), title: z.string().optional(), url, commentary: z.string().optional(), metadata: z.record(z.unknown()).default({}) }),
   z.object({ ...common, post_type: z.literal("quote"), title: z.string().optional(), quote_text: text, source_url: url.optional(), metadata: z.object({ attribution: z.string().optional() }).default({}) }),
@@ -42,6 +42,73 @@ export const postSchema = z.discriminatedUnion("post_type", [
   z.object({ ...common, post_type: z.literal("thread"), title: z.string().optional(), metadata: z.object({ posts: z.array(z.object({ text: text.max(140), created_at: z.coerce.date().optional() })).min(1) }) }),
   z.object({ ...common, post_type: z.literal("review"), title: text, url: url.optional(), metadata: z.object({ rating: z.number().min(0).max(5), item: z.string().optional() }) }),
 ])
+
+function normalizeEditorPost(input: unknown) {
+  if (!input || typeof input !== "object" || !("format" in input)) return input
+
+  const { format, ...shared } = input as Record<string, any>
+  if (!format || typeof format !== "object" || typeof format.discriminant !== "string") return input
+
+  const post_type = format.discriminant
+  const value = format.value && typeof format.value === "object" ? format.value : {}
+  const metadata: Record<string, unknown> = {}
+  const direct: Record<string, unknown> = {}
+
+  switch (post_type) {
+    case "link":
+      Object.assign(direct, { url: value.url, commentary: value.commentary, media_type: value.media_type })
+      break
+    case "quote":
+      Object.assign(direct, { quote_text: value.quote_text, source_url: value.source_url })
+      metadata.attribution = value.attribution
+      break
+    case "micro":
+      direct.text = value.text
+      break
+    case "video":
+    case "podcast":
+      Object.assign(direct, { url: value.url, caption: value.caption })
+      break
+    case "photo":
+      Object.assign(direct, { images: value.images, caption: value.caption })
+      Object.assign(metadata, { location: value.location, alt: value.alt })
+      break
+    case "bookmark":
+      direct.url = value.url
+      break
+    case "idea":
+      direct.text = value.text
+      metadata.promoted_to = value.promoted_to
+      break
+    case "reading":
+      Object.assign(metadata, { author: value.author, progress: value.progress, notes: value.notes })
+      break
+    case "music":
+      Object.assign(direct, { url: value.url, commentary: value.commentary })
+      break
+    case "event":
+      Object.assign(metadata, { starts_at: value.starts_at, ends_at: value.ends_at, location: value.location })
+      break
+    case "status":
+      direct.text = value.text
+      metadata.activity = value.activity
+      break
+    case "poll":
+      Object.assign(metadata, { question: value.question, options: value.options })
+      break
+    case "thread":
+      metadata.posts = value.posts
+      break
+    case "review":
+      direct.url = value.url
+      Object.assign(metadata, { item: value.item, rating: value.rating })
+      break
+  }
+
+  return { ...shared, ...direct, post_type, metadata }
+}
+
+export const postSchema = z.preprocess(normalizeEditorPost, normalizedPostSchema)
 
 const blog = defineCollection({ type: "content", schema: postSchema })
 
@@ -66,4 +133,14 @@ const legal = defineCollection({
   }),
 })
 
-export const collections = { work, blog, projects, legal }
+const pages = defineCollection({
+  type: "content",
+  schema: z.object({
+    title: text,
+    description: text,
+    draft: z.boolean().default(true),
+    updated_at: z.coerce.date().optional(),
+  }),
+})
+
+export const collections = { work, blog, projects, legal, pages }

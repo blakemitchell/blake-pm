@@ -18,7 +18,7 @@ npm run editor
 
 ## Write a post
 
-Posts can use 16 formats, including articles, links, quotes, short notes, media, photos, polls, threads, and reviews. Choose **Post type** first, then complete the fields that apply to that format. The normal site build enforces the requirements. See [POST_TYPES.md](POST_TYPES.md) for the complete field and feed reference.
+Posts can use 16 formats, including articles, links, quotes, short notes, media, photos, polls, threads, and reviews. **Article** is the default. Choose **Post type** first; the editor then shows only the fields used by that format. The normal site build enforces the requirements. See [POST_TYPES.md](POST_TYPES.md) for the complete field and feed reference.
 
 1. Open **Blog posts**, then **Create entry**.
 2. Choose the post type, then enter its content, short description, publication date, and optional tags. Fields identify the post types that use them; the **Type-specific details** section contains controls for quotes, photos, reading progress, events, statuses, polls, threads, and reviews. The editor title also supplies the file name; formats such as Micro and Status do not display it as a post title.
@@ -27,7 +27,13 @@ Posts can use 16 formats, including articles, links, quotes, short notes, media,
 5. Save. The title's slug is its address: preview `http://127.0.0.1:4322/blog/your-post-slug`. Drafts can be previewed locally but are excluded from the production build, blog listing, search, and RSS.
 6. When ready, clear **Draft** and save again.
 
-The editor supports all 16 post types. It also includes photo alt text, event start/end times, timestamped thread entries, poll options, reading progress, review details, and the other type-specific metadata. Fields for unrelated formats can remain blank. Saving a malformed post is possible because the content stays in portable Markdown/MDX; `npm run build` performs the final type-specific validation before publication.
+The editor supports all 16 post types. It includes photo alt text, event start/end times, timestamped thread entries, poll options, reading progress, review details, and the other type-specific metadata. Shared publishing fields and the optional body editor remain available across formats. `npm run build` performs final type-specific validation before publication.
+
+## Edit or create a page
+
+Open **Site pages** in Keystatic. The About page is managed there, and you can create additional prose pages with a title, search/sharing description, optional images, and rich text. The file name becomes a root-level address: a page saved as `uses.mdx` is available at `/uses`.
+
+Leave **Draft** checked until a new page is ready. Specialized pages such as Contact, Social, Blog, and the animated home page remain code-driven because their forms, feeds, and visual elements require application logic. A new page slug must not reuse one of those existing routes.
 
 Saving changes files in your local project folder. It does not publish immediately. Publication dates label/order posts; they are not a scheduling system.
 
@@ -47,6 +53,8 @@ git push origin main
 Create `public/images/blog` first if you have not added images. Only commit the changes you intend to publish. Wait for Cloudflare's deployment to succeed, then check the live post.
 
 You do not need an LLM to write or publish. Keystatic runs locally; no paid CMS account is required. The public build does not include its editor or API routes.
+
+The longer-term multi-site desktop editor direction is documented in [EDITOR_APP_PLAN.md](EDITOR_APP_PLAN.md).
 
 ## Contact form
 
