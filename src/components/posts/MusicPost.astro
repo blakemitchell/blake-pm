@@ -1,0 +1,6 @@
+---
+import { detectMediaType } from "@lib/posts"
+const { entry, Content } = Astro.props
+const spotify = detectMediaType(entry.data.url) === "spotify" ? entry.data.url.replace("open.spotify.com/", "open.spotify.com/embed/") : ""
+---
+<article>{spotify ? <iframe class="media-embed" src={spotify} title={entry.data.title || "Music"} loading="lazy" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"></iframe> : <a class="post-link-card" href={entry.data.url} target="_blank" rel="noopener noreferrer">Listen ↗</a>}{entry.data.commentary && <p>{entry.data.commentary}</p>}<Content /></article>

@@ -1,0 +1,4 @@
+---
+const { entry } = Astro.props
+---
+<article class="post-short"><span class="status-dot" aria-hidden="true"></span><p>{entry.data.text}</p>{entry.data.metadata.activity && <small>{entry.data.metadata.activity}</small>}</article>

@@ -18,6 +18,12 @@
     item.className = `social-${kind}`;
     item.style.left = `${4 + Math.random() * 90}%`;
     item.style.top = `${8 + Math.random() * 78}%`;
+    if (kind === "meteor") {
+      const angles = [-34, -20, 24, 38, 146, 164, 198, 216];
+      item.style.setProperty("--meteor-angle", `${angles[Math.floor(Math.random() * angles.length)]}deg`);
+      item.style.setProperty("--meteor-distance", `${240 + Math.random() * 220}px`);
+      item.style.setProperty("--meteor-width", `${65 + Math.random() * 70}px`);
+    }
     field.append(item);
     item.addEventListener("animationend", () => item.remove(), { once: true });
     setTimeout(() => item.remove(), 5000);

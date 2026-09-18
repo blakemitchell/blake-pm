@@ -1,0 +1,5 @@
+---
+const { entry, Content } = Astro.props
+const rating = entry.data.metadata.rating
+---
+<article class="post-review"><div class="review-rating" aria-label={`${rating} out of 5`}>{"★".repeat(Math.round(rating))}<span>{"★".repeat(5 - Math.round(rating))}</span> <b>{rating}/5</b></div><Content />{entry.data.url && <p><a href={entry.data.url} target="_blank" rel="noopener noreferrer">More information ↗</a></p>}</article>

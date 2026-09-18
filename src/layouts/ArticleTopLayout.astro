@@ -3,7 +3,7 @@ import type { CollectionEntry } from "astro:content"
 import { formatDate, readingTime } from "@lib/utils"
 
 type Props = {
-  entry: CollectionEntry<"projects"> | CollectionEntry<"blog">
+  entry: CollectionEntry<"projects">
 }
 
 const { entry } = Astro.props
@@ -38,7 +38,7 @@ const repoUrl = collection === "projects" ? data.repoUrl : null
       {readingTime(body)}
     </div>
   </div>
-  <h1 class="text-3xl font-semibold text-black dark:text-white mt-2">
+  <h1 class="page-heading mt-2">
     {title}
   </h1>
   <div class="mt-1">

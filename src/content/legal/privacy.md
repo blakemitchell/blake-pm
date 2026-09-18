@@ -19,6 +19,10 @@ When you use the contact form, the name, email address, and message you provide 
 
 Social links take you to external services. Their own privacy policies apply there; this site uses ordinary links rather than embedded social feeds. You can reach me through the profiles on the [Social page](/social).
 
+## Comments
+
+Blog discussions are provided by EchoThread. When comments are enabled, its widget loads from EchoThread and information you submit is handled under [EchoThread’s privacy policy](https://echothread.io/privacy). Comments are associated with the specific post rather than stored in this site’s Git repository.
+
 ## Media in posts
 
 Some posts may include media hosted by other services. Loading or playing embedded media can send ordinary request information to those providers. YouTube embeds use its privacy-enhanced domain. Those services apply their own privacy policies.

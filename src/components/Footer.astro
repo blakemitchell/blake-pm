@@ -7,6 +7,6 @@ import { SITE, SOCIALS } from "@consts"
     <div class="footer-icons">
       {SOCIALS.map(social => <a href={social.HREF} target={social.HREF.startsWith('/') ? undefined : '_blank'} rel="noopener noreferrer" aria-label={social.NAME === 'Contact' ? 'Contact Blake Mitchell' : `Blake Mitchell on ${social.NAME}`} title={social.NAME}><svg width="20" height="20" fill="currentColor" aria-hidden="true"><use href={`/social.svg#${social.ICON}`} /></svg></a>)}
     </div>
-    <div class="flex gap-5"><a class="privacy-link" href="/about-this-site">About this site</a><a class="privacy-link" href="/legal/privacy">Privacy</a></div>
+    <div class="flex gap-5"><a class="privacy-link" href="/about-this-site">About This Site</a><a class="privacy-link" href="/legal/privacy">Privacy</a></div>
   </div>
 </footer>

@@ -1,0 +1,4 @@
+---
+const { entry } = Astro.props
+---
+<article class="post-poll"><h2>{entry.data.metadata.question}</h2><ul>{entry.data.metadata.options.map((option:string) => <li>{option}</li>)}</ul><p class="post-detail">Static poll preview</p></article>

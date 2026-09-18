@@ -1,0 +1,5 @@
+---
+import { formatDate } from "@lib/utils"
+const { entry } = Astro.props
+---
+<article class="post-short"><p>{entry.data.text}</p><time datetime={entry.data.created_at.toISOString()}>{formatDate(entry.data.created_at)}</time></article>

@@ -1,0 +1,5 @@
+---
+const { entry, Content } = Astro.props
+const alt = entry.data.metadata.alt || []
+---
+<article><div class="photo-gallery">{entry.data.images.map((src:string, index:number) => <img src={src} alt={alt[index] || entry.data.caption || ""} loading="lazy" />)}</div>{entry.data.caption && <p>{entry.data.caption}</p>}{entry.data.metadata.location && <p class="post-detail">{entry.data.metadata.location}</p>}<Content /></article>

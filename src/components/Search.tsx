@@ -3,17 +3,19 @@ import { createEffect, createSignal } from "solid-js"
 import Fuse from "fuse.js"
 import ArrowCard from "@components/ArrowCard"
 import SearchBar from "@components/SearchBar"
+import { postSummary, postTitle } from "@lib/posts"
 
 type Props = {
-  data: CollectionEntry<"blog">[]
+  data: (CollectionEntry<"blog"> | CollectionEntry<"projects">)[]
 }
 
 export default function Search({ data }: Props) {
   const [query, setQuery] = createSignal("")
-  const [results, setResults] = createSignal<CollectionEntry<"blog">[]>([])
+  const [results, setResults] = createSignal<(CollectionEntry<"blog"> | CollectionEntry<"projects">)[]>([])
 
-  const fuse = new Fuse(data, {
-    keys: ["slug", "data.title", "data.summary", "data.tags"],
+  const searchable = data.map(entry => ({ entry, text: entry.collection === "blog" ? `${postTitle(entry)} ${postSummary(entry)} ${entry.data.tags.join(" ")}` : `${entry.data.title} ${entry.data.summary} ${entry.data.tags.join(" ")}` }))
+  const fuse = new Fuse(searchable, {
+    keys: ["entry.slug", "text"],
     includeMatches: true,
     minMatchCharLength: 2,
     threshold: 0.4,
@@ -23,7 +25,7 @@ export default function Search({ data }: Props) {
     if (query().length < 2) {
       setResults([])
     } else {
-      setResults(fuse.search(query()).map((result) => result.item))
+      setResults(fuse.search(query()).map((result) => result.item.entry))
     }
   })
 

@@ -1,0 +1,8 @@
+---
+import PostAudio from "@components/PostAudio.astro"
+import { detectMediaType } from "@lib/posts"
+const { entry, Content } = Astro.props
+const provider = detectMediaType(entry.data.url)
+const spotify = provider === "spotify" ? entry.data.url.replace("open.spotify.com/", "open.spotify.com/embed/") : ""
+---
+<article>{spotify ? <iframe class="media-embed" src={spotify} title={entry.data.caption || "Podcast"} loading="lazy" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"></iframe> : provider === "audio-file" ? <PostAudio url={entry.data.url} caption={entry.data.caption} /> : <a class="post-link-card" href={entry.data.url} target="_blank" rel="noopener noreferrer">Listen to the podcast ↗</a>}<Content /></article>

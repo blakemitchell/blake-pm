@@ -1,5 +1,6 @@
 import { formatDate, truncateText } from "@lib/utils"
 import type { CollectionEntry } from "astro:content"
+import { postDate, postSummary, postTitle } from "@lib/posts"
 
 type Props = {
   entry: CollectionEntry<"blog"> | CollectionEntry<"projects">
@@ -7,6 +8,10 @@ type Props = {
 }
 
 export default function ArrowCard({ entry, pill }: Props) {
+  const isPost = entry.collection === "blog"
+  const date = isPost ? postDate(entry) : entry.data.date
+  const title = isPost ? postTitle(entry) : entry.data.title
+  const summary = isPost ? postSummary(entry) : entry.data.summary
   return (
     <a href={`/${entry.collection}/${entry.slug}`} class="group p-4 gap-3 flex items-center border rounded-lg hover:bg-black/5 hover:dark:bg-white/10 border-black/15 dark:border-white/20 transition-colors duration-300 ease-in-out">
       <div class="w-full group-hover:text-black group-hover:dark:text-white blend">
@@ -17,15 +22,15 @@ export default function ArrowCard({ entry, pill }: Props) {
             </div>
           }
           <div class="text-sm uppercase">
-            {formatDate(entry.data.date)}
+            {formatDate(date)}
           </div>
         </div>
         <div class="font-semibold mt-3 text-black dark:text-white line-clamp-2">
-          {entry.data.title}
+          {title}
         </div>
 
         <div class="text-sm line-clamp-2">
-          {entry.data.summary}
+          {summary}
         </div>
         <ul class="flex flex-wrap mt-2 gap-1">
           {entry.data.tags.map((tag: string) => ( // this line has an error; Parameter 'tag' implicitly has an 'any' type.ts(7006)

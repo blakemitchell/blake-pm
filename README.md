@@ -16,6 +16,8 @@ The production canonical address defaults to https://blake.pm; SITE_URL can over
 
 The contact form uses a Cloudflare Worker endpoint, Turnstile, D1, and a Discord webhook notification. The production Turnstile site key is integrated; `PUBLIC_TURNSTILE_SITE_KEY` can override it for local testing. See [CONTACT_FORM.md](CONTACT_FORM.md) for the required D1 binding, secrets, migration, local testing, and production verification steps.
 
+Writing supports 16 validated post formats, static format feeds, and optional EchoThread comments. See [POST_TYPES.md](POST_TYPES.md) for frontmatter requirements, feed routes, and the EchoThread build variable.
+
 Original theme attribution is retained in `LICENSE`.
 
 ## Atmospheres and surprises

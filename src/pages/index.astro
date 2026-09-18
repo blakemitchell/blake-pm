@@ -3,10 +3,13 @@ import { getCollection } from "astro:content"
 import PageLayout from "@layouts/PageLayout.astro"
 import ArrowCard from "@components/ArrowCard"
 import { SITE } from "@consts"
+import { postDate, validatePostBody } from "@lib/posts"
 
 const posts = (await getCollection("blog"))
+  .map(validatePostBody)
   .filter(post => !post.data.draft)
-  .sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
+  .filter(post => ["article", "review"].includes(post.data.post_type))
+  .sort((a, b) => postDate(b).getTime() - postDate(a).getTime())
   .slice(0,3)
 
 ---
@@ -44,13 +47,13 @@ const posts = (await getCollection("blog"))
             <stop offset="100%" stop-color="var(--glow)" stop-opacity="0.2" />
           </linearGradient>
         </defs>
-        <path class="horizon-ground" d="M-500 485 Q800 60 2100 485 V700 H-500Z" />
+        <path class="horizon-ground" d="M-500 505 Q800 20 2100 505 V700 H-500Z" />
         <g class="aurora-ribbons" fill="none">
-          <path class="ribbon-halo" d="M-500 485 Q800 60 2100 485" stroke="url(#horizon-colors)" />
-          <path class="ribbon-curtain" d="M-500 472 Q800 34 2100 472" stroke="url(#aurora-celestial)" />
-          <path class="ribbon-one" d="M-500 476 Q800 44 2100 476" stroke="url(#horizon-colors)" />
-          <path class="ribbon-two" d="M-500 481 Q800 53 2100 481" stroke="url(#aurora-celestial)" />
-          <path class="horizon-rim" d="M-500 485 Q800 60 2100 485" stroke="url(#aurora-rim-gradient)" />
+          <path class="ribbon-halo" d="M-500 505 Q800 20 2100 505" stroke="url(#horizon-colors)" />
+          <path class="ribbon-curtain" d="M-500 492 Q800 -6 2100 492" stroke="url(#aurora-celestial)" />
+          <path class="ribbon-one" d="M-500 496 Q800 4 2100 496" stroke="url(#horizon-colors)" />
+          <path class="ribbon-two" d="M-500 501 Q800 13 2100 501" stroke="url(#aurora-celestial)" />
+          <path class="horizon-rim" d="M-500 505 Q800 20 2100 505" stroke="url(#aurora-rim-gradient)" />
         </g>
       </svg>
     </div>
@@ -58,14 +61,15 @@ const posts = (await getCollection("blog"))
       <div class='hero-copy-inner relative w-full h-full flex items-center justify-center'>
         <div class='p-5 text-center'>
           <p class='animated text-lg md:text-xl lg:text-2xl font-semibold opacity-75'>
-            Hello, I’m
+            Field notes from
           </p>
           <p class='animated text-2xl md:text-3xl lg:text-4xl font-bold uppercase text-black dark:text-white'>
             {SITE.AUTHOR}
           </p>
           <p class='animated text-sm md:text-base lg:text-lg opacity-75'>
-            A place for notes, ideas, and what comes next.
+            Curiosity, technology, and whatever deserves a closer look.
           </p>
+          <!-- Home-page calls to action are intentionally paused while this introduction evolves.
           <div id="ctaButtons" class='animated flex flex-wrap gap-4 justify-center mt-5'>
             <a href='/blog' class='hero-action'>
               Read my blog
@@ -74,6 +78,7 @@ const posts = (await getCollection("blog"))
               About me
             </a>
           </div>
+          -->
         </div>
       </div>
     </div>
@@ -83,10 +88,13 @@ const posts = (await getCollection("blog"))
     <div class="mx-auto max-w-screen-md p-5 space-y-12 pb-16">
 
       <!-- About Section -->
-      <section class="animate">
+      <section class="animate home-about">
+        <div class="home-vignette" aria-hidden="true">
+          <img src="/images/site/field-notes-journal.webp" alt="" width="1000" height="667" />
+        </div>
         <article>
-          <p>Welcome. I’m Blake, and this is my little corner of the web.</p>
-          <p>I’m still shaping what this space will become. For now, it’s a home for writing, ideas, and the things I want to share along the way.</p>
+          <p>I’m Blake. This is where I collect observations, experiments, and ideas that are still taking shape.</p>
+          <p>Expect writing about technology, work, culture, and whatever else pulls me into its orbit.</p>
         </article>
       </section>
 
@@ -95,11 +103,11 @@ const posts = (await getCollection("blog"))
         <div class="space-y-4">
           <div class="flex justify-between">
             <p class="font-semibold text-black dark:text-white">
-              Recent posts
+              Recent Posts
             </p>
             <a href="/blog" class="w-fit col-span-3 group flex gap-1 items-center underline decoration-[.5px] decoration-black/25 dark:decoration-white/50 hover:decoration-black dark:hover:decoration-white text-black dark:text-white underline-offset-2 blend">
               <span class="text-black/75 dark:text-white/75 group-hover:text-black group-hover:dark:text-white blend">
-                All posts
+                All Posts
               </span>
             </a>
           </div>

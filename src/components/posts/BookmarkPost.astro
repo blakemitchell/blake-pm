@@ -1,0 +1,6 @@
+---
+import { domainFor } from "@lib/posts"
+const { entry } = Astro.props
+const domain = domainFor(entry.data.url)
+---
+<article><a class="post-link-card" href={entry.data.url} target="_blank" rel="noopener noreferrer"><img src={`https://www.google.com/s2/favicons?domain=${domain}&sz=64`} width="24" height="24" alt="" /><span><strong>{entry.data.title || "Saved Link"}</strong><small>{domain}</small></span><b aria-hidden="true">↗</b></a></article>

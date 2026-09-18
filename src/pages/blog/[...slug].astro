@@ -3,13 +3,15 @@ import { type CollectionEntry, getCollection } from "astro:content"
 import PageLayout from "@layouts/PageLayout.astro"
 import TopLayout from "@layouts/TopLayout.astro"
 import BottomLayout from "@layouts/BottomLayout.astro"
-import ArticleTopLayout from "@layouts/ArticleTopLayout.astro"
-import ArticleBottomLayout from "@layouts/ArticleBottomLayout.astro"
+import PostRenderer from "@components/posts/PostRenderer.astro"
+import EchoThread from "@components/EchoThread.astro"
+import { formatDate, readingTime } from "@lib/utils"
+import { postDate, postSummary, postTitle, validatePostBody } from "@lib/posts"
 
 // Create the static blog pages
 export async function getStaticPaths() {
 	const posts = await getCollection("blog")
-	return posts.filter(post => import.meta.env.DEV || !post.data.draft).map((post) => ({
+	return posts.map(validatePostBody).filter(post => import.meta.env.DEV || !post.data.draft).map((post) => ({
 		params: { slug: post.slug },
 		props: post,
 	}))
@@ -17,19 +19,27 @@ export async function getStaticPaths() {
 
 // Get the requested post
 type Props = CollectionEntry<"blog">
-const post = Astro.props
-const { title, summary } = post.data
+const post = validatePostBody(Astro.props)
+const title = postTitle(post)
+const summary = postSummary(post)
+const date = postDate(post)
+const { Content } = await post.render()
+const pageUrl = new URL(`/blog/${post.slug}/`, Astro.site).toString()
 ---
 
 <PageLayout title={title} description={summary}>
   <TopLayout>
     <div class="animate">
-      <ArticleTopLayout entry={post}/>
+      <a href="/blog" class="post-back">← Back to Posts</a>
+      <div class="post-kicker"><span>{post.data.post_type}</span><time datetime={date.toISOString()}>{formatDate(date)}</time>{post.data.post_type === "article" && <span>{readingTime(post.body)}</span>}</div>
+      <h1 class="page-heading mt-2">{title}</h1>
+      {summary !== title && <p class="mt-1">{summary}</p>}
     </div>
   </TopLayout>
   <BottomLayout>
     <div class="animate">
-      <ArticleBottomLayout entry={post} />
+      <PostRenderer entry={post} Content={Content} />
+      <EchoThread identifier={`post-${post.slug}`} title={title} pageUrl={pageUrl} />
     </div>
   </BottomLayout>
 </PageLayout>

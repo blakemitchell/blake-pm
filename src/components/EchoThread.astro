@@ -1,0 +1,10 @@
+---
+const { identifier, title, pageUrl } = Astro.props
+// EchoThread site keys are exposed in the widget HTML and scoped to the registered domain.
+const apiKey = import.meta.env.PUBLIC_ECHOTHREAD_API_KEY?.trim() || "YncqWYmsomsSq4Xqafwxek8eSNTbEmQ3TJFXBEO8rlk"
+---
+{apiKey && <section class="comments-section" aria-label="Comments">
+  <h2>Conversation</h2>
+  <div id="echothread" data-api-key={apiKey} data-page-url={pageUrl} data-identifier={identifier} data-page-title={title} data-theme-source="--surface" data-font-family="inherit" data-radius="12px"></div>
+  <script is:inline src="https://cdn.echothread.io/widget.js" async></script>
+</section>}

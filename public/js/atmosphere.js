@@ -31,7 +31,7 @@
   const frequencyLabels = ["", "Very low", "Low", "Balanced", "High", "Very high"];
   const auroraSpeeds = {
     1: ["20s", "17s", "22s"], 2: ["15s", "12s", "17s"], 3: ["11s", "9s", "12s"],
-    4: ["8s", "6.5s", "9s"], 5: ["5.5s", "4.5s", "6.5s"],
+    4: ["8s", "6.5s", "9s"], 5: ["3.67s", "3s", "4.33s"],
   };
   function updateMotionSettings() {
     const settings = { debris: debrisFrequency, stars: starFrequency, aurora: auroraFrequency };

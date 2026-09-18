@@ -1,0 +1,4 @@
+---
+const { entry } = Astro.props
+---
+<article class="post-quote"><blockquote>{entry.data.quote_text}</blockquote>{entry.data.metadata.attribution && <p>— {entry.data.metadata.attribution}</p>}{entry.data.source_url && <a href={entry.data.source_url} target="_blank" rel="noopener noreferrer">Source ↗</a>}</article>

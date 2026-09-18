@@ -1,0 +1,23 @@
+---
+import ArticlePost from "./ArticlePost.astro"
+import LinkPost from "./LinkPost.astro"
+import QuotePost from "./QuotePost.astro"
+import MicroPost from "./MicroPost.astro"
+import VideoPost from "./VideoPost.astro"
+import PodcastPost from "./PodcastPost.astro"
+import PhotoPost from "./PhotoPost.astro"
+import BookmarkPost from "./BookmarkPost.astro"
+import IdeaPost from "./IdeaPost.astro"
+import ReadingPost from "./ReadingPost.astro"
+import MusicPost from "./MusicPost.astro"
+import EventPost from "./EventPost.astro"
+import StatusPost from "./StatusPost.astro"
+import PollPost from "./PollPost.astro"
+import ThreadPost from "./ThreadPost.astro"
+import ReviewPost from "./ReviewPost.astro"
+
+const { entry, Content } = Astro.props
+const components = { article:ArticlePost, link:LinkPost, quote:QuotePost, micro:MicroPost, video:VideoPost, podcast:PodcastPost, photo:PhotoPost, bookmark:BookmarkPost, idea:IdeaPost, reading:ReadingPost, music:MusicPost, event:EventPost, status:StatusPost, poll:PollPost, thread:ThreadPost, review:ReviewPost }
+const Renderer = components[entry.data.post_type as keyof typeof components]
+---
+<Renderer entry={entry} Content={Content} />

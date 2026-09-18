@@ -7,13 +7,13 @@ import BottomLayout from "@layouts/BottomLayout.astro"
 const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY?.trim() || "0x4AAAAAAE7GmaXoWDVXSoHJ"
 const enabled = Boolean(turnstileSiteKey)
 ---
-<PageLayout title="Contact" description="Get in touch with Blake Mitchell.">
-  <TopLayout><h1 class="animate page-heading">Get in touch</h1></TopLayout>
+<PageLayout title="Contact" description="Start a conversation with Blake Mitchell.">
+  <TopLayout><h1 class="animate page-heading">Let’s Chat</h1></TopLayout>
   <BottomLayout>
     <div class="animate space-y-8">
-      <p>Have a question or something you’d like to share? Leave me a message.</p>
-      <p id="form-status" role="status" aria-live="polite" class:list={["form-status rounded-lg border p-4 text-sm", { "form-status-idle": enabled }]}>
-        {enabled ? "Messages are stored so Blake can read and reply to them." : "This form isn’t accepting messages yet. Please check back soon."}
+      <p>Interested in a conversation? Send a message through the form below or jump over to one of my <a href="/social">social accounts</a> and message me there.</p>
+      <p id="form-status" role="status" aria-live="polite" hidden={enabled} class:list={["form-status text-sm", { "form-status-idle": enabled }]}>
+        {!enabled && "This form isn’t accepting messages yet. Please check back soon."}
       </p>
       <form id="contact-form" action="/api/contact" method="POST" class="space-y-6" aria-describedby="form-status">
         <fieldset disabled={!enabled} class="space-y-6">
@@ -35,7 +35,7 @@ const enabled = Boolean(turnstileSiteKey)
             <textarea id="contact-message" name="message" rows="7" required minlength="10" maxlength="5000"></textarea>
           </div>
           {enabled && <div id="contact-turnstile" data-sitekey={turnstileSiteKey}></div>}
-          <button id="contact-submit" type="submit" class="rounded px-5 py-3 bg-black text-white dark:bg-white dark:text-black hover:opacity-75 disabled:opacity-40 disabled:cursor-not-allowed">Send message</button>
+          <button id="contact-submit" type="submit" class="hero-action disabled:opacity-40 disabled:cursor-not-allowed">Send message</button>
         </fieldset>
       </form>
     </div>
@@ -48,7 +48,7 @@ const enabled = Boolean(turnstileSiteKey)
     window.contactTurnstileWidgetId = window.turnstile.render(container, {
       sitekey: container.dataset.sitekey,
       action: "contact",
-      theme: "auto",
+      theme: "dark",
     });
   };
 </script>}
@@ -65,7 +65,8 @@ const enabled = Boolean(turnstileSiteKey)
       if (!form.reportValidity() || submit.disabled) return;
       submit.disabled = true;
       submit.textContent = "Sending…";
-      status.className = "form-status rounded-lg border p-4 text-sm form-status-idle";
+      status.hidden = false;
+      status.className = "form-status text-sm form-status-idle";
       status.textContent = "Sending your message…";
       try {
         const response = await fetch(form.action, { method: "POST", body: new FormData(form), headers: { accept: "application/json" } });
@@ -90,7 +91,7 @@ const enabled = Boolean(turnstileSiteKey)
   input, textarea { width: 100%; border: 1px solid rgb(128 128 128 / 45%); border-radius: .5rem; padding: .75rem; background: transparent; color: inherit; }
   input:focus-visible, textarea:focus-visible { outline: 2px solid currentColor; outline-offset: 3px; }
   .contact-honeypot { position: absolute; left: -10000px; width: 1px; height: 1px; overflow: hidden; }
-  .form-status-idle { border-color: color-mix(in srgb, var(--ink) 18%, transparent); }
+  .form-status-idle { color: var(--muted); }
   .form-status-success { border-color: color-mix(in srgb, #56c98f 65%, var(--ink)); background: color-mix(in srgb, #56c98f 9%, transparent); color: var(--ink); }
   .form-status-error { border-color: color-mix(in srgb, #e57676 65%, var(--ink)); background: color-mix(in srgb, #e57676 9%, transparent); color: var(--ink); }
 </style>

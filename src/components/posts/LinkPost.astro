@@ -1,0 +1,8 @@
+---
+import { detectMediaType, domainFor } from "@lib/posts"
+const { entry, Content } = Astro.props
+const { url, commentary } = entry.data
+const domain = domainFor(url)
+const media = entry.data.media_type || detectMediaType(url)
+---
+<article class="post-link"><a class="post-link-card" href={url} target="_blank" rel="noopener noreferrer"><img src={`https://www.google.com/s2/favicons?domain=${domain}&sz=64`} width="24" height="24" alt="" /><span><strong>{entry.data.title || domain}</strong><small>{domain} · {media}</small></span><b aria-hidden="true">↗</b></a>{commentary && <p>{commentary}</p>}<Content /></article>

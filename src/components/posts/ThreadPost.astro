@@ -1,0 +1,4 @@
+---
+const { entry } = Astro.props
+---
+<article class="post-thread"><ol>{entry.data.metadata.posts.map((post:{text:string,created_at?:Date}, index:number) => <li><span>{index + 1}</span><p>{post.text}</p>{post.created_at && <time datetime={post.created_at.toISOString()}>{post.created_at.toLocaleString()}</time>}</li>)}</ol></article>

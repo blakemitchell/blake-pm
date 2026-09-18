@@ -1,0 +1,4 @@
+---
+const { entry, Content } = Astro.props
+---
+<article><div class="reading-progress"><span>Reading progress</span><strong>{entry.data.metadata.progress}%</strong><progress max="100" value={entry.data.metadata.progress}></progress></div>{entry.data.metadata.author && <p>By {entry.data.metadata.author}</p>}{entry.data.metadata.notes && <p>{entry.data.metadata.notes}</p>}<Content /></article>

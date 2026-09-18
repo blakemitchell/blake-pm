@@ -5,10 +5,13 @@ import TopLayout from "@layouts/TopLayout.astro";
 import BottomLayout from "@layouts/BottomLayout.astro";
 import SearchCollection from "@components/SearchCollection.astro";
 import { BLOG } from "@consts";
+import { postDate, validatePostBody } from "@lib/posts";
 
 const posts = (await getCollection("blog"))
+  .map(validatePostBody)
   .filter((post) => !post.data.draft)
-  .sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+  .filter((post) => ["article", "review"].includes(post.data.post_type))
+  .sort((a, b) => postDate(b).getTime() - postDate(a).getTime());
 
 const tags = [...new Set(posts.flatMap((post) => post.data.tags))].sort(
   (a, b) => a.localeCompare(b),
@@ -21,7 +24,7 @@ const estimated_initial_size =
 <PageLayout title={BLOG.TITLE} description={BLOG.DESCRIPTION}>
   <TopLayout>
     <div class="animate">
-      <h1 class="text-3xl font-semibold text-black dark:text-white mt-2">
+      <h1 class="page-heading mt-2">
         {BLOG.TITLE}
       </h1>
       <div class="mt-1">

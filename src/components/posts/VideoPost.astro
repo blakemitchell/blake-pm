@@ -1,0 +1,5 @@
+---
+import PostVideo from "@components/PostVideo.astro"
+const { entry, Content } = Astro.props
+---
+<article><PostVideo url={entry.data.url} caption={entry.data.caption} /><Content /></article>

@@ -1,17 +1,19 @@
 ---
 const { url, caption = '' } = Astro.props
-let source = ''; let youtube = '';
+let source = ''; let youtube = ''; let vimeo = '';
 try {
   const parsed = new URL(url);
   if (parsed.protocol === 'https:') {
     if (['youtube.com', 'www.youtube.com', 'm.youtube.com'].includes(parsed.hostname)) youtube = parsed.searchParams.get('v') || parsed.pathname.split('/').pop() || '';
     else if (parsed.hostname === 'youtu.be') youtube = parsed.pathname.slice(1);
+    else if (['vimeo.com', 'www.vimeo.com', 'player.vimeo.com'].includes(parsed.hostname)) vimeo = parsed.pathname.split('/').filter(Boolean).pop() || '';
     else if (/\.(mp4|webm)$/i.test(parsed.pathname)) source = parsed.href;
   }
 } catch {}
 if (!/^[a-zA-Z0-9_-]{11}$/.test(youtube)) youtube = '';
+if (!/^\d+$/.test(vimeo)) vimeo = '';
 ---
 <figure>
-{youtube ? <iframe width="720" height="405" style="width:100%;height:auto;aspect-ratio:16/9;border:0" src={`https://www.youtube-nocookie.com/embed/${youtube}`} title={caption || 'Video'} loading="lazy" allow="fullscreen; picture-in-picture" allowfullscreen referrerpolicy="strict-origin-when-cross-origin" /> : source ? <video controls preload="metadata" src={source} style="width:100%">Your browser does not support this video.</video> : <p>Video unavailable.</p>}
+{youtube ? <iframe width="720" height="405" style="width:100%;height:auto;aspect-ratio:16/9;border:0" src={`https://www.youtube-nocookie.com/embed/${youtube}`} title={caption || 'Video'} loading="lazy" allow="fullscreen; picture-in-picture" allowfullscreen referrerpolicy="strict-origin-when-cross-origin" /> : vimeo ? <iframe width="720" height="405" style="width:100%;height:auto;aspect-ratio:16/9;border:0" src={`https://player.vimeo.com/video/${vimeo}`} title={caption || 'Video'} loading="lazy" allow="fullscreen; picture-in-picture" allowfullscreen referrerpolicy="strict-origin-when-cross-origin" /> : source ? <video controls preload="metadata" src={source} style="width:100%">Your browser does not support this video.</video> : <p>Video unavailable.</p>}
 {caption && <figcaption>{caption}</figcaption>}
 </figure>

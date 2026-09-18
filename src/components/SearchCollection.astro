@@ -1,6 +1,7 @@
 ---
 import ArrowCard from "@components/ArrowCard"
 import type { CollectionEntry } from "astro:content"
+import { postDate, postSummary, postTitle } from "@lib/posts"
 interface Props {
   entry_name: string
   tags: string[]
@@ -17,7 +18,13 @@ const { entry_name, tags, data } = Astro.props
   </div>
   <div>
     <div class="collection-summary"><p aria-live="polite">Showing <span data-count>{data.length}</span> of {data.length} {entry_name}</p><button type="button" data-sort hidden>Newest first ↓</button></div>
-    <ul class="space-y-3" data-entries>{data.map(entry => <li data-entry data-search-text={`${entry.data.title} ${entry.data.summary} ${entry.data.tags.join(' ')}`.toLowerCase()} data-tags={JSON.stringify(entry.data.tags.map(tag => tag.toLowerCase()))} data-date={entry.data.date.getTime()}><ArrowCard entry={entry} /></li>)}</ul>
+    <ul class="space-y-3" data-entries>{data.map(entry => {
+      const isPost = entry.collection === "blog"
+      const title = isPost ? postTitle(entry) : entry.data.title
+      const summary = isPost ? postSummary(entry) : entry.data.summary
+      const date = isPost ? postDate(entry) : entry.data.date
+      return <li data-entry data-search-text={`${title} ${summary} ${entry.data.tags.join(' ')}`.toLowerCase()} data-tags={JSON.stringify(entry.data.tags.map(tag => tag.toLowerCase()))} data-date={date.getTime()}><ArrowCard entry={entry} /></li>
+    })}</ul>
     <p data-empty hidden class="py-8">No matching {entry_name}. Try a different search or clear the filters.</p>
   </div>
 </div>

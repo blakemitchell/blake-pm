@@ -1,0 +1,8 @@
+---
+import { getCollection } from "astro:content"
+import ArrowCard from "@components/ArrowCard"
+import { postDate, validatePostBody } from "@lib/posts"
+const { types } = Astro.props
+const posts = (await getCollection("blog")).map(validatePostBody).filter(post => !post.data.draft && types.includes(post.data.post_type)).sort((a,b) => postDate(b).getTime() - postDate(a).getTime())
+---
+{posts.length ? <ul class="space-y-4">{posts.map(post => <li><ArrowCard entry={post} /></li>)}</ul> : <p class="empty-feed">Nothing has landed here yet.</p>}

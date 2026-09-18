@@ -18,8 +18,10 @@ npm run editor
 
 ## Write a post
 
+Posts can use 16 formats, including articles, links, quotes, short notes, media, photos, polls, threads, and reviews. Choose **Post type** first, then complete the fields that apply to that format. The normal site build enforces the requirements. See [POST_TYPES.md](POST_TYPES.md) for the complete field and feed reference.
+
 1. Open **Blog posts**, then **Create entry**.
-2. Enter the title, short description, publication date, and optional tags.
+2. Choose the post type, then enter its content, short description, publication date, and optional tags. The editor title also supplies the file name; formats such as Micro and Status do not display it as a post title.
 3. Leave **Draft** checked while writing. Use the writing toolbar for headings, lists, links, and images. Images are copied into the site project.
 4. Use **Video** for a YouTube URL or a direct HTTPS MP4/WebM URL, or **Audio** for a direct audio-file URL. Large media should live on a media service; images can stay in this project.
 5. Save. The title's slug is its address: preview `http://127.0.0.1:4322/blog/your-post-slug`. Drafts can be previewed locally but are excluded from the production build, blog listing, search, and RSS.
