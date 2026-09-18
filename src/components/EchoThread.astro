@@ -5,7 +5,15 @@ const apiKey = import.meta.env.PUBLIC_ECHOTHREAD_API_KEY?.trim() || "YncqWYmsoms
 ---
 {apiKey && <section class="comments-section" aria-label="Comments">
   <h2>Conversation</h2>
-  <div id="echothread" data-api-key={apiKey} data-page-url={pageUrl} data-identifier={identifier} data-page-title={title} data-theme-source="--surface" data-font-family="inherit" data-radius="12px"></div>
+  <details class="comments-disclosure">
+    <summary>
+      <span class="comments-expand-label">Click to expand</span>
+      <span class="comments-collapse-label">Click to collapse</span>
+    </summary>
+    <div class="comments-content">
+      <div id="echothread" data-api-key={apiKey} data-page-url={pageUrl} data-identifier={identifier} data-page-title={title} data-theme-source="--surface" data-accent-color="var(--accent)" data-font-family="inherit" data-radius="12px"></div>
+    </div>
+  </details>
   <script is:inline src="https://cdn.echothread.io/widget.js" async></script>
   <script is:inline>
     (() => {
