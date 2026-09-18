@@ -7,4 +7,44 @@ const apiKey = import.meta.env.PUBLIC_ECHOTHREAD_API_KEY?.trim() || "YncqWYmsoms
   <h2>Conversation</h2>
   <div id="echothread" data-api-key={apiKey} data-page-url={pageUrl} data-identifier={identifier} data-page-title={title} data-theme-source="--surface" data-font-family="inherit" data-radius="12px"></div>
   <script is:inline src="https://cdn.echothread.io/widget.js" async></script>
+  <script is:inline>
+    (() => {
+      const root = document.documentElement
+      let refreshFrame = 0
+      let refreshAttempts = 0
+
+      const refreshEchoThread = () => {
+        const mount = document.getElementById("echothread")
+        if (!mount) return
+
+        if (window.EchoThread?.bootstrap) {
+          refreshAttempts = 0
+          window.EchoThread.bootstrap()
+          return
+        }
+
+        // The widget script loads asynchronously, so allow a theme change made
+        // during startup to finish once its public bootstrap method is ready.
+        if (refreshAttempts < 20) {
+          refreshAttempts += 1
+          window.setTimeout(refreshEchoThread, 100)
+        }
+      }
+
+      const observer = new MutationObserver((mutations) => {
+        if (!mutations.some(({ attributeName }) => attributeName === "data-atmosphere")) return
+
+        window.cancelAnimationFrame(refreshFrame)
+        refreshFrame = window.requestAnimationFrame(() => {
+          // Let the new atmosphere variables reach computed styles first.
+          refreshFrame = window.requestAnimationFrame(refreshEchoThread)
+        })
+      })
+
+      observer.observe(root, {
+        attributes: true,
+        attributeFilter: ["data-atmosphere"],
+      })
+    })()
+  </script>
 </section>}
