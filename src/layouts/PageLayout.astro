@@ -5,14 +5,14 @@ import Header from "@components/Header.astro"
 import Footer from "@components/Footer.astro"
 import Atmosphere from "@components/Atmosphere.astro"
 import Drawer from "@components/Drawer.astro"
-const { title, description } = Astro.props
+const { title, description, noindex = false } = Astro.props
 import { SITE } from "@consts"
 ---
 
 <!doctype html>
 <html lang="en">
   <head>
-    <BaseHead title={`${title} | ${SITE.TITLE}`} description={description} />
+    <BaseHead title={`${title} | ${SITE.TITLE}`} description={description} noindex={noindex} />
   </head>
   <body>
     <Header />
