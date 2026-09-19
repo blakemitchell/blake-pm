@@ -12,8 +12,8 @@
     stars.append(star);
   }
   const enabled = () => !document.hidden && document.documentElement.dataset.motion === "on";
-  // Level 3 remains the baseline. Level 5 is twice the former maximum frequency.
-  const frequencyFactor = [0, 2.2, 1.5, 1, 0.68, 0.21];
+  // Level 3 remains the baseline. Level 5 doubles the previous maximum again.
+  const frequencyFactor = [0, 2.2, 1.5, 1, 0.4, 0.105];
   const settings = { debris: 3, stars: 3 };
   const timers = {};
   const ranges = { meteor: [5000, 10000, "stars"], twinkle: [1200, 3000, "stars"], traveler: [30000, 48000, "debris"] };
@@ -35,6 +35,7 @@
       node.style.setProperty("--meteor-angle", `${angles[Math.floor(Math.random() * angles.length)]}deg`);
       node.style.setProperty("--meteor-distance", `${280 + Math.random() * 260}px`);
       node.style.setProperty("--meteor-width", `${70 + Math.random() * 75}px`);
+      node.style.setProperty("--meteor-thickness", `${(1 + Math.random() * 1.6).toFixed(1)}px`);
     }
     if (kind === "traveler") {
       if (!travelers.length) return;

@@ -8,6 +8,8 @@ Personal website built with Astro. Run `npm install`, then `npm run dev` to prev
 - Homepage: `src/pages/index.astro`
 - Blog posts: `src/content/blog/`
 - Contact form: `src/pages/contact.astro`
+- Ordinary pages, including About Me and About This Site: `src/content/pages/`
+- Privacy: `src/content/legal/privacy.mdx`
 - Projects are still theme placeholders, pending a content decision.
 
 ## Before publishing
@@ -22,11 +24,11 @@ Original theme attribution is retained in `LICENSE`.
 
 ## Atmospheres and surprises
 
-The planet icon opens Themes and Options tabs. Midnight is the default; Deep Space is monochrome, with Eclipse, Aurora, and softened Lunar Day as alternatives. Follow system appearance is optional and maps dark to Midnight and light to Lunar Day. "Take me to your leader" triggers an immediate saucer visit. A visible page can also trigger one at 11:11:11 AM in the visitor's local time, once per local day. Sleeping devices/background tabs do not replay missed encounters.
+The planet icon opens Themes and Options tabs. Earth is the default. The menu lists Sol through Neptune in distance order, followed by Sagittarius A*, the black-and-white theme. Pluto appears between Neptune and Sagittarius A* only after a successful saucer visit. "Take me to your leader" triggers an immediate visit. A visible page can also trigger one at 11:11:11 AM in the visitor's local time, once per local day. Sleeping devices/background tabs do not replay missed encounters.
 
-After the first successful encounter, Allow surprises appears in the menu. The Undo notification restores the prior palette or system setting; Options opens the Options tab, where Allow surprises can be disabled. Notifications dismiss after 12 seconds and pause while hovered or focused. Turning surprises off does not disable a deliberate manual summon. Reset to defaults restores Midnight, motion enabled, and surprises allowed while retaining the record of a previous encounter. Preferences are stored locally in the visitor's browser. Reduced-motion preferences suppress automatic encounters and ambient motion; a manual summon changes the palette without the flight.
+After the first successful encounter, Allow surprises appears in the menu. The Undo notification restores the prior palette; Options opens the Options tab, where Allow surprises can be disabled. Notifications dismiss after 12 seconds and pause while hovered or focused. Turning surprises off does not disable a deliberate manual summon. Reset to defaults restores Earth, balanced motion settings, and surprises allowed; it also hides Pluto and Allow surprises until the next visit. Preferences are stored locally in the visitor's browser. Reduced-motion preferences suppress automatic encounters and ambient motion; a manual summon changes the palette without the flight.
 
-Shooting stars occur every 6–12 seconds, twinkles every 1.5–3.5 seconds, and slow satellites/rocks on varied paths every 30–48 seconds while visible and motion is enabled. The starfield contains 520 stars with varied depth tiers.
+At the balanced setting, shooting stars are scheduled every 5–10 seconds, twinkles every 1.2–3 seconds, and slow debris every 30–48 seconds while visible and motion is enabled. The Options sliders can make debris and star events more or less frequent, and the aurora faster or slower. At the highest setting, event intervals are about 9.5 times more frequent than balanced. One debris object appears at a time. The home starfield contains 680 static stars. The [Debris Lab](https://blake.pm/debris-lab) previews the current catalog: satellite, asteroid, Hubble, Webb, Apollo spacecraft, astronaut, and Laika capsule. Shooting-star gradients keep their bright end pointed in the direction of travel.
 
 Run `node tests/atmosphere.cjs` for the preference and scheduling checks. These use a simulated clock and DOM; check the visual flight in the browser as well.
 
@@ -38,6 +40,8 @@ For local blog writing and visual content editing:
 - Windows: Double-click `scripts/start-editor.bat`.
 - Linux: Run `./scripts/start-editor.sh`.
 See [PUBLISHING.md](PUBLISHING.md) for full writing and publishing workflow instructions.
+
+The footer reveals a small build identifier when About This Site is hovered or focused. The same identifier appears on the About This Site page. It uses the UTC build date and seven characters of the Git commit (`YYYY.MM.DD.abcdef0`), so branch and pull-request builds need no shared version counter. Cloudflare Workers Builds supplies the commit SHA; local builds read the current Git commit. A local uncommitted edit will not change the identifier until it is committed.
 
 ## Deployment
 

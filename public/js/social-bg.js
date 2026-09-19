@@ -23,6 +23,7 @@
       item.style.setProperty("--meteor-angle", `${angles[Math.floor(Math.random() * angles.length)]}deg`);
       item.style.setProperty("--meteor-distance", `${240 + Math.random() * 220}px`);
       item.style.setProperty("--meteor-width", `${65 + Math.random() * 70}px`);
+      item.style.setProperty("--meteor-thickness", `${(1 + Math.random() * 1.6).toFixed(1)}px`);
     }
     field.append(item);
     item.addEventListener("animationend", () => item.remove(), { once: true });

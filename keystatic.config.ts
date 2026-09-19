@@ -135,5 +135,13 @@ export default config({
         }),
       },
     }),
+    legal: collection({
+      label: 'Legal pages', slugField: 'title', path: 'src/content/legal/*', format: { contentField: 'content' },
+      schema: {
+        title: fields.slug({ name: { label: 'Page title' } }),
+        date: fields.date({ label: 'Last updated', defaultValue: { kind: 'today' }, validation: { isRequired: true } }),
+        content: fields.mdx({ label: 'Page content' }),
+      },
+    }),
   },
 });

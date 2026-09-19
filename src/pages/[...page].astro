@@ -7,7 +7,7 @@ import BottomLayout from "@layouts/BottomLayout.astro"
 export async function getStaticPaths() {
   const pages = await getCollection("pages")
   return pages
-    .filter((page) => import.meta.env.DEV || !page.data.draft)
+    .filter((page) => page.slug !== "about-this-site" && (import.meta.env.DEV || !page.data.draft))
     .map((page) => ({ params: { page: page.slug }, props: page }))
 }
 
