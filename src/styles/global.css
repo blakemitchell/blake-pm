@@ -218,7 +218,7 @@ header.scrolled, #drawer { background:var(--panel); }
 #star-field { position:absolute; inset:0; }
 .sky-star { position:absolute; background:var(--ink); border-radius:50%; }
 .sky-object { position:absolute; pointer-events:none; }
-.sky-meteor { left:75%; width:var(--meteor-width,100px); height:1px; background:linear-gradient(to right,transparent,var(--accent)); animation:quiet-meteor 3.4s ease-out forwards; transform-origin:right center; }
+.sky-meteor { left:75%; width:var(--meteor-width,100px); height:var(--meteor-thickness,1px); background:linear-gradient(to right,var(--accent),transparent); animation:quiet-meteor 3.4s ease-out forwards; transform-origin:right center; }
 .sky-twinkle { width:3px;height:3px;background:var(--accent); box-shadow:0 0 9px 2px var(--accent); animation:quiet-twinkle 4s ease-in-out forwards; }
 .sky-traveler { width:45px; left:-70px; opacity:.35; animation:quiet-traveler 45s linear forwards; }
 @keyframes quiet-meteor { 0% {opacity:0;transform:rotate(var(--meteor-angle,-30deg)) translateX(0)} 20%{opacity:.72} 100%{opacity:0;transform:rotate(var(--meteor-angle,-30deg)) translateX(calc(-1 * var(--meteor-distance,420px)))} }
@@ -357,6 +357,10 @@ body:has(#header.scrolled) #atmosphere-panel { top:72px; }
 .footer-icons a:hover { color:var(--ink); background:color-mix(in srgb,var(--ink) 7%,transparent); }
 .privacy-link { color:var(--muted); text-underline-offset:4px; }
 .privacy-link:hover { text-decoration:underline; }
+.footer-about { position:relative; }
+.footer-version { position:absolute; bottom:100%; right:0; white-space:nowrap; color:var(--muted); font-size:10px; opacity:0; visibility:hidden; transition:opacity .15s ease; }
+.footer-about:hover .footer-version,.footer-about:focus-within .footer-version { opacity:1; visibility:visible; }
+.site-build-version { margin-top:2rem; color:var(--muted); font-size:12px; }
 .social-page { width:min(760px,100%); margin:0 auto; padding:130px 24px 70px; }
 .social-intro { text-align:center; }
 .social-intro h1 { margin-bottom:8px; }
@@ -364,7 +368,7 @@ body:has(#header.scrolled) #atmosphere-panel { top:72px; }
 .social-starfield { position:absolute; inset:0; overflow:hidden; pointer-events:none; z-index:0; mask-image:linear-gradient(to bottom,transparent,#000 7%,#000 93%,transparent); }
 .social-star { position:absolute; left:var(--x); top:var(--y); width:var(--size); height:var(--size); border-radius:50%; background:var(--ink); opacity:var(--opacity); }
 .social-twinkle { position:absolute; width:3px; height:3px; border-radius:50%; background:var(--accent); box-shadow:0 0 9px 2px var(--accent); animation:quiet-twinkle 4s ease-in-out forwards; }
-.social-meteor { position:absolute; width:var(--meteor-width,100px); height:1px; background:linear-gradient(to right,transparent,var(--accent)); animation:quiet-meteor 3.4s ease-out forwards; transform-origin:right center; }
+.social-meteor { position:absolute; width:var(--meteor-width,100px); height:var(--meteor-thickness,1px); background:linear-gradient(to right,var(--accent),transparent); animation:quiet-meteor 3.4s ease-out forwards; transform-origin:right center; }
 .social-system-wrap { position:relative; width:min(720px,100%); height:100%; margin:auto; z-index:1; }
 .social-system { position:absolute; inset:0; z-index:1; }
 .social-sun { position:absolute; left:50%; top:50%; transform:translate(-50%,-50%); width:124px; height:124px; display:flex; align-items:center; justify-content:center; color:var(--ink); filter:drop-shadow(0 0 28px color-mix(in srgb,var(--glow) 32%,transparent)); z-index:5; }
@@ -500,6 +504,7 @@ html[data-motion="off"] .aurora-ribbons path {animation:none !important}
 .empty-feed { padding:30px 0; color:var(--muted); }
 @media(max-width:600px) {
   .aurora-horizon{width:max(700px,150vw);}
+  .hero-copy-inner{transform:translateY(135px);}
   .home-vignette{position:relative;left:auto;top:auto;width:min(420px,96%);margin:10px auto 28px;transform:none;}
   .photo-gallery{grid-template-columns:1fr;}
   .photo-gallery img:first-child:nth-last-child(odd){grid-column:auto;}

@@ -10,9 +10,9 @@
         ["sol", "Sol"], ["mercury", "Mercury"], ["venus", "Venus"],
         ["earth", "Earth"], ["mars", "Mars"], ["jupiter", "Jupiter"],
         ["saturn", "Saturn"], ["uranus", "Uranus"], ["neptune", "Neptune"],
-        ["space", "Sagittarius A*"],
       ].map(([id, name]) => <button type="button" data-theme-choice={id} aria-pressed="false"><span class={`swatch swatch-${id}`} aria-hidden="true"></span>{name}<span class="theme-check" aria-hidden="true">✓</span></button>)}
       <button id="pluto-theme-choice" type="button" data-theme-choice="pluto" data-surprise-theme hidden aria-pressed="false"><span class="swatch swatch-pluto" aria-hidden="true"></span>Pluto<span class="theme-check" aria-hidden="true">✓</span></button>
+      <button type="button" data-theme-choice="space" aria-pressed="false"><span class="swatch swatch-space" aria-hidden="true"></span>Sagittarius A*<span class="theme-check" aria-hidden="true">✓</span></button>
     </div>
   </div>
   <div id="options-panel" role="tabpanel" aria-labelledby="options-tab" hidden>

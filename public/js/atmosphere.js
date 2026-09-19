@@ -31,7 +31,7 @@
   const frequencyLabels = ["", "Very low", "Low", "Balanced", "High", "Very high"];
   const auroraSpeeds = {
     1: ["20s", "17s", "22s"], 2: ["15s", "12s", "17s"], 3: ["11s", "9s", "12s"],
-    4: ["8s", "6.5s", "9s"], 5: ["3.67s", "3s", "4.33s"],
+    4: ["6.5s", "5.5s", "7.5s"], 5: ["2.45s", "2s", "2.9s"],
   };
   function updateMotionSettings() {
     const settings = { debris: debrisFrequency, stars: starFrequency, aurora: auroraFrequency };
@@ -128,8 +128,8 @@
   document.getElementById("allow-surprises").addEventListener("change", event => setAllowed(event.target.checked));
   document.getElementById("reset-atmosphere").addEventListener("click", () => {
     cancelFlight(); dismissNotice(); previous = null;
-    motion = true; allowed = true; debrisFrequency = starFrequency = auroraFrequency = 3;
-    save("blake-motion", true); save("blake-surprises", true); save("blake-debris-frequency", 3); save("blake-star-frequency", 3); save("blake-aurora-frequency", 3); apply("earth");
+    motion = true; allowed = true; seen = false; debrisFrequency = starFrequency = auroraFrequency = 3;
+    save("blake-motion", true); save("blake-surprises", true); save("blake-surprise-seen", false); save("blake-debris-frequency", 3); save("blake-star-frequency", 3); save("blake-aurora-frequency", 3); apply("earth");
     document.getElementById("preference-status").textContent = "Defaults restored: Earth, motion on, balanced frequencies, surprises allowed.";
   });
   let noticeTimer;
