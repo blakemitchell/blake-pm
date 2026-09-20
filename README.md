@@ -46,3 +46,9 @@ The footer reveals a small build identifier when About This Site is hovered or f
 ## Deployment
 
 Cloudflare Workers Builds is connected to `blakemitchell/blake-pm`, production branch `main`. Build: `npm run build`; deploy: `npx wrangler deploy`. `wrangler.jsonc` runs the small contact endpoint and serves `dist/` as static assets on blake.pm and www.blake.pm. No server-rendering adapter is required.
+
+### Optional build notification
+
+The build command runs `astro check`, `astro build`, then `scripts/notify-build.mjs`. Add **`BUILD_NOTIFY_WEBHOOK`** as a **build secret** in Cloudflare **Workers & Pages → blake-pm → Settings → Build → Build Variables and Secrets**. Set its value to the HTTPS URL of the service that should receive the alert. It is read by the build process and is not included in the site or `wrangler.jsonc`. Without this variable, the notification is skipped. A timeout, network error, or non-success HTTP response logs a warning but leaves a successful build successful.
+
+The default request is JSON with `event`, `status`, `site`, `branch`, `commit`, and `timestamp`. If the URL is a Discord webhook, also set **`BUILD_NOTIFY_FORMAT=discord`**; for a Slack incoming webhook, set **`BUILD_NOTIFY_FORMAT=slack`**. Those formats send the service's expected message field. Set the secret on the production build trigger if you only want production alerts. This runs before Cloudflare's separate `wrangler deploy` command, so the alert confirms a successful Astro build, not a completed deployment.
