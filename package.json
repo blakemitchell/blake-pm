@@ -11,7 +11,9 @@
     "preview:network": "astro dev --host",
     "astro": "astro",
     "lint": "eslint .",
-    "editor": "node scripts/start-editor.mjs"
+    "editor": "node scripts/start-editor.mjs",
+    "deploy:prod": "wrangler deploy",
+    "deploy:staging": "wrangler deploy --env staging"
   },
   "dependencies": {
     "@astrojs/check": "^0.5.6",
