@@ -129,14 +129,9 @@ async function handleContact(request, env) {
 
   let notificationStatus = "failed";
   try {
-    if (!env.DISCORD_WEBHOOK_URL) {
-      // In staging environment, we silently skip Discord notifications
-      console.log("Discord webhook not configured, skipping notification in staging");
-      notificationStatus = "sent"; // Consider it sent even if skipped
-    } else {
-      await notifyDiscord(env.DISCORD_WEBHOOK_URL, submission);
-      notificationStatus = "sent";
-    }
+    if (!env.DISCORD_WEBHOOK_URL) throw new Error("DISCORD_WEBHOOK_URL is not configured");
+    await notifyDiscord(env.DISCORD_WEBHOOK_URL, submission);
+    notificationStatus = "sent";
   } catch (error) {
     console.error("Discord notification failed after contact submission was stored.", { submissionId: submission.id, error: error instanceof Error ? error.message : "Unknown error" });
   }
