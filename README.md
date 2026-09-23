@@ -2,6 +2,22 @@
 
 Personal website built with Astro. Run `npm install`, then `npm run dev` to preview it locally. Run `npm run build` to check and build the site.
 
+## Git Workflow
+
+This repository follows a standardized Git workflow:
+
+- `dev` = active development branch used by any coding agent or local development session
+- `staging` = candidate/review environment  
+- `main` = production
+
+### Promotion Flow
+`dev` → `staging` → `main`
+
+### Deployment Configuration
+- `stage.blake.pm` deploys from `staging`
+- `blake.pm` deploys from `main`
+- Routine development work on `dev` should not trigger the staging deployment
+
 ## Content
 
 - Site name and links: `src/consts.ts`
