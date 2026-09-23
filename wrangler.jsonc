@@ -30,5 +30,27 @@
 			"database_id": "0df16ab9-f3cb-41a6-aacc-386647e6715f",
 			"remote": true
 		}
-	]
+	],
+	"env": {
+		"staging": {
+			"name": "blake-pm-stage",
+			"vars": {
+				"TURNSTILE_HOSTNAMES": "blake.pm,www.blake.pm,stage.blake.pm"
+			},
+			"routes": [
+				{
+					"pattern": "stage.blake.pm",
+					"custom_domain": true
+				}
+			],
+			"d1_databases": [
+				{
+					"binding": "CONTACTS_DB",
+					"database_name": "blake-pm-contacts-stage",
+					"database_id": "a1afadd2-a0ad-403f-8026-8924ee6253a7",
+					"remote": true
+				}
+			]
+		}
+	}
 }
