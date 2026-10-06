@@ -5,8 +5,10 @@ format:
   value: {}
 summary: or How I Spent Way Too Much Time Adjusting the Aurora
 created_at: 2026-10-05
-draft: true
-tags: []
+updated_at: 2026-10-05
+draft: false
+tags:
+  - general
 ---
 I've owned blake.pm for a long time.
 
@@ -16,55 +18,43 @@ This time, I wanted to actually build something I would keep.
 
 ## Starting With Someone Else's Good Idea
 
-I didn't start with a blank screen. I got interested in the idea of a static site using free services pulling from a GitHub repo, and for reasons I don't really remember I chose Astro.&#x20;
+I didn't start with a blank screen. I got interested in the idea of a static site using free services pulling from a GitHub repo, and for reasons I don't really remember, I chose Astro.&#x20;
 
 I found the theme Astro Sphere created by Mark Horn, and immediately liked it. It was simple, dark, quiet, and just a little bit spacey. It had personality without looking like someone had tried very hard to give it personality.
 
-That seemed like a good place to start but I really did want to try and make it more *mine*.
+That seemed like a good place to start, but I really did want to try and make it more *mine*.
 
 ## Things Escalated
 
-The original had the curvature of, I assume a planet as well as stars, some twinkling and shooting. I started trying to come up with how to make it unique and thought of adding the aurora borealis. I spent a lot of time going back and forth with this, trying to get it right. Sometimes it was too subtle. Sometimes it did not look like an aurora. Eventually it landed in a place that I liked.&#x20;
+The original had the curvature of, I assume, a planet as well as stars, some twinkling and shooting. I started trying to come up with how to make it unique and thought of adding the aurora borealis. I spent a lot of time going back and forth with this, trying to get it right. Sometimes it was too subtle. Sometimes it did not look like an aurora. Eventually, it landed in a place that I liked.&#x20;
 
-At some point, I thought rather than light mode and dark mode, what if I had a few themes. That eventually grew into lining up themes with planet's colors and logically I had to at least represent all the planets. Once I realized I did not have a pure black, creating Sagittarius A\* was logical.
+At some point, I thought, rather than light mode and dark mode, what if I had a few themes? That eventually grew into lining up themes with planets' colors, and logically, I had to at least represent all the planets. Once I realized I did not have a pure black, it became logical to create Sagittarius A\*.
 
-I added a tumbling asteroid, a satellite, an astronaut. Then came the Debris Lab where you can see the various objects floating around the home page.&#x20;
+I added a tumbling asteroid, a satellite, and an astronaut. Then came the Debris Lab, where you can see various objects floating around the homepage.&#x20;
 
 I added an easter egg and decided it was too unlikely to ever get seen, so I introduced an option to call it. I had to work in Pluto.&#x20;
 
-The Social page idea hit me and I must say, I was instantly in love with the idea. My social sites (which really aren't even active) became an orbit instead of a list of links.&#x20;
+The Social page idea hit me, and I must say, I was instantly in love with the idea. My social sites (which really aren't even active) became an orbit instead of a list of links.&#x20;
 
-None of this was in the requirements. There were no requirements. **Things just kind of take on a new life when the canvas is blank and there's a little help to accelerate the capacity to realize the creativity.**&#x20;
+None of this was in the requirements. There were no requirements. **Things just kind of take on a new life when the canvas is blank and there's a little help to accelerate the realization of creativity.**&#x20;
 
 Somewhere along the way, the site stopped feeling like Astro Sphere with my content in it and started feeling like mine. The original theme is still visible in its DNA, and I want to keep credit for that starting point where it belongs. But I also like how far the experiment has wandered.
 
 ## Building a Website With AI
 
-There's another part of this project that made it particularly interesting to me: I built it with AI. I didn't type "build me a personal website" into a prompt and wait for a finished product to fall out. The process has looked much more like software development than magic.
+There's another part of this project that made it particularly interesting to me: I built it with AI.&#x20;
 
-I decide what I want. I explain it. My agent investigates the existing code and proposes an approach. It makes changes. I review them. Something isn't quite right. We change it. Something breaks. We figure out why. I decide the original idea wasn't actually very good. We change direction again.&#x20;
+I have been trying to stay at the forefront of AI products. I've done a lot with using AI products on the business side and around the infrastructure supporting AI. But in my current role, there's simply no space for this kind of product-focused approach to building something with a coding agent.&#x20;
 
-Sometimes the AI solves a problem faster than I would have.
+I didn't type "build me a personal website" into a prompt and wait for a finished product to fall out. The process looked much more like software development than magic.
 
-Sometimes it confidently creates a new problem.
+I think about what I want. I explain it primarily via a chat interface that doesn't eat into my token consumption. That discussion drives some of the build strategy and even helps with effective prompting for the coding agent. I prompt an agent, which looks at the code, reports back, and makes changes. I review those changes. We iterate. We refine. We undo. We ship. &#x20;
 
-And sometimes I spend an unreasonable amount of time discussing the architectural implications of something that began with, "Wouldn't it be cool if..."
+If you pay any attention to this space, nothing here is shocking. I pay close attention to this space. I have major concerns about unchecked AI-driven application development by non-technical business units without proper governance to ensure safety.
 
-That last category may account for a surprising percentage of this website.
+But even with me staying dialed in, it's pretty amazing how much of a force multiplier it was to do this.&#x20;
 
-What has interested me most isn't whether AI can write code. Clearly it can.
-
-The more interesting question is what software development looks like when writing the code is no longer necessarily the slowest part.
-
-Someone still has to decide what should exist.
-
-Someone has to recognize when a technically correct solution is the wrong solution. Someone has to think about maintainability, security, complexity, and whether adding another clever feature is actually making the thing better.
-
-And someone still has to say, "No, that's ugly. Try again."
-
-AI has changed the way I've built this site, but it hasn't eliminated the need to understand what I'm building.
-
-If anything, being able to make changes so quickly makes deciding which changes are worth making more important.
+This was not my first time starting a deployment of an Astro site, but my previous attempts did not take off. My personal life stays quite busy. Time spent working on building a website that almost no one will ever look at can feel a little wasteful. I feel confident that everything I did with AI, I could have done on my own, but at what cost?
 
 ## Keeping the Writing Part Simple
 
@@ -76,7 +66,7 @@ The site lives in GitHub and is hosted by Cloudflare.
 
 I also wanted writing here to be easy.
 
-I know myself well enough to know that if publishing a post requires opening a code editor, creating the right file, remembering the frontmatter, and committing it to Git, I'm giving myself several opportunities to decide I'll do it later.
+I know myself well enough to realize that if publishing a post requires opening a code editor, creating the right file, remembering the front matter, and committing it to Git, I'm giving myself several opportunities to decide I'll do it later.
 
 "Later" is where personal blogs go to die.
 
@@ -84,9 +74,7 @@ So I added Keystatic as a visual editor. The content can still live with the sit
 
 I've also added support for different kinds of posts. Not everything needs to be an article. There can be shorter notes, links, photos, and reviews.
 
-The goal is to make the threshold for putting something here reasonably low.
-
-Whether that results in me actually writing more remains an experiment.
+The goal is to make the threshold for putting something here reasonably low. Whether that results in me actually writing more remains an experiment.
 
 ## Still a Work in Progress
 
@@ -94,9 +82,7 @@ There are parts of the site I'm probably going to change.
 
 There are features I haven't built yet. There are almost certainly things I've built that I'll eventually decide were ridiculous and remove.
 
-There may also be more space debris.
-
-I make no promises.
+There may also be more space debris. I make no promises.
 
 That's part of why I wanted my own site again.
 
@@ -106,14 +92,8 @@ Sometimes somebody made a weird little corner of the Internet and kept messing w
 
 I like that.
 
-So that's what blake.pm is.
-
-It's a place for me to write, but it's also a place for me to build. The website itself is part of the hobby.
+So that's what blake.pm is. It's a place for me to write, but it's also a place for me to build. The website itself is part of the hobby.
 
 If you're interested in the more straightforward version of what's running underneath all of this, I've put that on the About the Site page. The source is also available on GitHub.
-
-And if you see a flying saucer while you're here, click it.
-
-Probably.
 
 -B
