@@ -28,6 +28,22 @@ npm run build
 
 The normal build can send a webhook notification when `BUILD_NOTIFY_WEBHOOK` is configured. See [Build Notification](#build-notification) before using the build command in automated or experimental workflows where external side effects are undesirable.
 
+## Git Workflow
+
+This repository follows a standardized Git workflow:
+
+- `dev` = active development branch used by any coding agent or local development session
+- `staging` = candidate/review environment  
+- `main` = production
+
+### Promotion Flow
+`dev` → `staging` → `main`
+
+### Deployment Configuration
+- `stage.blake.pm` deploys from `staging`
+- `blake.pm` deploys from `main`
+- Routine development work on `dev` should not trigger the staging deployment
+
 ## Content
 
 Important content locations:
