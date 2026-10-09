@@ -1,0 +1,74 @@
+name: Sync CMS Content
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: sync-cms-content
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out main
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+          persist-credentials: true
+
+      - name: Synchronize CMS content
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          paths=(
+            src/content/blog
+            src/content/pages
+            src/content/legal
+            public/images/blog
+            public/images/pages
+          )
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          # Save the exact source commit before switching branches.
+          source_commit="$(git rev-parse HEAD)"
+
+          for branch in staging dev; do
+            echo "::group::Synchronizing $branch"
+
+            git fetch origin "$branch"
+            git switch -C "$branch" "origin/$branch"
+
+            # Remove tracked destination content, including files deleted
+            # from main. Only the five CMS-managed paths are affected.
+            git rm -r --ignore-unmatch -- "${paths[@]}"
+
+            # Restore the authoritative content from main.
+            git restore \
+              --source="$source_commit" \
+              --staged \
+              --worktree \
+              -- "${paths[@]}"
+
+            git add -A -- "${paths[@]}"
+
+            if git diff --cached --quiet; then
+              echo "No CMS content changes needed on $branch."
+            else
+              echo "Changes for $branch:"
+              git diff --cached --stat
+
+              git commit -m "chore: sync CMS content from main"
+              git push origin "HEAD:$branch"
+            fi
+
+            echo "::endgroup::"
+          done
