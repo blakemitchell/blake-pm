@@ -62,7 +62,6 @@ jobs:
             fi
           done
 
-            git add -A -- "${paths[@]}"
 
             if git diff --cached --quiet; then
               echo "No CMS content changes needed on $branch."
