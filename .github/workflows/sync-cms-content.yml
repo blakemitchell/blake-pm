@@ -52,11 +52,15 @@ jobs:
             git rm -r --ignore-unmatch -- "${paths[@]}"
 
             # Restore the authoritative content from main.
-            git restore \
+           for path in "${paths[@]}"; do
+            if git ls-tree -r --name-only "$source_commit" -- "$path" | grep -q .; then
+              git restore \
               --source="$source_commit" \
               --staged \
               --worktree \
-              -- "${paths[@]}"
+              -- "$path"
+            fi
+          done
 
             git add -A -- "${paths[@]}"
 
