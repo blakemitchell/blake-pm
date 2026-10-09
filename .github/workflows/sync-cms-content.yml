@@ -1,6 +1,15 @@
 name: Sync CMS Content
 
 on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'src/content/blog/**'
+      - 'src/content/pages/**'
+      - 'src/content/legal/**'
+      - 'public/images/blog/**'
+      - 'public/images/pages/**'
   workflow_dispatch:
 
 permissions:
