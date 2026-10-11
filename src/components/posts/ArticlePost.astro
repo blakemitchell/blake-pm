@@ -1,4 +1,5 @@
 ---
+import MdxContent from "@components/MdxContent.astro"
 const { Content } = Astro.props
 ---
-<article class="post-article"><Content /></article>
+<article class="post-article"><MdxContent Content={Content} /></article>

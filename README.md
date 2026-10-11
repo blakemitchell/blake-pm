@@ -4,7 +4,7 @@ Personal website built with Astro and deployed at [blake.pm](https://blake.pm).
 
 This repository contains the website application, content, content validation, rendering, and Cloudflare deployment configuration.
 
-Content editing is moving to the separate `blake-pm-cms` project. See [ARCHITECTURE.md](ARCHITECTURE.md) for the project boundary and current migration plan.
+Content editing lives in the separate `blake-pm-cms` project. See [ARCHITECTURE.md](ARCHITECTURE.md) for the project boundary and current migration plan.
 
 ## Local Development
 
@@ -62,19 +62,15 @@ Writing supports 16 validated post formats, static format feeds, and optional Ec
 
 ## Content Editing
 
-The long-term content editing workflow uses the separate `blake-pm-cms` project.
+Use the standalone `blake-pm-cms` application at https://cms.blake.pm. Its native
+Keystatic schema produces MDX, YAML frontmatter, and assets in this repository;
+Astro independently validates and renders them.
 
-Keystatic edits content stored in this repository as MDX, YAML frontmatter, and assets. Astro independently validates and renders that content.
-
-An older embedded/local Keystatic editor currently remains in this repository while that migration is completed. It can be started with:
-
-```sh
-npm run editor
-```
-
-Platform-specific launch scripts also remain under `scripts/`.
-
-The embedded editor is transitional and is scheduled for removal. Do not add new functionality to it.
+The website has no embedded editor, editor API routes, React integration, or
+Keystatic configuration/dependencies. `npm run dev` and `npm run build` require
+only this repository and its dependencies, with no CMS checkout, running CMS, or
+CMS credentials. To preview changes saved through the CMS, pull the selected
+GitHub branch into your website checkout before starting the website dev server.
 
 See [PUBLISHING.md](PUBLISHING.md) for writing and publishing workflow information and [ARCHITECTURE.md](ARCHITECTURE.md) for the authoritative architectural direction.
 
@@ -253,3 +249,10 @@ When an architectural decision or repository responsibility changes, update `ARC
 When normal setup, commands, deployment, or developer workflow changes, update this README and any affected specialized documentation.
 
 Original theme attribution is retained in `LICENSE`.
+
+## Standalone CMS compatibility
+
+Run `npm run test:cms` with the standalone CMS checkout installed beside this
+repository. This optional cross-repository test is separate from the normal build.
+See [CMS-COMPATIBILITY.md](CMS-COMPATIBILITY.md) for findings, the
+producer/consumer contract, test setup, and the BLA-52 removal checklist.
