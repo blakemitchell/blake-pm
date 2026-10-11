@@ -1,5 +1,6 @@
 ---
+import MdxContent from "@components/MdxContent.astro"
 const { entry, Content } = Astro.props
 const starts = entry.data.metadata.starts_at
 ---
-<article><div class="event-card"><time datetime={starts.toISOString()}>{starts.toLocaleString("en-US", { dateStyle:"long", timeStyle:"short" })}</time>{entry.data.metadata.location && <p>{entry.data.metadata.location}</p>}</div><Content /></article>
+<article><div class="event-card"><time datetime={starts.toISOString()}>{starts.toLocaleString("en-US", { dateStyle:"long", timeStyle:"short" })}</time>{entry.data.metadata.location && <p>{entry.data.metadata.location}</p>}</div><MdxContent Content={Content} /></article>

@@ -21,7 +21,7 @@ Its responsibilities include:
 - static site generation;
 - website-specific Cloudflare infrastructure.
 
-Content editing is moving to the separate `blake-pm-cms` project.
+Content editing lives in the separate `blake-pm-cms` project.
 
 ## Content Architecture
 
@@ -55,7 +55,7 @@ The architecture intentionally contains two different content definitions servin
 
 ### Keystatic Producer Schema
 
-The authoritative native Keystatic schema is intended to live in `blake-pm-cms`.
+The authoritative native Keystatic schema lives in `blake-pm-cms`.
 
 It answers:
 
@@ -77,25 +77,19 @@ Compatibility tests should verify that representative Keystatic output satisfies
 
 ## Embedded Keystatic Editor
 
-### Current State
+The embedded editor has been removed. The website no longer owns a duplicate
+Keystatic schema, editor routes/API, React integration, editor launcher, or
+Keystatic dependencies. `blake-pm-cms` owns the authoritative producer schema.
 
-An older local Keystatic editor remains embedded in `blake-pm`.
+The website retains Astro content collections, `normalizeEditorPost`, MDX media
+components, dynamic content routes, and Solid search. Its normal development and
+production builds require neither a CMS checkout nor a running CMS or credentials.
+The optional `npm run test:cms` cross-repository check loads the standalone producer
+to exercise the stored contract; it is not part of the website build.
 
-It includes a duplicate native Keystatic schema and supporting editor-specific Astro, React, configuration, and launcher code.
-
-### Decision
-
-The embedded editor is scheduled for retirement.
-
-`blake-pm-cms` will become the single authoritative Keystatic editor and native Keystatic producer schema.
-
-Until removal is completed:
-
-- do not add new functionality to the embedded editor;
-- do not evolve its schema independently;
-- keep it functional only as necessary during the transition.
-
-After the content contract has appropriate compatibility coverage, remove the embedded editor and its editor-only dependencies/configuration in a dedicated change.
+See [CMS-COMPATIBILITY.md](CMS-COMPATIBILITY.md) for verified contracts and the
+remaining live publishing smoke test. The obsolete local editor orchestration
+proposal in `EDITOR_APP_PLAN.md` has been retired; this document defines the boundary.
 
 ## CMS Boundary
 
@@ -186,7 +180,7 @@ At the time of the architecture investigation:
 
 Do not force unsupported dependency combinations merely to reach the latest package version.
 
-Separating the embedded website editor from the standalone CMS will allow the CMS and public website to evolve their Astro/framework dependencies independently.
+Removing the embedded website editor allows the CMS and public website to evolve their Astro/framework dependencies independently.
 
 Future CMS dependency upgrades should validate:
 
@@ -202,8 +196,8 @@ Future CMS dependency upgrades should validate:
 ## Current Migration Plan
 
 1. **Architecture investigation — complete.**
-2. **Keystatic ↔ Astro content-contract fixes and compatibility tests — next/current work.**
-3. Remove the embedded Keystatic editor and duplicate native schema from `blake-pm`.
+2. **Keystatic ↔ Astro content-contract fixes and compatibility tests (BLA-51) — implemented and locally verified; live publishing smoke test remains.**
+3. **Embedded Keystatic editor and duplicate native schema removal (BLA-52) — implemented and locally verified.**
 4. Establish/finalize the `blake-pm-cms` Git repository and known baseline.
 5. Reconcile CMS Docker configuration and documentation with the working Mac mini deployment.
 6. Add the intended GHCR image build and publishing workflow.
