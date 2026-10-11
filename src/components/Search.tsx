@@ -13,7 +13,7 @@ export default function Search({ data }: Props) {
   const [query, setQuery] = createSignal("")
   const [results, setResults] = createSignal<(CollectionEntry<"blog"> | CollectionEntry<"projects">)[]>([])
 
-  const searchable = data.map(entry => ({ entry, text: entry.collection === "blog" ? `${postTitle(entry)} ${postSummary(entry)} ${entry.data.tags.join(" ")}` : `${entry.data.title} ${entry.data.summary} ${entry.data.tags.join(" ")}` }))
+  const searchable = data.map(entry => ({ entry, text: entry.collection === "blog" ? `${postTitle(entry)} ${postSummary(entry) ?? ""} ${entry.data.tags.join(" ")}` : `${entry.data.title} ${entry.data.summary} ${entry.data.tags.join(" ")}` }))
   const fuse = new Fuse(searchable, {
     keys: ["entry.slug", "text"],
     includeMatches: true,

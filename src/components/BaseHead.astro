@@ -2,7 +2,7 @@
 
 interface Props {
   title: string
-  description: string
+  description?: string
   image?: string
   noindex?: boolean
 }
@@ -26,21 +26,21 @@ const { title, description, image, noindex = false } = Astro.props
 <!-- Primary Meta Tags -->
 <title>{title}</title>
 <meta name="title" content={title} />
-<meta name="description" content={description} />
+{description && <meta name="description" content={description} />}
 {noindex && <meta name="robots" content="noindex,nofollow" />}
 
 <!-- Open Graph / Facebook -->
 <meta property="og:type" content="website" />
 <meta property="og:url" content={Astro.url} />
 <meta property="og:title" content={title} />
-<meta property="og:description" content={description} />
+{description && <meta property="og:description" content={description} />}
 {image && <meta property="og:image" content={new URL(image, Astro.url)} />}
 
 <!-- Twitter -->
 <meta property="twitter:card" content={image ? "summary_large_image" : "summary"} />
 <meta property="twitter:url" content={Astro.url} />
 <meta property="twitter:title" content={title} />
-<meta property="twitter:description" content={description} />
+{description && <meta property="twitter:description" content={description} />}
 {image && <meta property="twitter:image" content={new URL(image, Astro.url)} />}
 
 <!-- Sitemap -->
