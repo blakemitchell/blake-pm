@@ -2,19 +2,17 @@
 
 ## Open the editor
 
-The local visual editor runs cross-platform on macOS, Windows, and Linux:
+Open https://cms.blake.pm and authenticate through Cloudflare Access and GitHub.
+The standalone `blake-pm-cms` application edits this website's GitHub repository.
+Choose the intended working branch before editing: saves commit to that branch,
+not to a local website folder. Avoid saving to `main` while preparing a change;
+changes to `main` can trigger production deployment.
 
-- **macOS**: Double-click `scripts/start-editor.command` in Finder, or run `npm run editor` in Terminal.
-- **Windows**: Double-click `scripts/start-editor.bat` in File Explorer, or run `npm run editor` in Command Prompt / PowerShell.
-- **Linux**: Run `./scripts/start-editor.sh` or `npm run editor` in your terminal.
-
-A terminal window runs the editor process (keep it open while writing), and your default browser automatically opens http://127.0.0.1:4322/keystatic. If it opens before the server finishes initializing, simply refresh the page.
-
-Alternatively, open the project folder in any command-line environment and run:
-
-```sh
-npm run editor
-```
+The website no longer provides `npm run editor`, launch scripts, `/keystatic`, or
+editor API routes. CMS setup and local CMS development belong to `blake-pm-cms`.
+For website previews, check out/pull the branch edited by the CMS in a local
+`blake-pm` checkout and run `npm run dev`. Use the URL printed by Astro (normally
+http://localhost:4321), not the CMS server's URL.
 
 ## Write a post
 
@@ -22,9 +20,9 @@ Posts can use 16 formats, including articles, links, quotes, short notes, media,
 
 1. Open **Blog posts**, then **Create entry**.
 2. Choose the post type, then enter its content, short description, publication date, and optional tags. The post-type choice shows the relevant controls for quotes, photos, reading progress, events, statuses, polls, threads, and reviews. The editor title also supplies the file name; formats such as Micro and Status do not display it as a post title.
-3. Leave **Draft** checked while writing. Use the writing toolbar for headings, lists, links, and images. Images are copied into the site project.
+3. Leave **Draft** checked while writing. Use the writing toolbar for headings, lists, links, and images. Images are committed alongside content in the selected website branch.
 4. Use **Video** for a YouTube URL or a direct HTTPS MP4/WebM URL, or **Audio** for a direct audio-file URL. Large media should live on a media service; images can stay in this project.
-5. Save. The title's slug is its address: preview `http://127.0.0.1:4322/blog/your-post-slug`. Drafts can be previewed locally but are excluded from the production build, blog listing, search, and RSS.
+5. Save, pull the selected branch into your website checkout, and preview `/blog/your-post-slug` on the website dev server. The title's slug is its address; preserve existing slugs when editing. Drafts can be previewed locally but are excluded from the production build, blog listing, search, and RSS.
 6. When ready, clear **Draft** and save again.
 
 The editor supports all 16 post types. It includes photo alt text, event start/end times, timestamped thread entries, poll options, reading progress, review details, and the other type-specific metadata. Shared publishing fields and the optional body editor remain available across formats. `npm run build` performs final type-specific validation before publication.
@@ -37,32 +35,34 @@ To add a page yourself:
 
 1. In **Site pages**, choose **Create entry** and enter a title. The generated file name becomes its URL; for example, “Uses” creates `/uses`.
 2. Add a short description, then write the page in the visual body editor. You can insert links, images, video, and audio with its toolbar.
-3. Save with **Draft** checked while working. Preview at `http://127.0.0.1:4322/uses`, replacing `uses` with your page's file name.
+3. Save with **Draft** checked while working. Pull the selected branch into your website checkout and preview `/uses` on the website dev server, replacing `uses` with your page's file name.
 4. Clear **Draft**, save, and run `npm run build` before publishing.
 5. If you want the new page in the top navigation or footer, edit the links in `src/consts.ts` or ask for help; creating the page does not add a menu item automatically.
 
 Choose a unique file name: do not reuse `contact`, `social`, `blog`, `about-this-site`, or another existing route. About This Site is a special page: edit its existing entry rather than creating a second one. Its content stays visible even if you check Draft, because the footer always links to it. Specialized pages such as Contact, Social, Blog, and the animated home page remain code-driven because their forms, feeds, and visual elements require application logic.
 
-Saving changes files in your local project folder. It does not publish immediately. Publication dates label/order posts; they are not a scheduling system.
+Saving commits content and assets to the selected GitHub branch. Whether that triggers a deployment depends on the branch; `main` deploys production. Publication dates label/order posts; they are not a scheduling system.
 
 ## Publish
 
-In GitHub Desktop, add the local `blake-pm` repository folder once. Review the changed files, enter a short summary, and commit them on your working branch. Push that branch and open a pull request into `main`. Review and merge it when ready; Cloudflare deploys from `main` to https://blake.pm. Saving in the editor writes local files; committing records them in Git; pushing sends the commit to GitHub. A plain `git push origin main` does not send uncommitted edits.
+Review the CMS commits on the selected working branch. Pull them into your
+website checkout and run `npm run build` before promotion. The normal build may
+send a build notification when configured; use `npx astro check && npx astro build`
+for validation without that notification.
 
-Or use Terminal in the project folder:
+Follow the repository workflow: `dev` → `staging` for review, then an approved
+promotion to `main`. Cloudflare deploys `main` to https://blake.pm. Inspect both
+MDX and uploaded assets in the change; the CMS has already committed them, so
+there is no separate local commit step unless you also edited files locally.
+Never overwrite newer remote content or resolve a content conflict without review.
 
-```sh
-npm run build
-git add src/content/blog src/content/pages src/content/legal public/images/blog
-git commit -m "Publish a new post"
-git push -u origin HEAD
-```
+After an approved deployment succeeds, check the live page or post. Publication
+dates label/order posts; they are not a scheduling system. Article/review bodies
+must be nonempty, including drafts, for website validation to pass.
 
-Only add paths that exist and that you intend to publish. Open and merge a pull request into `main` on GitHub, wait for Cloudflare's deployment to succeed, then check the live page or post. If you are already working directly on `main`, the push deploys immediately; check the current branch before publishing.
-
-You do not need an LLM to write or publish. Keystatic runs locally; no paid CMS account is required. The public build does not include its editor or API routes.
-
-The longer-term multi-site desktop editor direction is documented in [EDITOR_APP_PLAN.md](EDITOR_APP_PLAN.md).
+See [CMS-COMPATIBILITY.md](CMS-COMPATIBILITY.md) for dates, supported media URLs,
+asset directories, publishing constraints, and the optional cross-repository test.
+The website builds and serves stored content without the CMS being available.
 
 ## Contact form
 
