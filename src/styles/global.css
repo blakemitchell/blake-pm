@@ -338,15 +338,15 @@ html[data-motion="off"] .horizon-light { animation:none; }
 /* Navigation grows modestly at the top and settles as the page scrolls. */
 #header { height:78px; transition:height .25s ease,background-color .25s ease; }
 #header.scrolled { height:64px; }
-#header .primary-nav { font-size:16.8px; transition:font-size .25s; }
-#header.scrolled .primary-nav { font-size:14px; }
+#header .primary-nav { font-size:17.8px; font-weight:600; transition:font-size .25s; }
+#header.scrolled .primary-nav { font-size:15px; }
 #header .buttons > a, #header .buttons > button { width:43px; height:43px; transition:width .25s,height .25s,background-color .2s; }
 #header.scrolled .buttons > a, #header.scrolled .buttons > button { width:36px; height:36px; }
-#header .buttons svg { max-width:26px; max-height:26px; }
+#header .buttons svg { max-width:26px; max-height:26px; transform:scale(1.1); }
 .nav-link { position:relative; padding:8px 11px; color:var(--muted); background:transparent; border-radius:0; }
 .nav-link::after { content:""; position:absolute; bottom:3px; left:11px; right:11px; height:1px; background:var(--accent); opacity:0; transform:scaleX(.55); transition:opacity .2s,transform .2s; }
 .nav-link[aria-current="page"] { color:var(--ink); }
-.nav-link[aria-current="page"]::after { opacity:.35; transform:scaleX(1); }
+.nav-link[aria-current="page"]::after { height:2px; opacity:.6; transform:scaleX(1); }
 .nav-link:hover::after, .nav-link:focus-visible::after { opacity:.85; transform:scaleX(1); }
 #atmosphere-panel { top:86px; }
 body:has(#header.scrolled) #atmosphere-panel { top:72px; }
@@ -372,7 +372,7 @@ body:has(#header.scrolled) #atmosphere-panel { top:72px; }
 .social-system-wrap { position:relative; width:min(720px,100%); height:100%; margin:auto; z-index:1; }
 .social-system { position:absolute; inset:0; z-index:1; }
 .social-sun { position:absolute; left:50%; top:50%; transform:translate(-50%,-50%); width:124px; height:124px; display:flex; align-items:center; justify-content:center; color:var(--ink); filter:drop-shadow(0 0 28px color-mix(in srgb,var(--glow) 32%,transparent)); z-index:5; }
-.social-sun svg { width:104px; height:104px; }
+.social-brand-mark { display:block; width:104px; height:104px; background-color:currentColor; -webkit-mask:url("/images/brand/bm-circle-cutout.svg") center / contain no-repeat; mask:url("/images/brand/bm-circle-cutout.svg") center / contain no-repeat; }
 .orbit-arm { position:absolute; inset:0; transform:rotate(var(--tilt)); pointer-events:none; }
 .orbit-track { position:absolute; left:50%; top:50%; translate:-50% -50%; border:1px solid color-mix(in srgb,var(--ink) 13%,transparent); border-radius:50%; }
 .orbit-slot { position:absolute; width:42px; height:42px; offset-rotate:0deg; pointer-events:auto; animation:orbit-travel var(--speed) linear var(--delay) infinite; transform:rotate(var(--counter-tilt)); }
@@ -403,10 +403,9 @@ body:has(#header.scrolled) #atmosphere-panel { top:72px; }
 @media(prefers-reduced-motion:reduce) { .orbit-slot{animation:none !important;offset-distance:var(--phase)} .social-twinkle,.social-meteor{display:none} }
 
 /* Shared underline controls and a more legible site signature. */
-.site-brand {display:flex;align-items:center;gap:9px;color:var(--ink);font-size:22px;line-height:1;white-space:nowrap;transition:font-size .25s}
-.brand-mark {width:36px;height:36px;transition:width .25s,height .25s}
-#header.scrolled .site-brand {font-size:19px}
-#header.scrolled .brand-mark {width:31px;height:31px}
+.site-brand {display:flex;align-items:center;color:var(--ink)}
+.brand-wordmark {display:block;width:230px;aspect-ratio:542 / 84;background-color:currentColor;-webkit-mask:url("/images/brand/blake.pm-wordmark.svg") center / contain no-repeat;mask:url("/images/brand/blake.pm-wordmark.svg") center / contain no-repeat;transition:width .25s}
+#header.scrolled .brand-wordmark {width:200px}
 #header .buttons > a, #header .buttons > button {position:relative;border:0;border-radius:0;background:transparent;color:color-mix(in srgb,var(--ink) 82%,var(--muted))}
 #header .buttons > a:hover, #header .buttons > button:hover {color:var(--ink);background:transparent}
 #header .buttons > a::after, #header .buttons > button::after {content:"";position:absolute;bottom:0;left:9px;right:9px;height:1px;background:var(--accent);opacity:0;transform:scaleX(.55);transition:opacity .2s,transform .2s}
@@ -434,7 +433,7 @@ body:has(#header.scrolled) #atmosphere-panel { top:72px; }
 .collection-filter summary:focus-visible,.filter-options input:focus-visible {outline:2px solid var(--accent);outline-offset:2px}
 .collection-summary {display:flex;justify-content:space-between;gap:12px;font-size:12px;margin-bottom:16px}
 [data-clear] {font-size:12px;text-decoration:underline;margin-top:14px}
-@media(max-width:600px) {.site-brand{font-size:19px}.brand-mark{width:33px;height:33px}.collection-browser.enhanced{grid-template-columns:1fr;gap:20px}}
+@media(max-width:600px) {.brand-wordmark{width:200px}.collection-browser.enhanced{grid-template-columns:1fr;gap:20px}}
 
 .aurora-horizon {position:absolute;top:4px;left:50%;width:1750px;height:766px;max-width:none;transform:translateX(-50%);overflow:visible;display:block}
 .horizon-ground {fill:var(--surface)}
@@ -528,3 +527,15 @@ html[data-motion="off"] .aurora-ribbons path {animation:none !important}
 .debris-size { display:block; margin-top:8px; color:var(--accent); font-size:11px; text-transform:uppercase; letter-spacing:.04em; }
 @media(max-width:720px) { .debris-grid{grid-template-columns:1fr;} }
 @media(max-width:440px) { .debris-card{grid-template-columns:100px 1fr;padding:16px}.debris-preview svg{max-width:88px;max-height:96px} }
+
+/* Static shared chrome; Home keeps its original fixed ambient sky. */
+.chrome-starfield {position:absolute;inset:0;overflow:hidden;pointer-events:none;opacity:.5}
+.chrome-starfield-header {height:calc(100% + 40px);opacity:.8;mask-image:linear-gradient(#000 45%,transparent);transition:opacity .3s ease}
+#header.scrolled .chrome-starfield-header {opacity:0}
+.atmospheric-footer {position:relative;isolation:isolate}
+.chrome-starfield-footer {mask-image:linear-gradient(transparent,#000 35%);z-index:-1}
+.footer-with-stars {position:relative}
+/* One uninterrupted Social sky, starting at document top without moving content. */
+.social-environment {position:relative;margin-top:-130px;padding-top:130px;isolation:isolate}
+.social-environment > .social-starfield {left:50%;right:auto;width:100vw;translate:-50% 0;mask-image:linear-gradient(#000 85%,transparent);z-index:-1}
+@media(prefers-reduced-motion:reduce) {.chrome-starfield-header {transition:none}}

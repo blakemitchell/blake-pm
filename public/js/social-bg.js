@@ -12,7 +12,13 @@
     field.append(star);
   }
 
-  const enabled = () => !document.hidden && document.documentElement.dataset.motion === "on";
+  const reducedMotion = matchMedia("(prefers-reduced-motion: reduce)");
+  const timers = new Set();
+  const later = (callback, delay) => {
+    const id = setTimeout(() => { timers.delete(id); callback(); }, delay);
+    timers.add(id);
+  };
+  const enabled = () => !document.hidden && !reducedMotion.matches && document.documentElement.dataset.motion === "on";
   const create = kind => {
     const item = document.createElement("i");
     item.className = `social-${kind}`;
@@ -27,13 +33,23 @@
     }
     field.append(item);
     item.addEventListener("animationend", () => item.remove(), { once: true });
-    setTimeout(() => item.remove(), 5000);
+    later(() => item.remove(), 5000);
   };
-  const schedule = (kind, min, max) => setTimeout(() => {
+  const schedule = (kind, min, max) => later(() => {
     if (enabled()) create(kind);
     schedule(kind, min, max);
   }, min + Math.random() * (max - min));
 
-  schedule("meteor", 7000, 14000);
-  schedule("twinkle", 1800, 4200);
+  const start = () => {
+    if (timers.size) return;
+    schedule("meteor", 7000, 14000);
+    schedule("twinkle", 1800, 4200);
+  };
+  addEventListener("pagehide", () => {
+    timers.forEach(clearTimeout);
+    timers.clear();
+    field.querySelectorAll(".social-meteor, .social-twinkle").forEach(item => item.remove());
+  });
+  addEventListener("pageshow", start);
+  start();
 })();

@@ -11,13 +11,14 @@ const orbits = [
 ---
 <PageLayout title="Social" description="Find Blake Mitchell on LinkedIn, Bluesky, Mastodon, and Instagram.">
   <section class="social-page">
+    <div class="social-environment">
+    <div id="social-starfield" class="social-starfield" aria-hidden="true"></div>
     <div class="social-intro"><h1 class="page-heading">In My Orbit</h1><p>A few other places you can find me.</p></div>
     <div class="social-cosmos">
-      <div id="social-starfield" class="social-starfield" aria-hidden="true"></div>
       <div class="social-system-wrap">
        <div class="social-system" aria-label="Social profiles orbiting Blake Mitchell">
         <div class="social-sun" aria-hidden="true">
-          <svg viewBox="0 0 40 40"><use href="/brand.svg#brand" /></svg>
+          <span class="social-brand-mark"></span>
         </div>
         {profiles.map((profile, i) => {
           const o = orbits[i] || orbits[0];
@@ -34,6 +35,7 @@ const orbits = [
         })}
        </div>
       </div>
+    </div>
     </div>
     <script is:inline src="/js/social-bg.js"></script>
     <p class="orbit-note"><img src="/images/site/social-shuttle.webp" alt="" width="360" height="240" /><span>Choose Your Destination</span></p>
