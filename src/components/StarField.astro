@@ -1,0 +1,18 @@
+---
+// Static chrome stars use Social's size/opacity tiers and Home's ink color.
+// Seeded positions keep the decoration stable between builds; no client timers.
+interface Props { placement: 'header' | 'footer' }
+const { placement } = Astro.props
+let seed = placement === 'header' ? 73 : 137
+const random = () => { seed = (seed * 16807) % 2147483647; return seed / 2147483647 }
+const stars = Array.from({ length: 90 }, () => {
+  const roll = random()
+  const size = placement === 'header'
+    ? (roll > .94 ? 2.6 : roll > .72 ? 1.7 : 1)
+    : (roll > .94 ? 2.2 : roll > .72 ? 1.4 : .8)
+  return `left:${random() * 100}%;top:${random() * 100}%;width:${size}px;height:${size}px;opacity:${.2 + random() * .62}`
+})
+---
+<div class={`chrome-starfield chrome-starfield-${placement}`} aria-hidden="true">
+  {stars.map(style => <i class="social-star" style={style} />)}
+</div>

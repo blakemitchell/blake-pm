@@ -170,7 +170,9 @@ try {
   for (const [type, text] of Object.entries(expected)) check((await html(`blog/cms-contract-${type}`)).includes(text), `${type} format-specific content`);
   const rss = await readFile(path.join(temp, 'dist/rss.xml'), 'utf8');
   check(rss.includes('/blog/cms-contract-article/') && rss.includes('Summary article'), 'RSS consumes CMS metadata');
-  check(!(await html('blog/cms-contract-thread')).includes('1970'), 'Missing thread timestamp stays absent');
+  const threadHtml = await html('blog/cms-contract-thread');
+  const undatedItem = threadHtml.match(/<li>[^<]*<span>1<\/span><p>Undated entry<\/p>(.*?)<\/li>/s);
+  check(undatedItem !== null && !undatedItem[1].includes('<time'), 'Missing thread timestamp stays absent');
   await assert.rejects(html('cms-contract-draft'), { code: 'ENOENT' }); checks++;
   for (const [dir, slug] of [['blog', 'article'], ['pages', 'page'], ['legal', 'legal']]) check((await readFile(path.join(temp, 'dist/images', dir, `cms-contract-${slug}`, 'cms-contract.png'))).length > 0, `${dir} asset copied`);
   for (const file of await readdir(path.join(site, 'src/content/blog'))) check((await html(`blog/${file.replace(/\.mdx$/, '')}`)).includes('<article'), `Existing ${file} renders`);
