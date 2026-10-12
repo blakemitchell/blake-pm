@@ -4,14 +4,11 @@ import PageLayout from "@layouts/PageLayout.astro";
 import TopLayout from "@layouts/TopLayout.astro";
 import BottomLayout from "@layouts/BottomLayout.astro";
 import SearchCollection from "@components/SearchCollection.astro";
+import { postTypes } from "@content/config";
 import { BLOG } from "@consts";
-import { postDate, validatePostBody } from "@lib/posts";
+import { publishedPosts } from "@lib/posts";
 
-const posts = (await getCollection("blog"))
-  .map(validatePostBody)
-  .filter((post) => !post.data.draft)
-  .filter((post) => ["article", "review"].includes(post.data.post_type))
-  .sort((a, b) => postDate(b).getTime() - postDate(a).getTime());
+const posts = publishedPosts(await getCollection("blog"));
 
 const tags = [...new Set(posts.flatMap((post) => post.data.tags))].sort(
   (a, b) => a.localeCompare(b),
@@ -41,6 +38,7 @@ const estimated_initial_size =
       <SearchCollection
         entry_name={"posts"}
         tags={tags}
+        postTypes={postTypes}
         data={posts}
       />
     </div>

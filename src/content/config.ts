@@ -10,9 +10,6 @@ const work = defineCollection({
   }),
 })
 
-const postTypes = ["article", "link", "quote", "micro", "video", "podcast", "photo", "bookmark", "idea", "reading", "music", "event", "status", "poll", "thread", "review"] as const
-export type PostType = typeof postTypes[number]
-
 const common = {
   tags: z.array(z.string()).default([]),
   created_at: z.coerce.date(),
@@ -42,6 +39,10 @@ const normalizedPostSchema = z.discriminatedUnion("post_type", [
   z.object({ ...common, post_type: z.literal("thread"), title: z.string().optional(), metadata: z.object({ posts: z.array(z.object({ text: text.max(140), created_at: z.coerce.date().optional() })).min(1) }) }),
   z.object({ ...common, post_type: z.literal("review"), title: text, url: url.optional(), metadata: z.object({ rating: z.number().min(0).max(5), item: z.string().optional() }) }),
 ])
+
+// Derive filter options from the validated variants, so new types cannot be omitted.
+export const postTypes = normalizedPostSchema.options.map(option => option.shape.post_type.value)
+export type PostType = typeof postTypes[number]
 
 function normalizeEditorPost(input: unknown) {
   if (!input || typeof input !== "object" || !("format" in input)) return input
