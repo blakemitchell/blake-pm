@@ -3,17 +3,32 @@ import ArrowCard from "@components/ArrowCard"
 import type { CollectionEntry } from "astro:content"
 import { postDate, postSummary, postTitle } from "@lib/posts"
 interface Props {
+  postTypes?: string[]
   entry_name: string
   tags: string[]
   data: (CollectionEntry<'blog'> | CollectionEntry<'projects'>)[]
 }
-const { entry_name, tags, data } = Astro.props
+const { entry_name, tags, data, postTypes = [] } = Astro.props
 ---
 <div class="collection-browser" data-collection>
   <div class="collection-controls" hidden>
     <label>Search {entry_name}<input data-search type="search" placeholder={`Search ${entry_name}`} autocomplete="off" /></label>
-    <p class="collection-label">Tags</p>
-    <div class="collection-tags">{tags.map(tag => <button type="button" data-tag={tag.toLowerCase()} aria-pressed="false">{tag}<span aria-hidden="true">✓</span></button>)}</div>
+    {postTypes.length > 0 && <details class="collection-filter" data-filter>
+      <summary><span>Post Type <span class="filter-selection" data-type-summary>All</span></span><small>Select multiple</small></summary>
+      <fieldset class="filter-options">
+        <legend class="sr-only">Post types</legend>
+        <label><input type="checkbox" data-type-all checked />All types</label>
+        {postTypes.map(type => <label><input type="checkbox" data-post-type={type} /><span class="capitalize">{type}</span></label>)}
+      </fieldset>
+    </details>}
+    <details class="collection-filter" data-filter>
+      <summary><span>Tags <span class="filter-selection" data-tag-summary>All</span></span><small>Select multiple</small></summary>
+      <fieldset class="filter-options">
+        <legend class="sr-only">Tags</legend>
+        <label><input type="checkbox" data-tag-all checked />All tags</label>
+        {tags.map(tag => <label><input type="checkbox" data-tag={tag.toLowerCase()} />{tag}</label>)}
+      </fieldset>
+    </details>
     <button type="button" data-clear hidden>Clear filters</button>
   </div>
   <div>
@@ -23,7 +38,7 @@ const { entry_name, tags, data } = Astro.props
       const title = isPost ? postTitle(entry) : entry.data.title
       const summary = isPost ? postSummary(entry) : entry.data.summary
       const date = isPost ? postDate(entry) : entry.data.date
-      return <li data-entry data-search-text={`${title} ${summary} ${entry.data.tags.join(' ')}`.toLowerCase()} data-tags={JSON.stringify(entry.data.tags.map(tag => tag.toLowerCase()))} data-date={date.getTime()}><ArrowCard entry={entry} /></li>
+      return <li data-entry data-post-type={isPost ? entry.data.post_type : undefined} data-search-text={`${title} ${summary ?? ""} ${entry.data.tags.join(' ')}`.toLowerCase()} data-tags={JSON.stringify(entry.data.tags.map(tag => tag.toLowerCase()))} data-date={date.getTime()}><ArrowCard entry={entry} /></li>
     })}</ul>
     <p data-empty hidden class="py-8">No matching {entry_name}. Try a different search or clear the filters.</p>
   </div>

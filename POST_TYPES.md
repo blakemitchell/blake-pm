@@ -1,6 +1,8 @@
 # Post types
 
-Posts remain Markdown or MDX files in `src/content/blog`. The `post_type` frontmatter field selects one of 16 validated formats. `created_at`, `tags`, and `metadata` are shared; each type then validates its own required fields during the normal Astro build.
+See [POST-TYPE-REFERENCE.md](POST-TYPE-REFERENCE.md) for the complete producer/consumer field inventory, listing/filter behavior, and authoring recommendations.
+
+Posts remain Markdown or MDX files in `src/content/blog`. The standalone CMS stores `format: { discriminant, value }`; Astro normalizes this into `post_type` and type-specific fields. Legacy `post_type` frontmatter also selects one of 16 validated formats. `created_at`, `tags`, and `metadata` are shared; each type then validates its own required fields during the normal Astro build.
 
 | Type | Required content |
 | --- | --- |
@@ -22,6 +24,8 @@ Posts remain Markdown or MDX files in `src/content/blog`. The `post_type` frontm
 | `review` | `title`, `metadata.rating` from 0–5, and Markdown/MDX body |
 
 Optional `updated_at`, `media_type`, `summary`, and `draft` fields are shared. URL-based renderers detect YouTube, Vimeo, Spotify, SoundCloud, Apple Podcasts, direct audio/video/image files, and ordinary web links at build time. Add a `media_type` only when an override is needed.
+
+The homepage includes up to seven published posts of all types. Blog includes all published types with combined search, post-type, and tag filters. Neither listing schedules future-dated posts; sorting uses `updated_at` when present, otherwise `created_at`. Short descriptions are optional in Astro; missing descriptions use actual short content when available and are otherwise omitted. The standalone CMS still requires them pending BLA-100/BLA-101.
 
 Static feeds are available at `/blog`, `/micro`, `/links`, `/media`, `/quotes`, and `/photos`. Every post still has a canonical detail page at `/blog/[slug]`.
 

@@ -3,14 +3,9 @@ import { getCollection } from "astro:content"
 import PageLayout from "@layouts/PageLayout.astro"
 import ArrowCard from "@components/ArrowCard"
 import { SITE } from "@consts"
-import { postDate, validatePostBody } from "@lib/posts"
+import { publishedPosts, RECENT_POST_LIMIT } from "@lib/posts"
 
-const posts = (await getCollection("blog"))
-  .map(validatePostBody)
-  .filter(post => !post.data.draft)
-  .filter(post => ["article", "review"].includes(post.data.post_type))
-  .sort((a, b) => postDate(b).getTime() - postDate(a).getTime())
-  .slice(0,3)
+const posts = publishedPosts(await getCollection("blog"), RECENT_POST_LIMIT)
 
 ---
 
