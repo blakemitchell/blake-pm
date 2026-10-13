@@ -9,7 +9,7 @@ try {
     else if (['vimeo.com', 'www.vimeo.com', 'player.vimeo.com'].includes(parsed.hostname)) vimeo = parsed.pathname.split('/').filter(Boolean).pop() || '';
     else if (/\.(mp4|webm)$/i.test(parsed.pathname)) source = parsed.href;
   }
-} catch {}
+} catch { /* Invalid URLs use the unavailable-video fallback below. */ }
 if (!/^[a-zA-Z0-9_-]{11}$/.test(youtube)) youtube = '';
 if (!/^\d+$/.test(vimeo)) vimeo = '';
 ---
