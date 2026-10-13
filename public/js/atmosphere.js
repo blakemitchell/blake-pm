@@ -10,7 +10,7 @@
   const visibleThemes = ["sol", "mercury", "venus", "earth", "mars", "jupiter", "saturn", "uranus", "neptune", "space"];
   const legacyThemes = { mono: "space", eclipse: "mars", aurora: "earth", lunar: "venus", system: "earth" };
   const read = (key, fallback) => { try { return localStorage.getItem(key) ?? fallback; } catch { return fallback; } };
-  const save = (key, value) => { try { localStorage.setItem(key, String(value)); } catch {} };
+  const save = (key, value) => { try { localStorage.setItem(key, String(value)); } catch { /* Keep the in-memory preference when storage is unavailable. */ } };
   const reduced = matchMedia("(prefers-reduced-motion: reduce)");
   const system = matchMedia("(prefers-color-scheme: dark)");
   let choice = read("blake-atmosphere", "earth");
@@ -108,6 +108,16 @@
   trigger.addEventListener("click", () => { if (panel.hidden) openPanel(); else closePanel(); });
   document.addEventListener("pointerdown", event => { if (!panel.contains(event.target) && !trigger.contains(event.target)) closePanel(); });
   document.addEventListener("keydown", event => { if (event.key === "Escape") { if (!panel.hidden) closePanel(true); else if (!notice.hidden) notice.hidden = true; } });
+  // Safari does not focus buttons on mouse press. Keep focus inside the panel
+  // until their click runs, rather than letting blur dismissal hide the target.
+  function focusPressedButton(event) {
+    const button = event.target.closest("button");
+    if (event.button !== 0 || !button || button.disabled) return;
+    event.preventDefault();
+    button.focus({ preventScroll: true });
+  }
+  panel.addEventListener("mousedown", focusPressedButton);
+  trigger.addEventListener("mousedown", focusPressedButton);
   panel.addEventListener("focusout", () => { setTimeout(() => { if (!panel.contains(document.activeElement) && document.activeElement !== trigger) closePanel(); }, 0); });
   panel.querySelectorAll("[data-theme-choice]").forEach(button => button.addEventListener("click", () => {
     cancelFlight(); notice.hidden = true; previous = null; apply(button.dataset.themeChoice); closePanel(true);

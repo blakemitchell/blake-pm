@@ -4,7 +4,7 @@
   const palettes = ["sol", "mercury", "venus", "earth", "mars", "jupiter", "saturn", "uranus", "neptune", "space", "pluto"];
   const legacyThemes = { mono: "space", eclipse: "mars", aurora: "earth", lunar: "venus", system: "earth" };
   let choice = "earth";
-  try { choice = localStorage.getItem("blake-atmosphere") || "earth"; } catch {}
+  try { choice = localStorage.getItem("blake-atmosphere") || "earth"; } catch { /* Retain Earth when storage is unavailable. */ }
   choice = legacyThemes[choice] || choice;
   if (!palettes.includes(choice)) choice = "earth";
   const palette = choice;
