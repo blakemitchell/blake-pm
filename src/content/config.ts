@@ -47,11 +47,11 @@ export type PostType = typeof postTypes[number]
 function normalizeEditorPost(input: unknown) {
   if (!input || typeof input !== "object" || !("format" in input)) return input
 
-  const { format, ...shared } = input as Record<string, any>
-  if (!format || typeof format !== "object" || typeof format.discriminant !== "string") return input
+  const { format, ...shared } = input as Record<string, unknown>
+  if (!format || typeof format !== "object" || !("discriminant" in format) || typeof format.discriminant !== "string") return input
 
   const post_type = format.discriminant
-  const value = format.value && typeof format.value === "object" ? format.value : {}
+  const value: Record<string, unknown> = "value" in format && format.value && typeof format.value === "object" ? format.value as Record<string, unknown> : {}
   const metadata: Record<string, unknown> = {}
   const direct: Record<string, unknown> = {}
 
