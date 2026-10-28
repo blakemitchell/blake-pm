@@ -124,6 +124,28 @@ test('palette tabs and dismissal preserve focus and selection', async ({ page, i
   await expect(page.locator('html')).toHaveAttribute('data-atmosphere', 'earth');
 });
 
+test('atmosphere controls work with a pointing device', async ({ page, isMobile }) => {
+  test.skip(isMobile, 'Touch interaction is covered by the mobile palette test.');
+  await page.emulateMedia({ reducedMotion: 'no-preference' });
+  await page.goto('/about/');
+  await page.locator('#header-theme-button').click();
+  await page.locator('#options-tab').click();
+  const panel = page.locator('#atmosphere-panel');
+  const motion = page.locator('#ambient-motion');
+  const debris = page.locator('#debris-frequency');
+  await expect(motion).not.toBeChecked();
+  await motion.click();
+  await expect(motion).toBeChecked();
+  await expect(panel).toBeVisible();
+  await debris.fill('5');
+  await expect(page.locator('#debris-frequency-value')).toHaveText('Very high');
+  await expect(panel).toBeVisible();
+  await page.reload();
+  await page.locator('#header-theme-button').click();
+  await page.locator('#options-tab').click();
+  await expect(debris).toHaveValue('5');
+});
+
 test('page-specific atmosphere', async ({ page }) => {
   await page.goto('/');
   await expect(page.locator('.sky-star')).toHaveCount(680);

@@ -108,6 +108,12 @@
   trigger.addEventListener("click", () => { if (panel.hidden) openPanel(); else closePanel(); });
   document.addEventListener("pointerdown", event => { if (!panel.contains(event.target) && !trigger.contains(event.target)) closePanel(); });
   document.addEventListener("keydown", event => { if (event.key === "Escape") { if (!panel.hidden) closePanel(true); else if (!notice.hidden) notice.hidden = true; } });
+  // Safari may move focus out of a range or checkbox during mouse/trackpad
+  // interaction. Do not interpret that temporary focus change as dismissal.
+  let pointerInsidePanel = false;
+  panel.addEventListener("pointerdown", () => { pointerInsidePanel = true; });
+  document.addEventListener("pointerup", () => { pointerInsidePanel = false; });
+  document.addEventListener("pointercancel", () => { pointerInsidePanel = false; });
   // Safari does not focus buttons on mouse press. Keep focus inside the panel
   // until their click runs, rather than letting blur dismissal hide the target.
   function focusPressedButton(event) {
@@ -118,7 +124,7 @@
   }
   panel.addEventListener("mousedown", focusPressedButton);
   trigger.addEventListener("mousedown", focusPressedButton);
-  panel.addEventListener("focusout", () => { setTimeout(() => { if (!panel.contains(document.activeElement) && document.activeElement !== trigger) closePanel(); }, 0); });
+  panel.addEventListener("focusout", () => { setTimeout(() => { if (!pointerInsidePanel && !panel.contains(document.activeElement) && document.activeElement !== trigger) closePanel(); }, 0); });
   panel.querySelectorAll("[data-theme-choice]").forEach(button => button.addEventListener("click", () => {
     cancelFlight(); notice.hidden = true; previous = null; apply(button.dataset.themeChoice); closePanel(true);
   }));
