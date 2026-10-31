@@ -11,6 +11,7 @@
     "preview:network": "astro dev --host",
     "astro": "astro",
     "lint": "eslint . --max-warnings 0",
+    "test:video": "node tests/video-embed.mjs",
     "test:posts": "node tests/post-discovery.mjs",
     "test:cms": "node scripts/test-cms-compatibility.mjs",
     "deploy:prod": "wrangler deploy",
