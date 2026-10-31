@@ -179,6 +179,17 @@ test('post discovery, filters, detail metadata, and privacy', async ({ page }) =
   await expect(page.locator('main')).toContainText('Sep 16, 2026');
 });
 
+test('video posts render a provider iframe and a source link', async ({ page, isMobile }) => {
+  await page.goto('/blog/michael-jordans-statistical-twin/');
+  const frame = page.locator('article iframe[title="Instagram post"]');
+  await expect(frame).toBeVisible();
+  await expect(frame).toHaveAttribute('src', 'https://www.instagram.com/reel/DfGIE_hM6AB/embed/captioned/');
+  await expect(page.getByRole('link', { name: 'Watch on Instagram' })).toHaveAttribute('href', 'https://www.instagram.com/reel/DfGIE_hM6AB/');
+  const box = await frame.boundingBox();
+  expect(box?.width).toBeLessThanOrEqual(isMobile ? 412 : 540);
+  expect(box?.height).toBeGreaterThan(box?.width ?? 0);
+});
+
 test('contact validation and mocked failure without Turnstile bypass', async ({ page }) => {
   let requests = 0;
   await page.route('**/api/contact', route => { requests++; return route.fulfill({ status: 200, contentType: 'application/json', body: '{"ok":false}' }); });
