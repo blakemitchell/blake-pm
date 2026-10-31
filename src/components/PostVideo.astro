@@ -1,19 +1,20 @@
 ---
+import { resolveVideo } from "@lib/video.js"
+
 const { url, caption = '' } = Astro.props
-let source = ''; let youtube = ''; let vimeo = '';
-try {
-  const parsed = new URL(url);
-  if (parsed.protocol === 'https:') {
-    if (['youtube.com', 'www.youtube.com', 'm.youtube.com'].includes(parsed.hostname)) youtube = parsed.searchParams.get('v') || parsed.pathname.split('/').pop() || '';
-    else if (parsed.hostname === 'youtu.be') youtube = parsed.pathname.slice(1);
-    else if (['vimeo.com', 'www.vimeo.com', 'player.vimeo.com'].includes(parsed.hostname)) vimeo = parsed.pathname.split('/').filter(Boolean).pop() || '';
-    else if (/\.(mp4|webm)$/i.test(parsed.pathname)) source = parsed.href;
-  }
-} catch { /* Invalid URLs use the unavailable-video fallback below. */ }
-if (!/^[a-zA-Z0-9_-]{11}$/.test(youtube)) youtube = '';
-if (!/^\d+$/.test(vimeo)) vimeo = '';
+const video = resolveVideo(url)
 ---
-<figure>
-{youtube ? <iframe width="720" height="405" style="width:100%;height:auto;aspect-ratio:16/9;border:0" src={`https://www.youtube-nocookie.com/embed/${youtube}`} title={caption || 'Video'} loading="lazy" allow="fullscreen; picture-in-picture" allowfullscreen referrerpolicy="strict-origin-when-cross-origin" /> : vimeo ? <iframe width="720" height="405" style="width:100%;height:auto;aspect-ratio:16/9;border:0" src={`https://player.vimeo.com/video/${vimeo}`} title={caption || 'Video'} loading="lazy" allow="fullscreen; picture-in-picture" allowfullscreen referrerpolicy="strict-origin-when-cross-origin" /> : source ? <video controls preload="metadata" src={source} style="width:100%">Your browser does not support this video.</video> : <p>Video unavailable.</p>}
+<figure class="post-video">
+{video.kind === 'embed' ? <>
+  <iframe class:list={['post-video-frame', { 'post-video-frame--portrait': video.layout === 'portrait' }]} src={video.embedUrl} title={video.title} loading="lazy" allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share" allowfullscreen referrerpolicy="strict-origin-when-cross-origin" />
+  <p class="post-video-source"><a href={video.sourceUrl} target="_blank" rel="noopener noreferrer">{video.sourceLabel}</a></p>
+</> : video.kind === 'native' ? <video controls preload="metadata" src={video.sourceUrl} class="post-video-frame" title={video.title}>Your browser does not support this video.</video> : video.kind === 'fallback' ? <p class="post-video-fallback">Embedding is unavailable for this video. <a href={video.sourceUrl} target="_blank" rel="noopener noreferrer">{video.sourceLabel}</a>.</p> : <p class="post-video-fallback">A valid video link is unavailable.</p>}
 {caption && <figcaption>{caption}</figcaption>}
 </figure>
+
+<style>
+  .post-video-frame { display:block; width:100%; aspect-ratio:16 / 9; border:0; background:#000; }
+  .post-video-frame--portrait { max-width:540px; aspect-ratio:9 / 16; margin-inline:auto; }
+  .post-video-source, .post-video-fallback { margin-top:.65rem; color:var(--muted); font-size:.9rem; }
+  .post-video-source a, .post-video-fallback a { color:var(--ink); text-underline-offset:3px; }
+</style>
